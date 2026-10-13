@@ -1,0 +1,95 @@
+[
+  {
+    "scenario": "sunny",
+    "minuteCount": 1440,
+    "computeMs": 459.0785,
+    "maximumDemandMW": 17.3,
+    "maximumImportMW": 10.372652,
+    "maximumExportMW": 4.582612,
+    "unservedMWh": 0,
+    "noBatteryBaselineUnservedMWh": 0,
+    "totalCostCny": 65395.651548,
+    "noBatteryBaselineCostCny": 76363.045811,
+    "daySavingsCny": 10967.394263,
+    "billDifferenceCny": 10967.394263,
+    "storedDeltaMWh": 0,
+    "offlineStoredMWh": 0,
+    "plannedPeakImportMW": 9.01,
+    "initialStoredMWh": 3.002124,
+    "finalStoredMWh": 3.002124,
+    "at1730": {
+      "importMW": 9.01,
+      "dischargeMW": 4.038411,
+      "installedSocPct": 82.760761,
+      "onlinePowerLimitMW": 10,
+      "strategy": "peak-discharge"
+    },
+    "at1900": {
+      "importMW": 9.01,
+      "dischargeMW": 5.64,
+      "strategy": "peak-discharge"
+    }
+  },
+  {
+    "scenario": "cloudy",
+    "minuteCount": 1440,
+    "computeMs": 385.6935,
+    "maximumDemandMW": 17.3,
+    "maximumImportMW": 13.583396,
+    "maximumExportMW": 0,
+    "unservedMWh": 0,
+    "noBatteryBaselineUnservedMWh": 1.350394,
+    "totalCostCny": 156312.178272,
+    "noBatteryBaselineCostCny": 164696.246776,
+    "daySavingsCny": null,
+    "billDifferenceCny": 8384.068504,
+    "storedDeltaMWh": 0,
+    "offlineStoredMWh": 0,
+    "plannedPeakImportMW": 10.58,
+    "initialStoredMWh": 3,
+    "finalStoredMWh": 3,
+    "at1730": {
+      "importMW": 10.58,
+      "dischargeMW": 4.27504,
+      "installedSocPct": 80.256363,
+      "onlinePowerLimitMW": 10,
+      "strategy": "peak-discharge"
+    },
+    "at1900": {
+      "importMW": 10.58,
+      "dischargeMW": 5.374663,
+      "strategy": "hard-shave"
+    }
+  },
+  {
+    "scenario": "fault",
+    "minuteCount": 1440,
+    "computeMs": 223.8084,
+    "maximumDemandMW": 17.3,
+    "maximumImportMW": 10.372652,
+    "maximumExportMW": 4.582612,
+    "unservedMWh": 0,
+    "noBatteryBaselineUnservedMWh": 0,
+    "totalCostCny": 69145.656943,
+    "noBatteryBaselineCostCny": 76363.045811,
+    "daySavingsCny": 7217.388868,
+    "billDifferenceCny": 7217.388868,
+    "storedDeltaMWh": 3.654976,
+    "offlineStoredMWh": 4.138038,
+    "plannedPeakImportMW": 9.01,
+    "initialStoredMWh": 3.002124,
+    "finalStoredMWh": 6.6571,
+    "at1730": {
+      "importMW": 10.17,
+      "dischargeMW": 2.878411,
+      "installedSocPct": 82.760761,
+      "onlinePowerLimitMW": 7.5,
+      "strategy": "peak-discharge"
+    },
+    "at1900": {
+      "importMW": 10.17,
+      "dischargeMW": 4.48,
+      "strategy": "peak-discharge"
+    }
+  }
+]

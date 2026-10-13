@@ -1,0 +1,17 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+*.log
+
+# Local editor and assistant settings
+.claude/
+.codex/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
