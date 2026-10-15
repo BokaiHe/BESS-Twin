@@ -61,15 +61,16 @@ for (const [width, height] of [
     await page.goto('/')
     await expect(page.locator('canvas')).toBeVisible({ timeout: 30_000 })
     await page.getByRole('button', { name: 'Storage fault' }).click()
+    await expect(page.locator('.alarm-toast')).toBeVisible()
     await page.getByRole('button', { name: 'Show equipment explorers' }).click()
     const panel = page.locator('.hub-panel')
-    const box = async (selector: string) => (await page.locator(selector).boundingBox())!
-    const [hub, timeline, legend, alarm] = await Promise.all([
-      box('.hub-panel'),
-      box('.timeline'),
-      box('.legend-chip'),
-      box('.alarm-toast'),
-    ])
+    // Read geometry in one browser frame; async simulation and focus scrolling
+    // can otherwise put separately awaited bounding boxes in different layouts.
+    const [hub, timeline, legend, alarm] = await page.evaluate(() =>
+      ['.hub-panel', '.timeline', '.legend-chip', '.alarm-toast'].map((selector) =>
+        document.querySelector(selector)!.getBoundingClientRect().toJSON(),
+      ),
+    )
     // No overlap with the legend strip or the timeline card.
     expect(hub.y + hub.height).toBeLessThanOrEqual(legend.y + 1)
     expect(hub.y + hub.height).toBeLessThanOrEqual(timeline.y + 1)
@@ -124,13 +125,16 @@ for (const [width, height, lang] of [
     await page
       .getByRole('button', { name: zh ? '储能故障日' : 'Storage fault', exact: true })
       .click()
+    await expect(page.locator('.alarm-toast')).toBeVisible()
     await page
       .getByRole('button', { name: zh ? '展开设备探索' : 'Show equipment explorers' })
       .click()
     const panel = page.locator('.hub-panel')
-    const hub = (await panel.boundingBox())!
-    const alarm = (await page.locator('.alarm-toast').boundingBox())!
-    const timeline = (await page.locator('.timeline').boundingBox())!
+    const [hub, alarm, timeline] = await page.evaluate(() =>
+      ['.hub-panel', '.alarm-toast', '.timeline'].map((selector) =>
+        document.querySelector(selector)!.getBoundingClientRect().toJSON(),
+      ),
+    )
     expect(hub.height).toBeGreaterThan(140)
     expect(alarm.y + alarm.height).toBeLessThanOrEqual(hub.y)
     expect(hub.y + hub.height).toBeLessThanOrEqual(timeline.y)

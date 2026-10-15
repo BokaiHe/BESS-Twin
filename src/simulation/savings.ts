@@ -1,4 +1,4 @@
-import { CONFIG as C } from '../domain/config'
+import { configFor } from '../domain/parameters'
 import type { SimulationDay, TariffBand } from '../domain/types'
 
 export interface BandLedger {
@@ -29,6 +29,7 @@ export interface SavingsBreakdown {
  * with `metrics.baselineCostCny` and `metrics.costCny`.
  */
 export function savingsBreakdown(day: SimulationDay, endMinute: number): SavingsBreakdown {
+  const C = configFor(day.parameters)
   const bands = new Map<TariffBand, BandLedger>()
   let baseCostCny = 0,
     caseCostCny = 0,
@@ -79,7 +80,12 @@ export function savingsBreakdown(day: SimulationDay, endMinute: number): Savings
     caseCostCny,
     baselineUnservedMWh,
     billDifferenceCny,
-    estimatedSavingsCny: baselineUnservedMWh > 1e-9 ? null : billDifferenceCny,
+    estimatedSavingsCny:
+      baselineUnservedMWh > 1e-9 ||
+      day.diagnostics.solver.status === 'not-converged' ||
+      day.frames.slice(0, end).some((f) => f.metrics.unservedMW > 1e-9)
+        ? null
+        : billDifferenceCny,
     storedDeltaMWh: stored - day.summary.initialStoredMWh,
     offlineStoredMWh,
   }

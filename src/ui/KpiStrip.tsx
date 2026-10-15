@@ -68,8 +68,8 @@ export function KpiStrip({ snapshot, onSavings }: { snapshot: Snapshot; onSaving
         <div>
           <span className="kpi-label">{t.kpi.storage}</span>
           <strong data-testid="kpi-soc">
-            {m.socPct.toFixed(1)}
-            <small>%</small>
+            {snapshot.parameters.batteryMWh ? m.socPct.toFixed(1) : t.study.na}
+            {snapshot.parameters.batteryMWh > 0 && <small>%</small>}
           </strong>
           <span className="kpi-sub tone">
             {modeText(t, mode)}

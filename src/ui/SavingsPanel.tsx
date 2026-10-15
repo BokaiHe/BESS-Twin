@@ -85,7 +85,11 @@ export function SavingsPanel({ day, minute }: { day: SimulationDay; minute: numb
       {!comparable && (
         <p className="savings-warn">
           <TriangleAlert size={14} />
-          {t.savings.gapNote(b.baselineUnservedMWh.toFixed(2))}
+          {b.baselineUnservedMWh > 1e-9
+            ? t.savings.gapNote(b.baselineUnservedMWh.toFixed(2))
+            : day.diagnostics.solver.status === 'not-converged'
+              ? t.study.comparison['not-converged']
+              : t.study.comparison['different-supply']}
         </p>
       )}
 

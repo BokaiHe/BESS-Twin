@@ -395,6 +395,17 @@ function CameraRig({
   }
   useEffect(() => {
     const f = focusOf(focus.key)
+    // Fit the first view immediately. An intro fly-in competes with worker result
+    // delivery and is especially costly before the initial shader compilation.
+    if (focus.serial === 0 && controls.current) {
+      controls.current.target.set(...f.target)
+      const cam = camera as OrthographicCamera
+      cam.zoom = fit * f.factor
+      cam.updateProjectionMatrix()
+      controls.current.update()
+      anim.current = null
+      return
+    }
     start(f.target, fit * f.factor)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focus.serial, fit])
@@ -468,6 +479,7 @@ function LabelProjector({
 function World(props: SceneProps) {
   const { snapshot, selected, onSelect, reducedMotion, scenario } = props
   const animate = !reducedMotion
+  const parameters = snapshot.parameters
   const night = 1 - daylightAt(snapshot.minute)
   const pick = (id: Selection) => ({
     onClick: (e: { stopPropagation: () => void }) => {
@@ -492,7 +504,7 @@ function World(props: SceneProps) {
       <Sky clock={props.clock} cloudy={scenario === 'cloudy'} />
       <Environment />
       <Clouds amount={scenario === 'cloudy' ? 1 : 0.3} />
-      <Flows snapshot={snapshot} highlighted={props.highlighted} animate={animate} />
+      {snapshot && <Flows snapshot={snapshot} highlighted={props.highlighted} animate={animate} />}
 
       {/* External grid: two lattice towers and a gantry, conductors only on this 110 kV span */}
       <group position={grid} rotation={[0, ARM_ROT, 0]} {...pick('grid')}>
@@ -529,10 +541,15 @@ function World(props: SceneProps) {
         let model = null
         switch (node.kind) {
           case 'pv':
-            model = <SolarFarm output={state.injectionMW} />
+            model = <SolarFarm output={state.injectionMW} ratedMW={parameters.pvDCMWp / 1.25} />
             break
           case 'wind':
-            model = <WindTurbine output={animate ? state.injectionMW : 0} />
+            model = (
+              <WindTurbine
+                output={animate ? state.injectionMW : 0}
+                ratedMW={parameters.windMW / 3}
+              />
+            )
             break
           case 'bess':
             model = (

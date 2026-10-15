@@ -43,8 +43,17 @@ const STRATEGY_TONE: Record<StrategyCode, string> = {
   standby: 'transparent',
 }
 const AXIS_W = 36
-const P_MIN = -12
-const P_MAX = 20
+function powerBounds(day: SimulationDay, baseline: SimulationDay): [number, number] {
+  let min = -12,
+    max = Math.max(20, day.parameters.gridImportMW)
+  for (const d of [day, baseline])
+    for (const f of d.frames) {
+      const m = f.metrics
+      min = Math.min(min, -m.gridExportMW, -m.batteryChargeMW)
+      max = Math.max(max, m.renewableMW, m.demandMW, m.gridImportMW, m.batteryDischargeMW)
+    }
+  return [Math.floor(min / 5) * 5, Math.ceil(max / 5) * 5]
+}
 const TOP = 8
 
 /** Keep all minute boundaries: power is constant within each minute, SOC is continuous.
@@ -54,10 +63,12 @@ const Chart = memo(function Chart({
   baseline,
   hidden,
   importCapLabel,
+  bounds,
 }: {
   day: SimulationDay
   baseline: SimulationDay
   hidden: SeriesKey[]
+  bounds: [number, number]
   importCapLabel: string
 }) {
   const data = useMemo(
@@ -72,9 +83,9 @@ const Chart = memo(function Chart({
           grid: f.metrics.gridImportMW - f.metrics.gridExportMW,
           discharge: Math.max(0, battery),
           charge: Math.min(0, battery),
-          soc: f.metrics.socPct,
+          soc: day.parameters.batteryMWh ? f.metrics.socPct : null,
           baseGrid: b.gridImportMW - b.gridExportMW,
-          baseSoc: b.socPct,
+          baseSoc: baseline.parameters.batteryMWh ? b.socPct : null,
         }
       }),
     [day, baseline],
@@ -124,8 +135,7 @@ const Chart = memo(function Chart({
         <XAxis dataKey="minute" type="number" domain={[0, 1440]} hide />
         <YAxis
           yAxisId="p"
-          domain={[P_MIN, P_MAX]}
-          ticks={[-10, 0, 10, 20]}
+          domain={bounds}
           width={AXIS_W}
           tickLine={false}
           axisLine={false}
@@ -155,7 +165,7 @@ const Chart = memo(function Chart({
         <ReferenceLine yAxisId="p" y={0} stroke="#cfd8e3" />
         <ReferenceLine
           yAxisId="p"
-          y={CONFIG.gridImportLimitMW}
+          y={day.parameters.gridImportMW}
           stroke="#c3cdd8"
           strokeDasharray="4 4"
           label={{
@@ -259,8 +269,6 @@ const Chart = memo(function Chart({
 })
 
 /** Vertical position (as a fraction of the plot height) of a value on either axis. */
-const yFrac = (v: number, axis: 'p' | 's') =>
-  axis === 'p' ? (P_MAX - v) / (P_MAX - P_MIN) : (100 - v) / 100
 
 export function Timeline({
   day,
@@ -284,6 +292,9 @@ export function Timeline({
   setSpeed: (v: number) => void
 }) {
   const { t } = useI18n()
+  const bounds = useMemo(() => powerBounds(day, baseline), [day, baseline])
+  const yFrac = (v: number, axis: 'p' | 's') =>
+    axis === 'p' ? (bounds[1] - v) / (bounds[1] - bounds[0]) : (100 - v) / 100
   const [hidden, setHidden] = useState<SeriesKey[]>([])
   const [collapsed, setCollapsed] = useState(false)
   const segments = useMemo(() => {
@@ -311,7 +322,7 @@ export function Timeline({
     demand: now.demandMW.toFixed(1),
     grid: (now.gridImportMW - now.gridExportMW).toFixed(1),
     battery: battery.toFixed(1),
-    soc: `${now.socPct.toFixed(0)}%`,
+    soc: day.parameters.batteryMWh ? `${now.socPct.toFixed(0)}%` : t.study.na,
   }
   const dots: { id: string; key: SeriesKey; y: number; color: string }[] = [
     { id: 'r', key: 'renewable', y: yFrac(now.renewableMW, 'p'), color: C.renewable },
@@ -443,7 +454,8 @@ export function Timeline({
               day={day}
               baseline={baseline}
               hidden={hidden}
-              importCapLabel={t.timeline.importCap}
+              importCapLabel={`${t.timeline.importCap} ${day.parameters.gridImportMW} MW`}
+              bounds={bounds}
             />
             <div
               className="plot"
@@ -451,7 +463,10 @@ export function Timeline({
             >
               <span className="cursor" style={{ left: `${f * 100}%` }}>
                 {dots
-                  .filter((d) => !hidden.includes(d.key))
+                  .filter(
+                    (d) =>
+                      !hidden.includes(d.key) && (d.key !== 'soc' || day.parameters.batteryMWh > 0),
+                  )
                   .map((d) => (
                     <i
                       key={d.id}

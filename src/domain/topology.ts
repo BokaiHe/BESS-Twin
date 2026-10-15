@@ -1,3 +1,4 @@
+import { configFor, type SimulationParameters } from './parameters'
 import type { NodeId, TopologyEdge, TopologyNode } from './types'
 
 export const BESS_X = [-2.6, 0.8, 4.2, 7.6] as const
@@ -144,4 +145,52 @@ export const BESS_IDS = ['bess-1', 'bess-2', 'bess-3', 'bess-4'] as const satisf
 export const WIND_IDS = ['wind-1', 'wind-2', 'wind-3'] as const satisfies NodeId[]
 export function connectedEdgeIds(nodeId: NodeId): string[] {
   return EDGES.filter((e) => e.from === nodeId || e.to === nodeId).map((e) => e.id)
+}
+
+/** Same equipment IDs and routes; ratings belong to the selected design. */
+export function topologyFor(parameters: SimulationParameters) {
+  const c = configFor(parameters)
+  const grid = Math.max(c.gridImportLimitMW, c.gridExportLimitMW)
+  const nodes = NODES.map((node) => {
+    let rating = node.rating
+    if (node.kind === 'bess')
+      rating = {
+        en: `${c.batteryUnitMW} MW / ${c.batteryUnitMWh} MWh`,
+        zh: `${c.batteryUnitMW} MW / ${c.batteryUnitMWh} MWh`,
+      }
+    if (node.kind === 'wind')
+      rating = {
+        en: `${Number(c.windUnitMW.toFixed(2))} MW`,
+        zh: `${Number(c.windUnitMW.toFixed(2))} MW`,
+      }
+    if (node.kind === 'pv')
+      rating = {
+        en: `${c.pvDCMWp} MWp / ${c.pvACMW} MWac`,
+        zh: `${c.pvDCMWp} MWp / ${c.pvACMW} MWac`,
+      }
+    if (node.id === 'grid' || node.id === 'pcc')
+      rating = {
+        en: `${c.gridImportLimitMW} MW import / ${c.gridExportLimitMW} MW export`,
+        zh: `购电 ${c.gridImportLimitMW} MW / 上网 ${c.gridExportLimitMW} MW`,
+      }
+    return { ...node, rating }
+  })
+  const edges = EDGES.map((edge) => ({
+    ...edge,
+    capacityMW:
+      edge.id === 'grid-pcc' || edge.id === 'pcc-bus'
+        ? grid
+        : edge.from === 'pv'
+          ? c.pvACMW
+          : edge.from.startsWith('wind-')
+            ? c.windUnitMW
+            : edge.to.startsWith('bess-')
+              ? c.batteryUnitMW
+              : edge.capacityMW,
+  }))
+  return {
+    nodes,
+    edges,
+    nodeById: Object.fromEntries(nodes.map((n) => [n.id, n])) as Record<NodeId, TopologyNode>,
+  }
 }

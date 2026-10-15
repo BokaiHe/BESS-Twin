@@ -103,7 +103,7 @@ The fixed simulation date is `2026-06-18`, UTC+08:00; it is independent of the c
 
 The browser tests currently use the installed Microsoft Edge channel and start a test server on port 5178. On a machine without Edge, install that browser or change `channel` in `playwright.config.ts` to a browser available in your environment.
 
-The test suites contain **46 unit tests** and **49 browser flows**. Coverage includes scenario changes, deterministic seeking, the exact fault boundary, bill comparability, language persistence, all 13 walkthrough steps, equipment disassembly, battery transport, solar/wind generation animations and the explorer hub. See [verification notes](docs/verification.md) for results and known limitations.
+The test suites contain **66 unit tests** and **55 browser flows**. Coverage includes scenario changes, deterministic seeking, the exact fault boundary, bill comparability, language persistence, all 13 walkthrough steps, equipment disassembly, battery transport, solar/wind generation animations and the explorer hub. See [verification notes](docs/verification.md) for results and known limitations.
 
 ## Project structure
 
@@ -141,7 +141,7 @@ Local build products, dependencies, test traces, logs, environment files and edi
 
 This is an active-power balance demonstration, not an AC power-flow or protection study. Reactive power, detailed network losses, battery ageing and physical thermal dynamics are not modeled; temperature and SOH are illustrative. Real telemetry and remote equipment control are not implemented.
 
-The 3D and chart bundles are comparatively large; the 3D scene is lazy-loaded. Rendering quality and speed depend on the browser and GPU.
+The 3D and chart bundles are comparatively large. The main scene is loaded with the entry page to avoid a cold-start dependency waterfall; equipment explorers remain lazy-loaded. Rendering quality and speed depend on the browser and GPU.
 
 Nominal AC voltage is displayed in device lists and detail cards. Storage's 35 kV value describes its collection-bus connection after step-up, not the battery DC or PCS terminal voltage. Operating voltage is not simulated.
 
@@ -215,4 +215,16 @@ Share metadata is present in the initial HTML, following the [Open Graph protoco
 
 The optional tour hint appears once per browser storage profile. It neither starts the tour automatically nor changes simulation time. Starting the tour or dismissing the hint returns focus through the persistent tour button. With browser storage disabled, the page remains usable; the hint can reappear on a new visit because persistence is unavailable.
 
-The next phase, parameter editing and baseline-versus-proposal comparison, is specified in [the data contract](docs/data-contract.md). It is a planned extension, not a feature of the current runtime.
+Parameter editing and original-versus-proposal comparison are included in this version and specified in [the data contract](docs/data-contract.md).
+
+## Parameter studies and design comparison
+
+Open **What if…** from the dashboard to compare designs. Edit storage power and energy separately, solar/wind capacity, import/export limits and CNY tariffs. Advanced controls cover SOC bounds, efficiencies and the reserve buffer. Changes recompute the whole day in a Web Worker; the dashboard keeps the last complete result while calculating. Reloading restores defaults.
+
+**Use proposal as original** pins the completed configuration for subsequent comparisons. Both designs use the same scenario and load/weather data. The comparison reports full-day operating bills, maximum import, unserved energy, network curtailment, PV clipping and stored energy. Its main energy curve uses MWh, with capacity and SOC in the tooltip; grid-import and shortfall curves are also available. Zero-capacity storage shows N/A for SOC.
+
+Prices change the ledger, while dispatch retains the documented fixed tariff-window peak-shaving rules. It is not a price optimizer or investment-return model. Different supplied energy, unconverged steady state and changing terminal inventory prevent a bill difference from being presented as validated savings. All applied parameters and solver diagnostics can be inspected. Parameter URL sharing and CSV import are not yet implemented.
+
+Initial loading and scenario changes start immediately; only slider edits wait 300 ms. The main scene resources load with the entry page. A preparation message remains visible until real results arrive; the scene is then constructed once, avoiding a second pass over placeholder equipment. Waiting for a new calculation uses demand rendering, and the initial camera fits immediately. The last complete day stays selected during recalculation, with a visible status message. Idle prewarming and bounded caches reuse other scenarios without repeating worker transfers; foreground edits take priority over queued speculative work.
+
+Comparison bills use the same display currency as the dashboard: USD in English (fixed illustrative rate of CNY 7.2/USD), CNY in Chinese. Tariff inputs and the underlying ledger remain in CNY. Peak import includes its first occurrence and tariff band: additional storage need not lower a mid-tariff maximum under the fixed-window dispatch policy.

@@ -13,7 +13,15 @@ function shouldShow() {
   }
 }
 
-export function FirstVisitHint({ touring, onStart }: { touring: boolean; onStart: () => void }) {
+export function FirstVisitHint({
+  touring,
+  onStart,
+  hasExplored,
+}: {
+  touring: boolean
+  onStart: () => void
+  hasExplored: boolean
+}) {
   const { t } = useI18n()
   const [visible, setVisible] = useState(shouldShow)
   useEffect(() => {
@@ -26,15 +34,15 @@ export function FirstVisitHint({ touring, onStart }: { touring: boolean; onStart
     }
   }, [visible])
   useEffect(() => {
-    if (touring) setVisible(false)
-  }, [touring])
+    if (touring || hasExplored) setVisible(false)
+  }, [touring, hasExplored])
 
   const dismiss = () => {
     setVisible(false)
     // Both hint actions disappear; leave focus on the persistent tour entry.
     document.querySelector<HTMLButtonElement>('.tour-btn')?.focus({ preventScroll: true })
   }
-  if (!visible || touring) return null
+  if (!visible || touring || hasExplored) return null
   return (
     <aside className="card first-visit-hint" aria-label={t.publicPage.welcome}>
       <strong>{t.publicPage.welcome}</strong>

@@ -12,7 +12,9 @@ import {
   Zap,
 } from 'lucide-react'
 import type { ReactNode } from 'react'
-import { CONFIG, INSTALLED_MW, INSTALLED_MWH } from '../domain/config'
+import { configFor } from '../domain/parameters'
+import { useMemo } from 'react'
+import { topologyFor } from '../domain/topology'
 import { BESS_IDS, EDGES, NODE_BY_ID, connectedEdgeIds } from '../domain/topology'
 import type { NodeId, NodeKind, Snapshot } from '../domain/types'
 import { useI18n } from '../i18n'
@@ -40,7 +42,15 @@ function Row({ label, children, tone }: { label: string; children: ReactNode; to
   )
 }
 
-function SocRing({ value, tone }: { value: number; tone: string }) {
+function SocRing({
+  value,
+  tone,
+  applicable = true,
+}: {
+  value: number
+  tone: string
+  applicable?: boolean
+}) {
   const r = 34,
     c = 2 * Math.PI * r
   return (
@@ -48,7 +58,7 @@ function SocRing({ value, tone }: { value: number; tone: string }) {
       className="soc-ring"
       viewBox="0 0 84 84"
       role="img"
-      aria-label={`SOC ${value.toFixed(0)}%`}
+      aria-label={applicable ? `SOC ${value.toFixed(0)}%` : 'SOC N/A'}
     >
       <circle cx="42" cy="42" r={r} className="track" />
       <circle
@@ -59,8 +69,8 @@ function SocRing({ value, tone }: { value: number; tone: string }) {
         style={{ stroke: tone, strokeDasharray: c, strokeDashoffset: c * (1 - value / 100) }}
       />
       <text x="42" y="40" textAnchor="middle" className="ring-num" data-testid="detail-soc">
-        {value.toFixed(0)}
-        <tspan className="ring-unit">%</tspan>
+        {applicable ? value.toFixed(0) : 'N/A'}
+        {applicable && <tspan className="ring-unit">%</tspan>}
       </text>
       <text x="42" y="56" textAnchor="middle" className="ring-cap">
         SOC
@@ -158,6 +168,10 @@ export function DetailCard({
 }) {
   const { t, l, lang } = useI18n()
   const m = snapshot.metrics
+  const CONFIG = configFor(snapshot.parameters)
+  const INSTALLED_MW = snapshot.parameters.batteryMW
+  const INSTALLED_MWH = snapshot.parameters.batteryMWh
+  const model = useMemo(() => topologyFor(snapshot.parameters), [snapshot.parameters])
 
   let icon: ReactNode, eyebrow: string, title: string, pill: ReactNode, body: ReactNode
   if (selection === 'bess-cluster') {
@@ -174,7 +188,7 @@ export function DetailCard({
     body = (
       <>
         <div className="hero">
-          <SocRing value={m.socPct} tone={tone} />
+          <SocRing value={m.socPct} tone={tone} applicable={INSTALLED_MWH > 0} />
           <div className="hero-stats">
             <span className="hero-label">{t.detail.power}</span>
             <strong style={{ color: tone }}>
@@ -204,7 +218,13 @@ export function DetailCard({
                     <i style={{ height: `${s.socPct}%` }} />
                   </span>
                   <b>0{i + 1}</b>
-                  <small>{um === 'offline' ? t.flow.offline : `${s.socPct!.toFixed(0)}%`}</small>
+                  <small>
+                    {um === 'offline'
+                      ? t.flow.offline
+                      : INSTALLED_MWH
+                        ? `${s.socPct!.toFixed(0)}%`
+                        : t.study.na}
+                  </small>
                 </button>
               )
             })}
@@ -222,7 +242,7 @@ export function DetailCard({
       </>
     )
   } else {
-    const node = NODE_BY_ID[selection]
+    const node = model.nodeById[selection]
     const state = snapshot.nodes[selection]
     const Icon = KIND_ICON[node.kind]
     icon = <Icon size={20} />
@@ -245,7 +265,7 @@ export function DetailCard({
       body = (
         <>
           <div className="hero">
-            <SocRing value={state.socPct ?? 0} tone={tone} />
+            <SocRing value={state.socPct ?? 0} tone={tone} applicable={INSTALLED_MWH > 0} />
             <div className="hero-stats">
               <span className="hero-label">{t.detail.power}</span>
               <strong style={{ color: tone }}>
@@ -303,8 +323,8 @@ export function DetailCard({
           t.detail.output,
           m.pvMW,
           TONE.renewable,
-          `${t.detail.capacityFactor} ${((m.pvMW / 16) * 100).toFixed(0)}%`,
-          m.pvMW / 16,
+          `${t.detail.capacityFactor} ${(CONFIG.pvACMW ? (m.pvMW / CONFIG.pvACMW) * 100 : 0).toFixed(0)}%`,
+          CONFIG.pvACMW ? m.pvMW / CONFIG.pvACMW : 0,
         )
         rows = (
           <>
@@ -317,8 +337,8 @@ export function DetailCard({
           t.detail.output,
           state.injectionMW,
           TONE.renewable,
-          `${t.detail.capacityFactor} ${((state.injectionMW / 4) * 100).toFixed(0)}%`,
-          state.injectionMW / 4,
+          `${t.detail.capacityFactor} ${(CONFIG.windUnitMW ? (state.injectionMW / CONFIG.windUnitMW) * 100 : 0).toFixed(0)}%`,
+          CONFIG.windUnitMW ? state.injectionMW / CONFIG.windUnitMW : 0,
         )
       } else if (node.kind === 'grid' || selection === 'pcc') {
         const imp = m.gridImportMW > 0.01
@@ -327,13 +347,17 @@ export function DetailCard({
           m.gridImportMW + m.gridExportMW,
           TONE.grid,
           `${t.tariffLong[snapshot.tariff.band]} ${priceText(snapshot.tariff.importCnyPerKWh, lang)}/kWh`,
-          (m.gridImportMW + m.gridExportMW) / CONFIG.gridImportLimitMW,
+          (m.gridImportMW + m.gridExportMW) /
+            (Math.max(CONFIG.gridImportLimitMW, CONFIG.gridExportLimitMW) || 1),
         )
         rows = (
           <>
             <Row label={t.detail.importP}>{mw(m.gridImportMW, 2)} MW</Row>
             <Row label={t.detail.exportP}>{mw(m.gridExportMW, 2)} MW</Row>
-            <Row label={t.detail.limit}>±{CONFIG.gridImportLimitMW} MW</Row>
+            <Row label={t.detail.limit}>
+              {t.flow.import} {CONFIG.gridImportLimitMW} / {t.flow.export}{' '}
+              {CONFIG.gridExportLimitMW} MW
+            </Row>
           </>
         )
       } else if (node.kind === 'factory' || node.kind === 'residential') {

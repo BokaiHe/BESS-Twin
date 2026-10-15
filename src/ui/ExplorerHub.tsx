@@ -21,7 +21,14 @@ export function ExplorerHub({ onOpen }: { onOpen: (kind: ExplorerKind) => void }
   const toggled = useRef(false)
   useEffect(() => {
     if (!toggled.current) return
-    ;(open ? firstTile : badge).current?.focus({ preventScroll: true })
+    const target = (open ? firstTile : badge).current
+    target?.focus({ preventScroll: true })
+    // Collapsing a tall panel changes document height. Reveal the new focus target
+    // after scroll anchoring has adjusted the page, including short-window layouts.
+    const frame = requestAnimationFrame(() =>
+      target?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' }),
+    )
+    return () => cancelAnimationFrame(frame)
   }, [open])
   const toggle = (next: boolean) => {
     toggled.current = true

@@ -21,13 +21,17 @@ export interface ProfilePoint {
   clippingMW: number
   windMW: number
 }
-export function profileAt(scenario: ScenarioId, minute: number): ProfilePoint {
+export function profileAt(
+  scenario: ScenarioId,
+  minute: number,
+  config: { pvDCMWp: number; pvACMW: number; windUnitMW: number; windUnits: number } = CONFIG,
+): ProfilePoint {
   const hour = minute / 60
   const solar = Math.max(0, Math.sin((Math.PI * (hour - 6)) / 12)) ** 1.5
   const isCloudy = scenario === 'cloudy'
   const cloudFactor = isCloudy ? 0.23 + 0.05 * Math.sin(hour * 1.8) : 0.98
-  const pvDcMW = CONFIG.pvDCMWp * solar * cloudFactor
-  const pvAcMW = Math.min(CONFIG.pvACMW, pvDcMW)
+  const pvDcMW = config.pvDCMWp * solar * cloudFactor
+  const pvAcMW = Math.min(config.pvACMW, pvDcMW)
   const windMW = isCloudy
     ? 1.15 + 0.2 * Math.cos(hour * 0.65)
     : 3.2 + 1.1 * Math.cos(((hour - 3) * Math.PI) / 12)
@@ -37,6 +41,6 @@ export function profileAt(scenario: ScenarioId, minute: number): ProfilePoint {
     pvDcMW,
     pvAcMW,
     clippingMW: pvDcMW - pvAcMW,
-    windMW,
+    windMW: windMW * ((config.windUnitMW * config.windUnits) / 12),
   }
 }

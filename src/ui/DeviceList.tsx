@@ -40,7 +40,9 @@ export function DeviceList({
         ? { text: t.flow.running, tone: TONE.renewable }
         : { text: t.flow.stopped, tone: TONE.idle }
     if (kind === 'factory' || kind === 'residential')
-      return { text: t.flow.supplied, tone: TONE.grid }
+      return snapshot.metrics.unservedMW > 0.001
+        ? { text: t.kpi.shortfall, tone: TONE.alarm }
+        : { text: t.flow.supplied, tone: TONE.grid }
     if (kind === 'grid') {
       const m = snapshot.metrics
       return m.gridImportMW > 0.01
@@ -53,7 +55,8 @@ export function DeviceList({
   }
   const value = (id: NodeId, kind: NodeKind) => {
     const s = snapshot.nodes[id]
-    if (kind === 'bess') return `${s.socPct!.toFixed(0)}%`
+    if (kind === 'bess')
+      return snapshot.parameters.batteryMWh ? `${s.socPct!.toFixed(0)}%` : t.study.na
     if (kind === 'transformer' || kind === 'bus') return ''
     return `${mw(s.injectionMW)} MW`
   }

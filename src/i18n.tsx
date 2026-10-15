@@ -638,6 +638,84 @@ export type RenewableCopy = typeof renewableEnglish
 export type CabinetCopy = typeof cabinetEnglish
 
 const zh = {
+  study: {
+    title: '参数与方案对比',
+    open: '如果调整参数…',
+    intro: '调整新方案，查看同一天的供电与运行电费变化。',
+    original: '原方案',
+    proposal: '新方案',
+    pin: '将新方案固定为原方案',
+    reset: '重置新方案',
+    advanced: '高级参数',
+    computing: '正在重算全天… 显示的是上一份完整结果',
+    ready: '全天结果已更新',
+    retry: '重试',
+    energyAccounting: '初末电量与离线库存',
+    duration: '额定时长',
+    na: '不适用',
+    hours: '小时',
+    capacity: '储能配置',
+    pvAc: '光伏交流容量',
+    scenario: '双方共用剧本',
+    common: '常用参数',
+    daily: '全天 00:00–24:00',
+    bill: '运行电费',
+    difference: '原始电费差额（原 − 新）',
+    savings: '可比运行电费节省（原 − 新）',
+    peak: '最大购电',
+    peakNote:
+      '标注最大购电首次出现的时刻与电价时段。当前策略只在峰段或触及购电上限时削峰；若最大值发生在平段，增加储能容量不一定降低这一峰值。',
+    unserved: '未供电量',
+    curtailment: '弃风弃光（网络限发）',
+    clipping: '光伏交流削顶',
+    energy: '储存电量',
+    grid: '购电功率',
+    delta: '期末 − 初始电量',
+    offline: '离线冻结电量',
+    initial: '初始电量',
+    final: '期末电量',
+    solver: '周期稳态',
+    residual: '残差',
+    iterations: '次迭代',
+    faultInit: '故障日以同参数晴天稳态初始化；当日不强求周期。',
+    converged: '已收敛',
+    notConverged: '未收敛',
+    notApplicable: '无可调储能，无需迭代',
+    comparison: {
+      comparable: '同剧本、全天运行电费对比',
+      'different-scenario': '剧本不同，不可直接比较',
+      'different-supply': '供电量不同，不可直接比较',
+      'not-converged': '稳态未收敛，不可作为已验证节省',
+      'non-periodic': '初末电量不同，差额不等于节省',
+    },
+    reliability: '两侧缺电量均列出；总缺电量相近不代表缺电时刻或可靠性相同。',
+    assumptions:
+      '同一天气、负荷与调度规则。电价输入为 CNY/kWh；上网价固定 0.28，电网补电上限 4 MW。调整电价改变账单，第一版仍按固定峰谷时段削峰，并非电价最优调度。',
+    limits:
+      '缺电差异容差 0.001 MWh；稳态容差 0.000004 MWh。只比较运行电费，不含投资、衰减或期末库存估值。',
+    geometry:
+      '场景保留 4 个储能单元和 3 台风机，容量均分；拆解图仅解释设备原理。刷新页面恢复默认配置。',
+    timing: '计算 / 往返',
+    pricing: '费用单位：CNY',
+    number: '数值',
+    labels: {
+      batteryMW: '储能总功率',
+      batteryMWh: '储能总容量',
+      pvDCMWp: '光伏直流装机',
+      windMW: '风电总装机',
+      gridImportMW: '购电上限',
+      gridExportMW: '上网上限',
+      valleyPrice: '谷时电价',
+      flatPrice: '平时电价',
+      peakPrice: '峰时电价',
+      socMinPct: 'SOC 下限',
+      socMaxPct: 'SOC 上限',
+      chargeEfficiencyPct: '充电效率',
+      dischargeEfficiencyPct: '放电效率',
+      reserveMWh: '削峰预留缓冲',
+    },
+  },
+
   cabinet: cabinetChinese,
   renewables: renewableChinese,
   hub: {
@@ -716,10 +794,10 @@ const zh = {
     standby: '待机',
   } satisfies Record<StrategyCode, string>,
   strategyReason: {
-    'hard-shave': (l: string) => `负荷超过 15 MW 并网上限，储能放电把购电压到 ${l} MW 以内`,
+    'hard-shave': (l: string) => `净负荷超过购电限额，储能尽力削峰；当前规划水位 ${l} MW`,
     absorb: () => '风光出力大于负荷，多余的电存进储能',
-    'export-surplus': () => '储能已满，多余风光电在限额内上网',
-    'valley-charge': () => '谷价最便宜，提前从电网充电备战用电高峰',
+    'export-surplus': () => '储能无法继续吸收，多余风光电在限额内上网',
+    'valley-charge': () => '谷时充电窗口，提前从电网备能',
     'flat-charge': () => '高峰前补足电量，保证晚峰能持续放电',
     'peak-discharge': (l: string) => `峰价时段，储能放电把购电稳定在 ${l} MW`,
     'hold-reserve': () => '可调电量已到预留线，暂停放电以备削峰',
@@ -805,15 +883,15 @@ const zh = {
       },
       generation: {
         title: '清洁能源发电',
-        body: '光伏装机为 20 MWp / 16 MWac，风机为 3 × 4 MW。天气和时刻决定出力；选择场景中的设备，可查看实时功率、容量及相关线路。',
+        body: '风光装机可在参数面板调整。天气和时刻决定出力；选择场景中的设备，可查看实时功率、容量及相关线路。',
       },
       storage: {
         title: '储能电站 BESS',
-        body: '四个储能单元合计 10 MW / 20 MWh，可双向充放电。SOC 表示剩余电量；系统优先削峰，再消纳多余风光和按电价调度。',
+        body: '储能容量可调，由四个单元均分，可双向充放电。SOC 表示剩余电量；系统优先削峰，再消纳多余风光和按电价调度。',
       },
       grid: {
         title: '电网与变电站',
-        body: '外部电网经 110/35 kV 主变接入园区。购电和上网各限 15 MW；园区内部采用配电连接，箭头和文字区分购电与上网。',
+        body: '外部电网经 110/35 kV 主变接入园区。购电与上网受各自设置的限额约束；园区内部采用配电连接，箭头和文字区分购电与上网。',
       },
       loads: {
         title: '工业、居民与充电负荷',
@@ -821,7 +899,7 @@ const zh = {
       },
       scenarios: {
         title: '切换全天剧本',
-        body: '晴天、阴天风弱和储能故障是三种全天剧本。故障日 BESS-04 于 17:30 离线，剩余额定功率降至 7.5 MW；切换后查看曲线和告警。',
+        body: '晴天、阴天风弱和储能故障是三种全天剧本。故障日 BESS-04 于 17:30 离线，剩余额定功率降至 75%；切换后查看曲线和告警。',
       },
       metrics: {
         title: '读取关键指标',
@@ -858,7 +936,7 @@ const zh = {
     title: '电费节省',
     sub: '对比无储能方案',
     stored: (v: string): string => `另有 ${v} MWh 已储存待用`,
-    infeasible: '基准方案缺电，不可比',
+    infeasible: '供电或稳态受限，不可比',
     explainTitle: '电费节省怎么算',
     scopeNow: '截至当前',
     scopeDay: '全天',
@@ -897,7 +975,7 @@ const zh = {
     'bess-temp-high': { title: 'BESS-04 温度偏高', impact: '电池温度持续上升，可能触发过温保护' },
     'bess-overheat-trip': {
       title: 'BESS-04 过温保护离线',
-      impact: '在线功率上限降至 7.5 MW；该单元剩余电量暂不可调度，剩余三台重新分配',
+      impact: '在线额定功率剩余 75%；该单元剩余电量暂不可调度，剩余三台重新分配',
     },
   } as { title: string; none: string; locate: string } & Record<
     AlarmCode,
@@ -915,7 +993,7 @@ const zh = {
   about: '关于模型',
   aboutBody: [
     '园区级有功功率仿真：每个剧本一次计算 1,440 分钟，拖动时间轴只读取缓存结果，不会重复累计电量或费用。',
-    '容量：光伏 20 MWp / 16 MWac；风电 3 × 4 MW；储能 4 × 2.5 MW / 5 MWh（SOC 10%–90%，充放电效率各 95%）；并网购电与上网各限 15 MW。',
+    '默认容量：光伏 20 MWp / 16 MWac；风电 3 × 4 MW；储能 4 × 2.5 MW / 5 MWh（SOC 10%–90%，充放电效率各 95%）；并网购电与上网各限 15 MW。',
     '策略：①负荷超过并网上限时储能优先削峰 ②风光富余先充储能 ③谷时（及平段补电）只充到恰好够用，先算上预计的风光富余 ④峰时把购电压平到一个规划水位，只动用削峰预留以上的电量。',
     '假设已知全天天气和负荷（完美预测）；设备故障不可预知，发生后重新规划。未模拟潮流、无功、电池老化；温度、SOH 为演示值。',
   ],
@@ -923,6 +1001,87 @@ const zh = {
 export type Dict = typeof zh
 
 const en: Dict = {
+  study: {
+    title: 'Parameters & comparison',
+    open: 'What if…',
+    intro: 'Adjust a proposal and compare supply and operating bills over the same day.',
+    original: 'Original',
+    proposal: 'Proposal',
+    pin: 'Use proposal as original',
+    reset: 'Reset proposal',
+    advanced: 'Advanced parameters',
+    computing: 'Recalculating the day… Showing the previous complete result',
+    ready: 'Full-day results updated',
+    retry: 'Retry',
+    energyAccounting: 'Initial, final and offline energy',
+    duration: 'Rated duration',
+    na: 'N/A',
+    hours: 'hours',
+    capacity: 'Storage configuration',
+    pvAc: 'Solar AC capacity',
+    scenario: 'Shared scenario',
+    common: 'Common parameters',
+    daily: 'Full day · 00:00–24:00',
+    bill: 'Operating bill',
+    difference: 'Raw bill difference (original − proposal)',
+    savings: 'Comparable operating savings (original − proposal)',
+    peak: 'Peak grid import',
+    peakNote:
+      'Time and tariff show the first daily maximum. This policy shaves during peak-price windows or at the import limit. More storage may leave a mid-tariff maximum unchanged.',
+    unserved: 'Unserved energy',
+    curtailment: 'Renewable curtailment (network)',
+    clipping: 'PV AC clipping',
+    energy: 'Stored energy',
+    grid: 'Grid import',
+    delta: 'Final − initial energy',
+    offline: 'Offline stored energy',
+    initial: 'Initial energy',
+    final: 'Final energy',
+    solver: 'Periodic steady state',
+    residual: 'Residual',
+    iterations: 'iterations',
+    faultInit:
+      'Fault initialization uses the sunny steady state with the same parameters; the fault day is not forced to be periodic.',
+    converged: 'Converged',
+    notConverged: 'Not converged',
+    notApplicable: 'No dispatchable storage; no iteration needed',
+    comparison: {
+      comparable: 'Same-scenario, full-day operating bill comparison',
+      'different-scenario': 'Different scenarios; not directly comparable',
+      'different-supply': 'Different supplied energy; not directly comparable',
+      'not-converged': 'Steady state not converged; savings are not validated',
+      'non-periodic': 'Stored energy changes; bill difference is not savings',
+    },
+    reliability:
+      'Both shortfalls are shown. Similar totals do not imply matching outage times or reliability.',
+    assumptions:
+      'Same weather, load and dispatch rules. Tariff inputs are CNY/kWh; export price stays at 0.28 and grid charging is capped at 4 MW. Prices change bills; this version still shaves peaks in fixed tariff windows, rather than optimizing dispatch for price.',
+    limits:
+      'Shortfall difference tolerance: 0.001 MWh. Steady-state tolerance: 0.000004 MWh. Operating bills only; excludes investment, degradation and terminal energy valuation.',
+    geometry:
+      'Four storage units and three turbines share the installed capacity equally. Cutaways explain equipment principles. Reloading restores default parameters.',
+    timing: 'Compute / round trip',
+    pricing:
+      'Bills and savings are shown in USD throughout the English dashboard, at the fixed example rate CNY 7.2/USD. Tariff inputs remain CNY/kWh.',
+    number: 'number',
+    labels: {
+      batteryMW: 'Storage power',
+      batteryMWh: 'Storage capacity',
+      pvDCMWp: 'Solar DC capacity',
+      windMW: 'Wind capacity',
+      gridImportMW: 'Grid import limit',
+      gridExportMW: 'Grid export limit',
+      valleyPrice: 'Valley price',
+      flatPrice: 'Flat price',
+      peakPrice: 'Peak price',
+      socMinPct: 'Minimum SOC',
+      socMaxPct: 'Maximum SOC',
+      chargeEfficiencyPct: 'Charge efficiency',
+      dischargeEfficiencyPct: 'Discharge efficiency',
+      reserveMWh: 'Peak-shaving reserve buffer',
+    },
+  },
+
   cabinet: cabinetEnglish,
   renewables: renewableEnglish,
   hub: {
@@ -1004,10 +1163,11 @@ const en: Dict = {
     standby: 'Standby',
   },
   strategyReason: {
-    'hard-shave': (l) => `Load exceeds the 15 MW grid limit; storage holds import at ${l} MW`,
+    'hard-shave': (l) =>
+      `Net load exceeds the import limit; storage supplies what it can. Planned level: ${l} MW`,
     absorb: () => 'Wind and solar exceed demand; the surplus is stored',
-    'export-surplus': () => 'Storage is full; surplus is exported within the limit',
-    'valley-charge': () => 'Cheapest tariff: charging from the grid ahead of the peak',
+    'export-surplus': () => 'Storage cannot absorb more; surplus is exported within the limit',
+    'valley-charge': () => 'Valley charging window: preparing energy before the peak',
     'flat-charge': () => 'Topping up before the peak so discharge can last all evening',
     'peak-discharge': (l) => `Peak tariff: storage discharges to hold grid import at ${l} MW`,
     'hold-reserve': () => 'Flexible energy used up; holding the rest for peak shaving',
@@ -1100,15 +1260,15 @@ const en: Dict = {
       },
       generation: {
         title: 'Renewable generation',
-        body: 'Solar is rated at 20 MWp / 16 MWac, alongside three 4 MW wind turbines. Weather and time determine output. Select equipment to inspect its power, rating and connected lines.',
+        body: 'Solar and wind capacities can be adjusted in the parameter panel. Weather and time determine output. Select equipment to inspect its power, rating and connected lines.',
       },
       storage: {
         title: 'Battery energy storage',
-        body: 'Four units provide 10 MW / 20 MWh of bidirectional storage. SOC shows stored energy. Dispatch prioritizes peak shaving, then renewable surplus absorption and tariff-based operation.',
+        body: 'Four units share the configurable bidirectional storage capacity. SOC shows stored energy. Dispatch prioritizes peak shaving, then renewable surplus absorption and tariff-based operation.',
       },
       grid: {
         title: 'Grid and substation',
-        body: 'The site connects to the external grid through a 110/35 kV transformer. Import and export are each capped at 15 MW. Internal feeders distribute power; arrows and labels distinguish buying from selling.',
+        body: 'The site connects to the external grid through a 110/35 kV transformer. Import and export respect their configured limits. Internal feeders distribute power; arrows and labels distinguish buying from selling.',
       },
       loads: {
         title: 'Industry, homes and charging',
@@ -1116,7 +1276,7 @@ const en: Dict = {
       },
       scenarios: {
         title: 'Choose a full-day scenario',
-        body: 'Sunny, cloudy with low wind, and storage fault are complete daily scenarios. In the fault case, BESS-04 trips at 17:30, leaving 7.5 MW online. Compare the resulting curves and alarms.',
+        body: 'Sunny, cloudy with low wind, and storage fault are complete daily scenarios. In the fault case, BESS-04 trips at 17:30, leaving 75% of rated power online. Compare the resulting curves and alarms.',
       },
       metrics: {
         title: 'Read the key metrics',
@@ -1153,7 +1313,7 @@ const en: Dict = {
     title: 'Bill savings',
     sub: 'vs. no storage',
     stored: (v) => `plus ${v} MWh stored for later`,
-    infeasible: 'Baseline cannot meet demand',
+    infeasible: 'Supply or steady-state limits',
     explainTitle: 'How savings are calculated',
     scopeNow: 'Up to now',
     scopeDay: 'Full day',
@@ -1196,7 +1356,7 @@ const en: Dict = {
     'bess-overheat-trip': {
       title: 'BESS-04 tripped on over-temperature',
       impact:
-        'Online power drops to 7.5 MW; its stored energy is locked and the other three units re-plan',
+        'Online rated power drops to 75%; its stored energy is locked and the other three units re-plan',
     },
   },
   labels: { windFarm: 'Wind farm', bessPlant: 'BESS plant' },
@@ -1216,7 +1376,7 @@ const en: Dict = {
   about: 'About the model',
   aboutBody: [
     'Site-level active-power simulation: each scenario is computed once for 1,440 minutes; scrubbing the timeline only reads cached results.',
-    'Capacity: solar 20 MWp / 16 MWac; wind 3 × 4 MW; storage 4 × 2.5 MW / 5 MWh (SOC 10–90%, 95% charge and discharge efficiency); grid import and export each capped at 15 MW.',
+    'Default capacity: solar 20 MWp / 16 MWac; wind 3 × 4 MW; storage 4 × 2.5 MW / 5 MWh (SOC 10–90%, 95% charge and discharge efficiency); grid import and export each capped at 15 MW.',
     'Strategy: ① shave load above the grid limit first ② store renewable surplus ③ charge from the grid (off-peak, or top-up at mid-peak) only as much as needed after expected surplus ④ at peak, flatten import to one planned level using energy above the shaving reserve.',
     'Weather and load are known for the day (perfect forecast); equipment faults are not, and trigger a re-plan. No power flow, reactive power or ageing; temperature and SOH are illustrative.',
   ],

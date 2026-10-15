@@ -1,3 +1,4 @@
+import type { SimulationParameters, SimulationDiagnostics } from './parameters'
 export type Lang = 'zh' | 'en'
 export interface Localized {
   readonly zh: string
@@ -84,6 +85,7 @@ export type StrategyCode =
   | 'hold-reserve'
   | 'standby'
 export interface Snapshot {
+  readonly parameters: SimulationParameters
   readonly schemaVersion: 2
   readonly source: 'simulation' | 'live'
   readonly timestamp: string
@@ -135,6 +137,8 @@ export interface Snapshot {
   }
 }
 export interface SimulationDay {
+  readonly parameters: SimulationParameters
+  readonly diagnostics: SimulationDiagnostics
   readonly id: ScenarioId
   readonly frames: readonly Snapshot[]
   readonly summary: {

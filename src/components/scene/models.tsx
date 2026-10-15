@@ -18,8 +18,14 @@ export const PALETTE = {
 
 /* ---------------- Generation ---------------- */
 
-export const SolarFarm = memo(function SolarFarm({ output }: { output: number }) {
-  const glint = Math.min(1, output / 16)
+export const SolarFarm = memo(function SolarFarm({
+  output,
+  ratedMW = 16,
+}: {
+  output: number
+  ratedMW?: number
+}) {
+  const glint = ratedMW > 0 ? Math.min(1, output / ratedMW) : 0
   const rows = 6,
     cols = 9
   return (
@@ -64,10 +70,11 @@ export const SolarFarm = memo(function SolarFarm({ output }: { output: number })
   )
 })
 
-export function WindTurbine({ output }: { output: number }) {
+export function WindTurbine({ output, ratedMW = 4 }: { output: number; ratedMW?: number }) {
   const rotor = useRef<Group>(null)
   useFrame((_, dt) => {
-    if (rotor.current) rotor.current.rotation.z -= dt * (0.25 + (output / 4) * 2.6)
+    if (rotor.current && output > 0.001 && ratedMW > 0)
+      rotor.current.rotation.z -= dt * (0.25 + Math.min(1, output / ratedMW) * 2.6)
   })
   return (
     <group>

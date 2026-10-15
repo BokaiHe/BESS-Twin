@@ -8,11 +8,14 @@ export const pct = (v: number, digits = 0) => v.toFixed(digits)
  * example rate (display only — no market exchange rate is implied).
  */
 export const CNY_PER_USD = 7.2
+export const displayMoney = (cny: number, lang: 'zh' | 'en') =>
+  lang === 'zh' ? cny : cny / CNY_PER_USD
+export const currencyCode = (lang: 'zh' | 'en') => (lang === 'zh' ? 'CNY' : 'USD')
 export const currencySymbol = (lang: 'zh' | 'en') => (lang === 'zh' ? '¥' : '$')
 /** Whole-unit amount without symbol, converted for the UI language. */
 export const money = (cny: number, lang: 'zh' | 'en') =>
   new Intl.NumberFormat(lang === 'zh' ? 'zh-CN' : 'en-US', { maximumFractionDigits: 0 }).format(
-    lang === 'zh' ? cny : cny / CNY_PER_USD,
+    displayMoney(cny, lang),
   )
 /** Amount with symbol, e.g. "¥5,994" or "$833"; the minus sign goes before the symbol. */
 export const moneyText = (cny: number, lang: 'zh' | 'en') =>

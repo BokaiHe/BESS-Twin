@@ -13,8 +13,10 @@ import {
 import { Home, Minus, Plus, RotateCw, TriangleAlert, ArrowUpRight } from 'lucide-react'
 import { timeLabel } from './domain/config'
 import { BESS_IDS, NODE_BY_ID, connectedEdgeIds } from './domain/topology'
-import type { ScenarioId, SimulationDay, Snapshot, TwinDataSource } from './domain/types'
-import { simulationSource } from './data/simulationSource'
+import type { ScenarioId, Snapshot, TwinDataSource } from './domain/types'
+import { useDesignStudy } from './data/useDesignStudy'
+import EnergyScene from './components/EnergyScene'
+import { DesignStudy } from './ui/DesignStudy'
 import { snapshotAt } from './simulation/engine'
 import { useI18n } from './i18n'
 import { BESS_CENTER, FAULT_NODE, type SceneLabel, type Selection } from './components/scene/shared'
@@ -31,7 +33,6 @@ import { TONE, clusterMode, modeText, modeTone, mw } from './ui/format'
 
 const ContainerExplorer = lazy(() => import('./components/cabinet/ContainerExplorer'))
 const RenewableExplorer = lazy(() => import('./components/renewables/RenewableExplorer'))
-const EnergyScene = lazy(() => import('./components/EnergyScene'))
 
 class SceneBoundary extends Component<
   { children: ReactNode; fallback: string },
@@ -51,12 +52,13 @@ class SceneBoundary extends Component<
 }
 
 type Focus = Selection | 'overview'
-export default function App({ source = simulationSource }: { source?: TwinDataSource }) {
+export default function App({ source }: { source?: TwinDataSource }) {
   const { t, l, lang } = useI18n()
   const [scenario, setScenario] = useState<ScenarioId>('sunny')
-  const [day, setDay] = useState<SimulationDay | null>(null)
-  const [baseline, setBaseline] = useState<SimulationDay | null>(null)
-  const [error, setError] = useState('')
+  const study = useDesignStudy(scenario, source)
+  const day = study.result?.proposal ?? null
+  const baseline = study.result?.sunny ?? null
+  const error = study.error
   const [minute, setMinute] = useState(720)
   const clock = useRef(720)
   const [playing, setPlaying] = useState(false)
@@ -67,7 +69,7 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
   const [zoomCmd, setZoomCmd] = useState<{ dir: 1 | -1; serial: number }>({ dir: 1, serial: 0 })
   const [autoRotate, setAutoRotate] = useState(false)
   const [modal, setModal] = useState<
-    'about' | 'savings' | 'alarms' | 'container' | 'pv' | 'wind' | null
+    'about' | 'savings' | 'alarms' | 'container' | 'pv' | 'wind' | 'study' | null
   >(null)
   const [reducedMotion, setReducedMotion] = useState(false)
   // The left column may only use the height above the timeline and its legend, so the
@@ -79,17 +81,24 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
       row = bottomRow.current
     if (!root || !row) return
     const legend = row.querySelector<HTMLElement>('.legend-chip')
+    const topbar = root.querySelector<HTMLElement>('.topbar')
     const update = () => {
       const legendSpace = legend && legend.offsetParent ? legend.offsetHeight + 8 : 0
       const reserve =
         root.getBoundingClientRect().bottom - row.getBoundingClientRect().top + legendSpace + 12
       root.style.setProperty('--bottom-reserve', `${Math.round(reserve)}px`)
+      if (topbar)
+        root.style.setProperty(
+          '--top-reserve',
+          `${Math.ceil(topbar.getBoundingClientRect().bottom - root.getBoundingClientRect().top + 12)}px`,
+        )
     }
     update()
     const observer = new ResizeObserver(update)
     observer.observe(row)
     observer.observe(root)
     if (legend) observer.observe(legend)
+    if (topbar) observer.observe(topbar)
     return () => observer.disconnect()
   }, [day])
   const tourReturn = useRef<{ selected: Selection | null; rotate: boolean; focus: Focus }>({
@@ -122,22 +131,6 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
     media.addEventListener('change', update)
     return () => media.removeEventListener('change', update)
   }, [])
-
-  useEffect(() => {
-    let cancelled = false
-    setError('')
-    Promise.all([source.loadDay(scenario), source.loadDay('sunny')])
-      .then(([result, normal]) => {
-        if (!cancelled) {
-          setDay(result)
-          setBaseline(normal)
-        }
-      })
-      .catch((e) => !cancelled && setError(String(e)))
-    return () => {
-      cancelled = true
-    }
-  }, [scenario, source])
 
   // Playback: a fractional clock advances every frame (smooth sun and camera), while the
   // data minute only changes when the integer minute does. Seeking never integrates anything.
@@ -210,11 +203,19 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
     setTouring(false)
     setPlaying(false)
     setScenario(id)
-    if (id === 'fault') {
+  }
+
+  // Commit the scenario, its clock and fault focus together, never on an old day.
+  const appliedScenario = useRef<ScenarioId>('sunny')
+  useLayoutEffect(() => {
+    if (!day || day.id === appliedScenario.current) return
+    appliedScenario.current = day.id
+    if (day.id === 'fault') {
       setMinute(1050)
+      clock.current = 1050
       select(FAULT_NODE)
     }
-  }
+  }, [day, select])
 
   const snapshot: Snapshot | null = day
     ? snapshotAt(day, Math.min(1439, Math.max(0, Math.floor(minute))))
@@ -271,7 +272,7 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
         key: 'bess',
         anchor: BESS_CENTER,
         name: t.labels.bessPlant,
-        value: `${modeText(t, cm)}${cm !== 'idle' ? ` ${mw(m.batteryChargeMW + m.batteryDischargeMW)} MW` : ''} · ${m.socPct.toFixed(0)}%`,
+        value: `${modeText(t, cm)}${cm !== 'idle' ? ` ${mw(m.batteryChargeMW + m.batteryDischargeMW)} MW` : ''} · ${snapshot.parameters.batteryMWh ? `${m.socPct.toFixed(0)}%` : t.study.na}`,
         tone: modeTone(cm),
         selected: selected === 'bess-cluster',
         alert: snapshot.alarms.length > 0,
@@ -305,7 +306,7 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
         anchor: pos(node.id, node.kind === 'wind' ? 9.4 : isBess ? 2.3 : 3),
         name: l(node.name),
         value: isBess
-          ? `${modeText(t, snapshot.nodes[node.id].status === 'offline' ? 'offline' : snapshot.nodes[node.id].injectionMW > 0.01 ? 'discharge' : snapshot.nodes[node.id].injectionMW < -0.01 ? 'charge' : 'idle')} · ${snapshot.nodes[node.id].socPct!.toFixed(0)}%`
+          ? `${modeText(t, snapshot.nodes[node.id].status === 'offline' ? 'offline' : snapshot.nodes[node.id].injectionMW > 0.01 ? 'discharge' : snapshot.nodes[node.id].injectionMW < -0.01 ? 'charge' : 'idle')} · ${snapshot.parameters.batteryMWh ? `${snapshot.nodes[node.id].socPct!.toFixed(0)}%` : t.study.na}`
           : node.kind === 'wind'
             ? `${mw(snapshot.nodes[node.id].injectionMW)} MW`
             : node.voltage,
@@ -318,7 +319,32 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
     return list
   }, [snapshot, selected, l, t, select])
 
-  if (error)
+  const scene = (
+    <div className="stage" aria-busy={!snapshot}>
+      <SceneBoundary fallback={t.noWebgl}>
+        <Suspense fallback={<div className="scene-fallback">{t.sceneLoading}</div>}>
+          {snapshot && (
+            <EnergyScene
+              paused={modal !== null || study.busy}
+              snapshot={snapshot}
+              clock={clock}
+              scenario={snapshot?.scenarioId ?? scenario}
+              selected={selected}
+              highlighted={highlighted}
+              onSelect={select}
+              focus={focus}
+              zoomCmd={zoomCmd}
+              autoRotate={autoRotate}
+              reducedMotion={reducedMotion}
+              labels={labels}
+            />
+          )}
+        </Suspense>
+      </SceneBoundary>
+    </div>
+  )
+
+  if (error && !day)
     return (
       <div className="splash">
         <strong>{t.loadFailed}</strong>
@@ -330,9 +356,12 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
     )
   if (!day || !baseline || !snapshot)
     return (
-      <div className="splash">
-        <div className="spinner" />
-        <p>{t.loading}</p>
+      <div className="app">
+        {scene}
+        <div className="card scene-boot-status" role="status">
+          <div className="spinner" />
+          <p>{t.loading}</p>
+        </div>
       </div>
     )
 
@@ -340,37 +369,40 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
 
   return (
     <div className="app">
-      <div className="stage">
-        <SceneBoundary fallback={t.noWebgl}>
-          <Suspense fallback={<div className="scene-fallback">{t.sceneLoading}</div>}>
-            <EnergyScene
-              paused={modal === 'container' || modal === 'pv' || modal === 'wind'}
-              snapshot={snapshot}
-              clock={clock}
-              scenario={scenario}
-              selected={selected}
-              highlighted={highlighted}
-              onSelect={select}
-              focus={focus}
-              zoomCmd={zoomCmd}
-              autoRotate={autoRotate}
-              reducedMotion={reducedMotion}
-              labels={labels}
-            />
-          </Suspense>
-        </SceneBoundary>
-      </div>
+      {scene}
 
       <div className="overlay" ref={overlay}>
         <TopBar
-          scenario={scenario}
+          scenario={snapshot.scenarioId}
           setScenario={changeScenario}
           snapshot={snapshot}
           touring={touring}
+          hasExplored={
+            selected !== null ||
+            minute !== 720 ||
+            scenario !== 'sunny' ||
+            modal !== null ||
+            zoomCmd.serial > 0 ||
+            autoRotate
+          }
           toggleTour={toggleTour}
           onAlarms={() => setModal('alarms')}
           onAbout={() => setModal('about')}
+          onStudy={
+            study.enabled
+              ? () => {
+                  setPlaying(false)
+                  setTouring(false)
+                  setModal('study')
+                }
+              : undefined
+          }
         />
+        {(study.busy || study.error) && (
+          <div className="card scene-computing" role="status" data-testid="scene-computing">
+            {study.error || `${t.scenarios[scenario].name} · ${t.study.computing}`}
+          </div>
+        )}
 
         <div className="left-col">
           <KpiStrip snapshot={snapshot} onSavings={() => setModal('savings')} />
@@ -529,6 +561,21 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
           <Suspense fallback={<p>{t.renewables.loading}</p>}>
             <RenewableExplorer key={modal} kind={modal} />
           </Suspense>
+        </Modal>
+      )}
+      {modal === 'study' && study.result && (
+        <Modal title={t.study.title} className="study-modal" onClose={() => setModal(null)}>
+          <DesignStudy
+            proposal={study.proposal}
+            onChange={study.setProposal}
+            onPin={() => study.setOriginal(study.result!.proposal.parameters)}
+            result={study.result}
+            busy={study.busy}
+            error={study.error}
+            scenario={snapshot.scenarioId}
+            onScenario={changeScenario}
+            onRetry={study.retry}
+          />
         </Modal>
       )}
       {modal === 'about' && (

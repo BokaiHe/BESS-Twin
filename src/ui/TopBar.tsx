@@ -1,4 +1,14 @@
-import { Bell, Cloud, Info, Pause, Sparkles, Sun, TriangleAlert, Zap } from 'lucide-react'
+import {
+  Bell,
+  Cloud,
+  Info,
+  Pause,
+  Sparkles,
+  Sun,
+  TriangleAlert,
+  Zap,
+  SlidersHorizontal,
+} from 'lucide-react'
 import { timeLabel } from '../domain/config'
 import type { ScenarioId, Snapshot } from '../domain/types'
 import { useI18n } from '../i18n'
@@ -11,16 +21,20 @@ export function TopBar({
   setScenario,
   snapshot,
   touring,
+  hasExplored,
   toggleTour,
   onAlarms,
   onAbout,
+  onStudy,
 }: {
   scenario: ScenarioId
   setScenario: (id: ScenarioId) => void
   snapshot: Snapshot
   touring: boolean
+  hasExplored: boolean
   toggleTour: () => void
   onAlarms: () => void
+  onStudy?: () => void
   onAbout: () => void
 }) {
   const { t, lang, setLang } = useI18n()
@@ -102,7 +116,15 @@ export function TopBar({
           </button>
         </div>
       </div>
-      <FirstVisitHint touring={touring} onStart={toggleTour} />
+      {onStudy && (
+        <div className="study-entry">
+          <button className="card pill-btn" onClick={onStudy}>
+            <SlidersHorizontal size={15} />
+            <span>{t.study.open}</span>
+          </button>
+        </div>
+      )}
+      <FirstVisitHint touring={touring} hasExplored={hasExplored} onStart={toggleTour} />
     </header>
   )
 }

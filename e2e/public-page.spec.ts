@@ -107,3 +107,100 @@ test('share metadata is in the initial HTML and the preview image is served loca
   expect(png.readUInt32BE(16)).toBe(1367)
   expect(png.readUInt32BE(20)).toBe(839)
 })
+
+test('welcome reserves space for camera controls and short-screen tour stays compact', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1366, height: 768 })
+  await page.goto('/')
+  await expect(page.locator('canvas')).toBeVisible()
+  const hint = page.locator('.first-visit-hint')
+  await expect(hint).toBeVisible()
+  const camera = page.locator('.cam-tools')
+  await expect
+    .poll(async () => {
+      const a = (await hint.boundingBox())!,
+        b = (await camera.boundingBox())!
+      return a.y + a.height <= b.y || b.x + b.width <= a.x || a.x + a.width <= b.x
+    })
+    .toBe(true)
+  await page.getByRole('button', { name: 'Zoom in', exact: true }).click({ trial: true })
+  await page.setViewportSize({ width: 1366, height: 600 })
+  const tour = page.getByRole('button', { name: 'Guided tour', exact: true })
+  await expect(tour).toBeVisible()
+  await expect(tour.locator('span')).toBeHidden()
+  expect(await tour.evaluate((e) => e.scrollWidth <= e.clientWidth)).toBe(true)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  await tour.click()
+  await expect(page.getByRole('dialog')).toContainText('Meet the energy site')
+})
+
+test('loading shows no placeholder data and commits scenario, clock and data together', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('bess-twin-tour-hint-seen', '1')
+    // Hold real worker responses until each assertion explicitly releases them.
+    // A fixed delay is unreliable when the GPU takes longer to initialize.
+    const control = window as unknown as {
+      releaseOneStudy: () => void
+      releaseAllStudies: () => void
+    }
+    let permits = 0,
+      open = false
+    const pending: Array<() => void> = []
+    const flush = () => {
+      while (pending.length && (open || permits > 0)) {
+        if (!open) permits--
+        pending.shift()!()
+      }
+    }
+    control.releaseOneStudy = () => {
+      permits++
+      flush()
+    }
+    control.releaseAllStudies = () => {
+      open = true
+      flush()
+    }
+    const NativeWorker = window.Worker
+    window.Worker = class extends NativeWorker {
+      set onmessage(handler: ((this: Worker, ev: MessageEvent) => unknown) | null) {
+        super.onmessage = (event) => {
+          pending.push(() => {
+            handler?.call(this, event)
+          })
+          flush()
+        }
+      }
+    }
+  })
+  await page.goto('/')
+  const canvas = page.locator('canvas')
+  await expect(page.locator('.scene-boot-status')).toBeVisible()
+  await expect(canvas).toHaveCount(0)
+  await expect(page.getByTestId('kpi-renewable')).toHaveCount(0)
+  await page.evaluate(() =>
+    (window as unknown as { releaseOneStudy: () => void }).releaseOneStudy(),
+  )
+  await expect(canvas).toBeVisible()
+  const mounted = await canvas.elementHandle()
+  await expect(page.getByTestId('kpi-renewable')).toBeVisible({ timeout: 15000 })
+  await page.setViewportSize({ width: 1366, height: 600 })
+  const sunny = page.getByRole('button', { name: 'Sunny day', exact: true })
+  const fault = page.getByRole('button', { name: 'Storage fault', exact: true })
+  await fault.click()
+  await expect(page.getByTestId('scene-computing')).toContainText('Storage fault')
+  await expect(page.getByTestId('scene-computing')).toBeInViewport({ ratio: 1 })
+  await expect(sunny).toHaveAttribute('aria-pressed', 'true')
+  await expect(fault).toHaveAttribute('aria-pressed', 'false')
+  await expect(page.getByTestId('timeline-time')).toHaveText('12:00')
+  await page.evaluate(() =>
+    (window as unknown as { releaseAllStudies: () => void }).releaseAllStudies(),
+  )
+  await expect(fault).toHaveAttribute('aria-pressed', 'true', { timeout: 15000 })
+  await expect(page.getByTestId('timeline-time')).toHaveText('17:30')
+  await expect(page.locator('.alarm-toast')).toContainText('tripped on over-temperature')
+  await expect(page.getByTestId('scene-computing')).toHaveCount(0)
+  expect(await canvas.evaluate((node, first) => node === first, mounted)).toBe(true)
+})
