@@ -211,7 +211,7 @@ Geometry checks: `npm run renewables:build`. Browser regression checks: `npx pla
 
 ## Public-page metadata and onboarding
 
-Share metadata is present in the initial HTML, following the [Open Graph protocol](https://ogp.me/). `public/social-preview.png` is a copy of the English overview screenshot. Forks should update the canonical, Open Graph and card URLs in `index.html`; copy a new screenshot and update its declared dimensions when refreshing the cover. Preview rendering and caching depend on the sharing platform; this does not guarantee a card on every platform.
+Share metadata is present in the initial HTML, following the [Open Graph protocol](https://ogp.me/). `public/social-preview.png` is the simplified energy-park screenshot, with English equipment labels and without dashboard panels. Forks should update the canonical, Open Graph and card URLs in `index.html`; copy a new screenshot and update its declared dimensions when refreshing the cover. Preview rendering and caching depend on the sharing platform; this does not guarantee a card on every platform.
 
 The optional tour hint appears once per browser storage profile. It neither starts the tour automatically nor changes simulation time. Starting the tour or dismissing the hint returns focus through the persistent tour button. With browser storage disabled, the page remains usable; the hint can reappear on a new visit because persistence is unavailable.
 

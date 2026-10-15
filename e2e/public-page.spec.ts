@@ -104,6 +104,6 @@ test('share metadata is in the initial HTML and the preview image is served loca
   expect(preview.ok()).toBe(true)
   expect(preview.headers()['content-type']).toContain('image/png')
   const png = await preview.body()
-  expect(png.readUInt32BE(16)).toBe(1600)
-  expect(png.readUInt32BE(20)).toBe(1000)
+  expect(png.readUInt32BE(16)).toBe(1367)
+  expect(png.readUInt32BE(20)).toBe(839)
 })
