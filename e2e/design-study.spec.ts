@@ -41,6 +41,13 @@ test('parameters update complete results, pin a reference and preserve zero-stor
     'Different supplied energy; not directly comparable',
   )
   await expect(page.getByTestId('study-results')).toHaveAttribute('data-applied-capacity', '0')
+  // Tab after the numeric field focuses the next term: Escape closes that explanation
+  // first, then a second Escape closes the enclosing parameter dialog.
+  await expect(page.locator('.term-popover')).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(page.locator('.term-popover')).toHaveCount(0)
+  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.locator('[data-term="pv-capacity"]')).toBeFocused()
   await page.keyboard.press('Escape')
   await expect(page.getByTestId('kpi-soc')).toHaveText('N/A')
   await expect(page.getByRole('button', { name: 'What if…', exact: true })).toBeFocused()
@@ -80,7 +87,11 @@ test('ratings, timeline and Chinese controls use the applied configuration', asy
     .getByRole('spinbutton', { name: 'Solar DC capacity (number)', exact: true })
     .press('Tab')
   await ready(page)
+  await expect(page.locator('.term-popover')).toBeVisible()
   await page.keyboard.press('Escape')
+  await expect(page.locator('.term-popover')).toHaveCount(0)
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('dialog')).toHaveCount(0)
   const expected = createSimulationEngine({ ...DEFAULT_PARAMETERS, pvDCMWp: 40 })
     .simulateDay('sunny')
     .frames[720].metrics.renewableMW.toFixed(1)
@@ -115,7 +126,11 @@ test('comparison uses the dashboard currency and explains the daily import maxim
   const amount = (n: number) =>
     new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n)
   await expect(page.getByTestId('comparison-bill')).toHaveText(`${amount(cny / 7.2)} USD`)
+  await expect(page.locator('.term-popover')).toBeVisible()
   await page.keyboard.press('Escape')
+  await expect(page.locator('.term-popover')).toHaveCount(0)
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('dialog')).toHaveCount(0)
   await page.getByRole('button', { name: '切换到中文', exact: true }).click()
   await page.getByRole('button', { name: '如果调整参数…', exact: true }).click()
   await expect(page.getByTestId('comparison-bill')).toHaveText(`${amount(cny)} CNY`)

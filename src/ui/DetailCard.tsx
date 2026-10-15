@@ -1,3 +1,4 @@
+import { Term } from './learning/Term'
 import {
   ArrowLeft,
   BatteryCharging,
@@ -33,7 +34,7 @@ const KIND_ICON: Record<NodeKind, typeof Sun> = {
   residential: Home,
 }
 
-function Row({ label, children, tone }: { label: string; children: ReactNode; tone?: string }) {
+function Row({ label, children, tone }: { label: ReactNode; children: ReactNode; tone?: string }) {
   return (
     <div className="row" style={tone ? { ['--tone' as string]: tone } : undefined}>
       <dt>{label}</dt>
@@ -234,7 +235,9 @@ export function DetailCard({
           <Row label={t.detail.online}>
             {m.onlinePowerLimitMW} / {INSTALLED_MW} MW · {m.onlineCapacityMWh} / {INSTALLED_MWH} MWh
           </Row>
-          <Row label={t.detail.available}>{mw(m.availableDischargeMW)} MW</Row>
+          <Row label={<Term id="available-power">{t.detail.available}</Term>}>
+            {mw(m.availableDischargeMW)} MW
+          </Row>
           <Row label={t.detail.reserve}>{snapshot.strategy.reserveMWh.toFixed(1)} MWh</Row>
         </dl>
         <Strategy snapshot={snapshot} />
@@ -282,8 +285,10 @@ export function DetailCard({
             <Row label={t.detail.temp} tone={hot ? TONE.alarm : undefined}>
               {state.temperatureC?.toFixed(1)} °C
             </Row>
-            <Row label={t.detail.soh}>{state.sohPct}%</Row>
-            <Row label={t.detail.available}>{mw(state.availableDischargeMW ?? 0, 2)} MW</Row>
+            <Row label={<Term id="soh">{t.detail.soh}</Term>}>{state.sohPct}%</Row>
+            <Row label={<Term id="available-power">{t.detail.available}</Term>}>
+              {mw(state.availableDischargeMW ?? 0, 2)} MW
+            </Row>
             {rowsBase}
           </dl>
           <AlarmBox snapshot={snapshot} id={selection} />

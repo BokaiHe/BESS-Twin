@@ -1,3 +1,5 @@
+import { Term } from './learning/Term'
+import type { ReactNode } from 'react'
 import { useMemo, useState } from 'react'
 import { ArrowDown, ArrowUp, TriangleAlert } from 'lucide-react'
 import { timeLabel } from '../domain/config'
@@ -8,7 +10,7 @@ import { moneyText, priceText } from './format'
 
 interface Item {
   key: string
-  label: string
+  label: ReactNode
   formula: string
   valueCny: number
 }
@@ -30,7 +32,11 @@ export function SavingsPanel({ day, minute }: { day: SimulationDay; minute: numb
     if (Math.abs(d) < 0.05) continue
     items.push({
       key: `imp-${x.band}`,
-      label: d > 0 ? t.savings.lessBuy(bandName(x.band)) : t.savings.moreBuy(bandName(x.band)),
+      label: (
+        <Term id={x.band}>
+          {d > 0 ? t.savings.lessBuy(bandName(x.band)) : t.savings.moreBuy(bandName(x.band))}
+        </Term>
+      ),
       formula: `${Math.abs(d).toFixed(1)} MWh × ${priceText(x.importPrice, lang)}`,
       valueCny: d * x.importPrice * 1000,
     })

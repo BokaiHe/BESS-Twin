@@ -1,0 +1,236 @@
+{
+  "baselineCommit": "7d72c12",
+  "stage": "learning-glossary",
+  "firstRound": {
+    "measuredAt": "2026-10-15T22:26:23.796Z",
+    "note": "Edge headless, 1366x768, fresh contexts, warmed browser/GPU, local production builds. Canvas/data visibility is not a GPU frame-time measurement. Switches wait for idle prewarming.",
+    "assets": {
+      "baseline": {
+        "paths": ["/BESS-Twin/assets/index-Ll0Vr1KV.js"],
+        "gzipBytes": 494377
+      },
+      "learning": {
+        "paths": ["/BESS-Twin/assets/index-CruaqKks.js", "/BESS-Twin/assets/i18n-CtZGppkr.js"],
+        "gzipBytes": 496338
+      }
+    },
+    "addedGzipBytes": 1961,
+    "runs": [
+      {
+        "variant": "baseline",
+        "replies": 3,
+        "canvasMs": 1990.5999999940395,
+        "dataMs": 1990.5999999940395,
+        "switches": {
+          "fault": 785,
+          "cloudy": 756,
+          "sunny": 537
+        }
+      },
+      {
+        "variant": "learning",
+        "replies": 3,
+        "canvasMs": 1800.7999999821186,
+        "dataMs": 1800.9000000059605,
+        "switches": {
+          "fault": 928,
+          "cloudy": 715,
+          "sunny": 601
+        }
+      },
+      {
+        "variant": "learning",
+        "replies": 3,
+        "canvasMs": 1947.5999999940395,
+        "dataMs": 1947.5999999940395,
+        "switches": {
+          "fault": 981,
+          "cloudy": 779,
+          "sunny": 468
+        }
+      },
+      {
+        "variant": "baseline",
+        "replies": 3,
+        "canvasMs": 2217.9000000059605,
+        "dataMs": 2218,
+        "switches": {
+          "fault": 726,
+          "cloudy": 704,
+          "sunny": 477
+        }
+      },
+      {
+        "variant": "baseline",
+        "replies": 3,
+        "canvasMs": 1769.2999999821186,
+        "dataMs": 1769.4000000059605,
+        "switches": {
+          "fault": 734,
+          "cloudy": 606,
+          "sunny": 470
+        }
+      },
+      {
+        "variant": "learning",
+        "replies": 3,
+        "canvasMs": 1831.4000000059605,
+        "dataMs": 1831.5,
+        "switches": {
+          "fault": 902,
+          "cloudy": 730,
+          "sunny": 467
+        }
+      }
+    ]
+  },
+  "instrumentedRound": {
+    "measuredAt": "2026-10-15T22:29:30.774Z",
+    "note": "Edge headless, 1366x768, fresh contexts, warmed browser/GPU, local production builds. Canvas/data visibility is not a GPU frame-time measurement. Switches wait for idle prewarming.",
+    "assets": {
+      "baseline": {
+        "paths": ["/BESS-Twin/assets/index-Ll0Vr1KV.js"],
+        "gzipBytes": 494377
+      },
+      "learning": {
+        "paths": ["/BESS-Twin/assets/index-CruaqKks.js", "/BESS-Twin/assets/i18n-CtZGppkr.js"],
+        "gzipBytes": 496338
+      }
+    },
+    "addedGzipBytes": 1961,
+    "runs": [
+      {
+        "variant": "baseline",
+        "replies": 3,
+        "canvasMs": 1446.800000011921,
+        "dataMs": 1446.800000011921,
+        "lastCommitMs": 190.19999998807907,
+        "switches": {
+          "fault": {
+            "actionMs": 956,
+            "commitMs": 380
+          },
+          "cloudy": {
+            "actionMs": 645,
+            "commitMs": 230
+          },
+          "sunny": {
+            "actionMs": 498,
+            "commitMs": 190
+          }
+        }
+      },
+      {
+        "variant": "learning",
+        "replies": 3,
+        "canvasMs": 1461.199999988079,
+        "dataMs": 1461.199999988079,
+        "lastCommitMs": 207.5,
+        "switches": {
+          "fault": {
+            "actionMs": 857,
+            "commitMs": 335
+          },
+          "cloudy": {
+            "actionMs": 593,
+            "commitMs": 242
+          },
+          "sunny": {
+            "actionMs": 463,
+            "commitMs": 208
+          }
+        }
+      },
+      {
+        "variant": "learning",
+        "replies": 3,
+        "canvasMs": 1327.9000000059605,
+        "dataMs": 1327.9000000059605,
+        "lastCommitMs": 150.30000001192093,
+        "switches": {
+          "fault": {
+            "actionMs": 754,
+            "commitMs": 279
+          },
+          "cloudy": {
+            "actionMs": 542,
+            "commitMs": 187
+          },
+          "sunny": {
+            "actionMs": 392,
+            "commitMs": 150
+          }
+        }
+      },
+      {
+        "variant": "baseline",
+        "replies": 3,
+        "canvasMs": 1141.4000000059605,
+        "dataMs": 1141.5,
+        "lastCommitMs": 198.30000001192093,
+        "switches": {
+          "fault": {
+            "actionMs": 860,
+            "commitMs": 320
+          },
+          "cloudy": {
+            "actionMs": 550,
+            "commitMs": 238
+          },
+          "sunny": {
+            "actionMs": 506,
+            "commitMs": 198
+          }
+        }
+      },
+      {
+        "variant": "baseline",
+        "replies": 3,
+        "canvasMs": 1340.1000000238419,
+        "dataMs": 1340.1000000238419,
+        "lastCommitMs": 140.90000000596046,
+        "switches": {
+          "fault": {
+            "actionMs": 767,
+            "commitMs": 284
+          },
+          "cloudy": {
+            "actionMs": 474,
+            "commitMs": 182
+          },
+          "sunny": {
+            "actionMs": 329,
+            "commitMs": 141
+          }
+        }
+      },
+      {
+        "variant": "learning",
+        "replies": 3,
+        "canvasMs": 1164.2000000178814,
+        "dataMs": 1164.2000000178814,
+        "lastCommitMs": 195.40000000596046,
+        "switches": {
+          "fault": {
+            "actionMs": 759,
+            "commitMs": 258
+          },
+          "cloudy": {
+            "actionMs": 557,
+            "commitMs": 233
+          },
+          "sunny": {
+            "actionMs": 526,
+            "commitMs": 195
+          }
+        }
+      }
+    ]
+  },
+  "finalAssetCheck": {
+    "note": "After adding explicit illustrative labels to lazy glossary copy; runtime logic unchanged.",
+    "paths": ["/BESS-Twin/assets/index-DRicuOPc.js", "/BESS-Twin/assets/i18n-CtZGppkr.js"],
+    "gzipBytes": 496329,
+    "addedGzipBytes": 1952
+  }
+}

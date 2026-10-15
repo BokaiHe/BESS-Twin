@@ -1,3 +1,5 @@
+import { Term } from './learning/Term'
+import { parameterTerms } from '../learning/termLinks'
 import { useEffect, useMemo, useState } from 'react'
 import {
   CartesianGrid,
@@ -49,12 +51,13 @@ function ParameterField({
   }
   return (
     <div className="parameter-field">
-      <label htmlFor={`range-${name}`}>
-        {t.study.labels[name]} <small>{rule.unit}</small>
-      </label>
+      <div className="parameter-label">
+        <Term id={parameterTerms[name]}>{t.study.labels[name]}</Term> <small>{rule.unit}</small>
+      </div>
       <div>
         <input
           id={`range-${name}`}
+          aria-label={t.study.labels[name]}
           data-testid={`parameter-${name}`}
           type="range"
           min={rule.min}

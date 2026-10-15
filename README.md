@@ -103,7 +103,7 @@ The fixed simulation date is `2026-06-18`, UTC+08:00; it is independent of the c
 
 The browser tests currently use the installed Microsoft Edge channel and start a test server on port 5178. On a machine without Edge, install that browser or change `channel` in `playwright.config.ts` to a browser available in your environment.
 
-The test suites contain **66 unit tests** and **55 browser flows**. Coverage includes scenario changes, deterministic seeking, the exact fault boundary, bill comparability, language persistence, all 13 walkthrough steps, equipment disassembly, battery transport, solar/wind generation animations and the explorer hub. See [verification notes](docs/verification.md) for results and known limitations.
+The test suites contain **69 unit tests** and **60 browser flows**. Coverage includes scenario changes, deterministic seeking, the exact fault boundary, bill comparability, language persistence, all 13 walkthrough steps, equipment disassembly, battery transport, solar/wind generation animations and the explorer hub. See [verification notes](docs/verification.md) for results and known limitations.
 
 ## Project structure
 
@@ -228,3 +228,15 @@ Prices change the ledger, while dispatch retains the documented fixed tariff-win
 Initial loading and scenario changes start immediately; only slider edits wait 300 ms. The main scene resources load with the entry page. A preparation message remains visible until real results arrive; the scene is then constructed once, avoiding a second pass over placeholder equipment. Waiting for a new calculation uses demand rendering, and the initial camera fits immediately. The last complete day stays selected during recalculation, with a visible status message. Idle prewarming and bounded caches reuse other scenarios without repeating worker transfers; foreground edits take priority over queued speculative work.
 
 Comparison bills use the same display currency as the dashboard: USD in English (fixed illustrative rate of CNY 7.2/USD), CNY in Chinese. Tariff inputs and the underlying ledger remain in CNY. Peak import includes its first occurrence and tariff band: additional storage need not lower a mid-tariff maximum under the fixed-window dispatch policy.
+
+## Learning edition: glossary (local stage 1)
+
+Underlined terms in the dashboard, storage details, voltage explanation, timeline strategy, parameter editor and tariff ledger open bilingual explanations. The full **Energy glossary** is searchable in either language and can also be opened from **About the model**. Related terms link to their own entries. Each concept is annotated only once per card or panel; the equipment explorers keep their existing explanations.
+
+The 35 definitions and popup layout load on first interaction. Keyboard focus or a click opens an explanation; Escape closes it and restores focus. Only one explanation is open at a time. On narrow screens, the card sits near the bottom of the viewport. This stage does not change simulation physics, introduce dependencies, or require browser storage.
+
+The reviewed implementation plan is in [the learning edition specification](docs/learning-edition-spec.md). The tank analogy, energy-flow chart, Learn hub, lessons and challenges remain later stages; the existing guided-tour entry is unchanged in this stage.
+
+To compare learning-layer startup against a previous release, build both checkouts with `npm run build:pages`, then run `node scripts/check-learning-performance.mjs /path/to/baseline/dist`. The script serves both distributions locally, alternates fresh Edge contexts, checks the 15 KB initial-JavaScript gzip budget, and records visibility and warmed scenario-switch timings in `test-results/learning-performance.json`. Run it separately from the browser regression suite; the measurements are machine-specific.
+
+Preview this stage: [desktop glossary](docs/screenshots/learning-glossary.png) · [mobile explanation](docs/screenshots/learning-term-mobile.png). See [verification notes](docs/verification.md) and [performance samples](docs/learning-performance.json) for the exact test scope and measurement limits.

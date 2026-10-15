@@ -1,3 +1,4 @@
+import { Term } from './learning/Term'
 import { NODE_BY_ID } from '../domain/topology'
 import type { Selection } from '../components/scene/shared'
 import { useI18n } from '../i18n'
@@ -31,7 +32,16 @@ export function VoltageInfo({
         <strong>{voltage}</strong>
       </div>
       <p>{t.detail.voltageNote}</p>
-      {storage && <p>{t.detail.storageVoltageNote}</p>}
+      {storage && (
+        <p>
+          {t.detail.storageVoltageNote.split('PCS').map((part, index) => (
+            <span key={index}>
+              {index === 1 ? <Term id="pcs">PCS</Term> : index > 1 ? 'PCS' : null}
+              {part}
+            </span>
+          ))}
+        </p>
+      )}
       {!storage && voltage.includes('/') && <p>{t.detail.voltageSidesNote}</p>}
     </section>
   )

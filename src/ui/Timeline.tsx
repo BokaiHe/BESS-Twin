@@ -1,3 +1,5 @@
+import { Term } from './learning/Term'
+import { strategyTerms } from '../learning/termLinks'
 import { memo, useMemo, useState } from 'react'
 import {
   Area,
@@ -385,7 +387,9 @@ export function Timeline({
           style={{ ['--tone' as string]: story.tone }}
         >
           <span className="story-dot" />
-          <strong>{story.title}</strong>
+          <strong>
+            <Term id={strategyTerms[day.frames[minute].strategy.code]}>{story.title}</Term>
+          </strong>
           <span className="story-text">{story.text}</span>
         </div>
         <div className="bookmarks">

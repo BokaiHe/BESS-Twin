@@ -1,3 +1,5 @@
+import { GLOSSARY_EVENT, type GlossaryRequest, openGlossary } from './learning/termLinks'
+import { learningCopy } from './learning/copy'
 import {
   Component,
   Suspense,
@@ -31,6 +33,7 @@ import { GuidedTour } from './ui/GuidedTour'
 import { ExplorerHub } from './ui/ExplorerHub'
 import { TONE, clusterMode, modeText, modeTone, mw } from './ui/format'
 
+const GlossaryDialog = lazy(() => import('./ui/learning/GlossaryDialog'))
 const ContainerExplorer = lazy(() => import('./components/cabinet/ContainerExplorer'))
 const RenewableExplorer = lazy(() => import('./components/renewables/RenewableExplorer'))
 
@@ -54,6 +57,21 @@ class SceneBoundary extends Component<
 type Focus = Selection | 'overview'
 export default function App({ source }: { source?: TwinDataSource }) {
   const { t, l, lang } = useI18n()
+  const [glossary, setGlossary] = useState<GlossaryRequest | null>(null)
+  useEffect(() => {
+    const open = (event: Event) => setGlossary((event as CustomEvent<GlossaryRequest>).detail)
+    window.addEventListener(GLOSSARY_EVENT, open)
+    return () => window.removeEventListener(GLOSSARY_EVENT, open)
+  }, [])
+  const closeGlossary = () => {
+    const trigger = glossary?.trigger
+    if (trigger) trigger.dataset.termRestore = 'true'
+    setGlossary(null)
+    requestAnimationFrame(() => {
+      if (trigger?.isConnected) trigger.focus({ preventScroll: true })
+      if (trigger) delete trigger.dataset.termRestore
+    })
+  }
   const [scenario, setScenario] = useState<ScenarioId>('sunny')
   const study = useDesignStudy(scenario, source)
   const day = study.result?.proposal ?? null
@@ -325,7 +343,7 @@ export default function App({ source }: { source?: TwinDataSource }) {
         <Suspense fallback={<div className="scene-fallback">{t.sceneLoading}</div>}>
           {snapshot && (
             <EnergyScene
-              paused={modal !== null || study.busy}
+              paused={modal !== null || glossary !== null || study.busy}
               snapshot={snapshot}
               clock={clock}
               scenario={snapshot?.scenarioId ?? scenario}
@@ -543,6 +561,11 @@ export default function App({ source }: { source?: TwinDataSource }) {
         </div>
       </div>
 
+      {glossary && (
+        <Suspense fallback={null}>
+          <GlossaryDialog initialId={glossary.id} onClose={closeGlossary} />
+        </Suspense>
+      )}
       {touring && <GuidedTour onClose={closeTour} onFocus={focusTour} />}
 
       {modal === 'container' && (
@@ -580,6 +603,12 @@ export default function App({ source }: { source?: TwinDataSource }) {
       )}
       {modal === 'about' && (
         <Modal title={t.about} onClose={() => setModal(null)}>
+          <button
+            className="pill-btn"
+            onClick={(event) => openGlossary({ trigger: event.currentTarget })}
+          >
+            {learningCopy[lang].glossary}
+          </button>
           {t.aboutBody.map((p) => (
             <p key={p}>{p}</p>
           ))}

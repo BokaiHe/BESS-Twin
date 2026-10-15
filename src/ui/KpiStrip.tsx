@@ -1,3 +1,4 @@
+import { Term } from './learning/Term'
 import {
   ArrowDownLeft,
   ArrowUpRight,
@@ -66,7 +67,9 @@ export function KpiStrip({ snapshot, onSavings }: { snapshot: Snapshot; onSaving
           <BatteryCharging size={18} />
         </span>
         <div>
-          <span className="kpi-label">{t.kpi.storage}</span>
+          <span className="kpi-label">
+            <Term id="soc">{t.kpi.storage}</Term>
+          </span>
           <strong data-testid="kpi-soc">
             {snapshot.parameters.batteryMWh ? m.socPct.toFixed(1) : t.study.na}
             {snapshot.parameters.batteryMWh > 0 && <small>%</small>}
