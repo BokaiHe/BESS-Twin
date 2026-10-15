@@ -20,6 +20,7 @@ An interactive digital twin of a renewable energy park, built with React, Vite, 
 - **Tariff-aware operation:** peak shaving takes priority; renewable surplus is stored before grid charging is considered.
 - **Transparent bill comparison:** full-day and up-to-now breakdowns, with explicit treatment of baseline supply shortages and fault-day energy inventory.
 - **13-step guided walkthrough:** module explanations, highlights, camera focus, Back/Next and early exit. Playback pauses during the tour.
+- **Public sharing:** static Open Graph / large-image card metadata, a screenshot preview, a one-time optional tour hint, and a visible simulation disclosure with a source link.
 - **English by default**, with a Chinese language toggle and persistence of explicit language choices.
 - **Responsive layout** for desktop and mobile.
 
@@ -102,7 +103,7 @@ The fixed simulation date is `2026-06-18`, UTC+08:00; it is independent of the c
 
 The browser tests currently use the installed Microsoft Edge channel and start a test server on port 5178. On a machine without Edge, install that browser or change `channel` in `playwright.config.ts` to a browser available in your environment.
 
-The test suites contain **46 unit tests** and **45 browser flows**. Coverage includes scenario changes, deterministic seeking, the exact fault boundary, bill comparability, language persistence, all 13 walkthrough steps, equipment disassembly, battery transport, solar/wind generation animations and the explorer hub. See [verification notes](docs/verification.md) for results and known limitations.
+The test suites contain **46 unit tests** and **49 browser flows**. Coverage includes scenario changes, deterministic seeking, the exact fault boundary, bill comparability, language persistence, all 13 walkthrough steps, equipment disassembly, battery transport, solar/wind generation animations and the explorer hub. See [verification notes](docs/verification.md) for results and known limitations.
 
 ## Project structure
 
@@ -207,3 +208,11 @@ The solar cell and exploded drivetrain start paused. The complete wind turbine s
 Exploded gaps are for inspection: charge routes and synchronized rotation explain an intact system, not real charge transport through air or torque transmission across disconnected shafts. Sizes, speeds and the ratio are educational. Plant dispatch and telemetry remain unchanged.
 
 Geometry checks: `npm run renewables:build`. Browser regression checks: `npx playwright test e2e/generation.spec.ts e2e/renewables.spec.ts`.
+
+## Public-page metadata and onboarding
+
+Share metadata is present in the initial HTML, following the [Open Graph protocol](https://ogp.me/). `public/social-preview.png` is a copy of the English overview screenshot. Forks should update the canonical, Open Graph and card URLs in `index.html`; copy a new screenshot and update its declared dimensions when refreshing the cover. Preview rendering and caching depend on the sharing platform; this does not guarantee a card on every platform.
+
+The optional tour hint appears once per browser storage profile. It neither starts the tour automatically nor changes simulation time. Starting the tour or dismissing the hint returns focus through the persistent tour button. With browser storage disabled, the page remains usable; the hint can reappear on a new visit because persistence is unavailable.
+
+The next phase, parameter editing and baseline-versus-proposal comparison, is specified in [the data contract](docs/data-contract.md). It is a planned extension, not a feature of the current runtime.

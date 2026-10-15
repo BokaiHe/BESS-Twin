@@ -2,6 +2,7 @@ import { Bell, Cloud, Info, Pause, Sparkles, Sun, TriangleAlert, Zap } from 'luc
 import { timeLabel } from '../domain/config'
 import type { ScenarioId, Snapshot } from '../domain/types'
 import { useI18n } from '../i18n'
+import { FirstVisitHint } from './FirstVisitHint'
 
 const ICONS = { sunny: Sun, cloudy: Cloud, fault: TriangleAlert } as const
 
@@ -101,6 +102,7 @@ export function TopBar({
           </button>
         </div>
       </div>
+      <FirstVisitHint touring={touring} onStart={toggleTour} />
     </header>
   )
 }

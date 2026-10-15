@@ -44,10 +44,14 @@ export function GuidedTour({
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null
     const scroll = { left: window.scrollX, top: window.scrollY }
-    dialog.current?.showModal()
+    const element = dialog.current
+    element?.showModal()
     return () => {
+      // Close before restoring focus: an open modal keeps the page inert,
+      // including during StrictMode's setup/cleanup cycle.
+      element?.close()
       window.scrollTo(scroll)
-      previous?.focus({ preventScroll: true })
+      if (previous?.isConnected) previous.focus({ preventScroll: true })
     }
   }, [])
 

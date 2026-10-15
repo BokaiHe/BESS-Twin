@@ -78,8 +78,8 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
     const root = overlay.current,
       row = bottomRow.current
     if (!root || !row) return
+    const legend = row.querySelector<HTMLElement>('.legend-chip')
     const update = () => {
-      const legend = row.querySelector<HTMLElement>('.legend-chip')
       const legendSpace = legend && legend.offsetParent ? legend.offsetHeight + 8 : 0
       const reserve =
         root.getBoundingClientRect().bottom - row.getBoundingClientRect().top + legendSpace + 12
@@ -89,6 +89,7 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
     const observer = new ResizeObserver(update)
     observer.observe(row)
     observer.observe(root)
+    if (legend) observer.observe(legend)
     return () => observer.disconnect()
   }, [day])
   const tourReturn = useRef<{ selected: Selection | null; rotate: boolean; focus: Focus }>({
@@ -455,7 +456,7 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
 
         <div className="bottom-row" ref={bottomRow}>
           <div className="timeline-slot">
-            <div className="legend-chip">
+            <footer className="legend-chip">
               {(
                 [
                   [TONE.renewable, t.legend.renewable],
@@ -469,8 +470,17 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
                   {label}
                 </span>
               ))}
-              <em>{t.modelNote}</em>
-            </div>
+              <em>
+                {t.publicPage.disclosure}
+                <a
+                  href="https://github.com/BokaiHe/BESS-Twin"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t.publicPage.source}
+                </a>
+              </em>
+            </footer>
             <Timeline
               day={day}
               baseline={baseline}

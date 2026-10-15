@@ -2276,3 +2276,67 @@ html[lang|='zh'] .modal:is(.container-modal, .renewable-modal) * {
     padding: 0;
   }
 }
+
+/* Public-page context stays visible without opening the About dialog. */
+.legend-chip em {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  color: var(--text-2);
+}
+.legend-chip a {
+  pointer-events: auto;
+  color: var(--brand);
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.first-visit-hint {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 10;
+  width: min(320px, 100%);
+  padding: 14px;
+  pointer-events: auto;
+}
+.first-visit-hint strong {
+  font-size: 14px;
+}
+.first-visit-hint p {
+  margin: 6px 0 12px;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+.first-visit-hint > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.first-visit-hint button {
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: var(--text-2);
+  background: #eef2f7;
+}
+.first-visit-hint button:first-child {
+  background: var(--brand);
+  color: white;
+  font-weight: 600;
+}
+@media (max-width: 900px), (max-height: 740px) {
+  .legend-chip {
+    position: static;
+    display: flex;
+    margin-bottom: 8px;
+    max-width: 100%;
+  }
+  .legend-chip > span {
+    display: none;
+  }
+  .legend-chip em {
+    border: 0;
+    padding-left: 0;
+  }
+}
