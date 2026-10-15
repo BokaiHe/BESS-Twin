@@ -1,0 +1,340 @@
+.inline-generation-plate {
+  --charge-blue: #417fa8;
+  --charge-warm: #9a886b;
+  --photon: #c08a2d;
+}
+.iso[data-theme='dark'] .inline-generation-plate {
+  --charge-blue: #96aec1;
+  --charge-warm: #c9b694;
+  --photon: #f0c86c;
+}
+.generation-overlay {
+  transition: opacity 0.25s ease;
+}
+.inline-generation {
+  margin: 16px 0 20px;
+}
+.principle-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.principle-controls button {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 12px;
+  min-height: 38px;
+  border: 1px solid var(--anatomy-faint);
+  border-radius: 7px;
+  font-size: 11px !important;
+}
+.principle-controls button[aria-checked='true'] {
+  background: var(--anatomy-page);
+  border-color: var(--anatomy-mid);
+}
+.principle-controls button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.principle-controls button > span {
+  font: 10px var(--anatomy-mono);
+}
+.generation-status {
+  font: 10px/1.6 var(--anatomy-mono);
+  color: var(--anatomy-muted);
+  margin-left: auto;
+}
+.principle-circuit {
+  fill: none;
+  stroke: var(--anatomy-mid);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.inline-load {
+  fill: var(--anatomy-card);
+  stroke: var(--anatomy-mid);
+  stroke-width: 0.8;
+}
+.principle-label,
+.principle-load-label {
+  fill: var(--anatomy-strong);
+  font: 10px var(--anatomy-mono);
+}
+.principle-terminal {
+  fill: var(--anatomy-card);
+  stroke: var(--anatomy-strong);
+  stroke-width: 1;
+}
+.photon-guide {
+  fill: none;
+  stroke: var(--photon);
+  stroke-width: 1;
+  opacity: 0.28;
+  stroke-dasharray: 3 5;
+}
+.photon-wave,
+.photon-head {
+  fill: none;
+  stroke: var(--photon);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.charge circle {
+  fill: var(--anatomy-card);
+  stroke: var(--charge-blue);
+  stroke-width: 1.2;
+}
+.charge text {
+  font: 11px var(--anatomy-mono);
+  fill: var(--charge-blue);
+}
+.charge-hole circle {
+  stroke: var(--charge-warm);
+}
+.charge-hole text {
+  fill: var(--charge-warm);
+}
+.carrier-direction {
+  stroke: var(--charge-blue);
+  fill: none;
+  stroke-width: 1.5;
+}
+.principle-arrow {
+  stroke: var(--charge-blue);
+  fill: none;
+  stroke-width: 1.2;
+}
+.generation-overlay[data-source='false'] .photon-guide,
+.generation-overlay[data-source='false'] .carrier-direction {
+  opacity: 0;
+}
+.principle-blade {
+  fill: var(--anatomy-top);
+  stroke: var(--anatomy-hi);
+  stroke-width: 0.9;
+}
+.shaft-mark {
+  stroke: var(--charge-blue);
+  fill: none;
+  stroke-width: 1.5;
+}
+.stator-body {
+  fill: var(--anatomy-shade-1);
+  stroke: var(--anatomy-hi);
+  stroke-width: 0.6;
+}
+.stator-gap {
+  fill: var(--anatomy-card);
+  stroke: var(--anatomy-mid);
+  stroke-width: 0.4;
+}
+.stator-coil {
+  fill: var(--charge-warm);
+  stroke: var(--anatomy-mid);
+  stroke-width: 0.25;
+}
+.magnet-n {
+  fill: var(--charge-blue);
+  stroke: var(--anatomy-mid);
+  stroke-width: 0.3;
+}
+.magnet-s {
+  fill: var(--anatomy-shade-2);
+  stroke: var(--anatomy-mid);
+  stroke-width: 0.3;
+}
+.rotor-shaft {
+  fill: var(--anatomy-top);
+  stroke: var(--anatomy-mid);
+  stroke-width: 0.3;
+}
+.pole-letter {
+  fill: var(--anatomy-strong);
+  font: 4px var(--anatomy-mono);
+}
+.principle-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+  margin-top: 12px;
+  font: 10px/1.6 var(--anatomy-mono);
+  color: var(--anatomy-text);
+}
+.legend-photon {
+  color: #9d8150;
+}
+.legend-electron {
+  color: #647f95;
+}
+.legend-hole {
+  color: #978368;
+}
+.iso[data-theme='dark'] .legend-photon {
+  color: #d5bd85;
+}
+.iso[data-theme='dark'] .legend-electron {
+  color: #96aec1;
+}
+.iso[data-theme='dark'] .legend-hole {
+  color: #c9b694;
+}
+.ac-readout {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ac-readout svg {
+  width: 80px;
+  height: 22px;
+}
+.ac-trace {
+  stroke: var(--anatomy-mid);
+  stroke-width: 1.5;
+  fill: none;
+}
+.principle-detail,
+.principle-note {
+  font-size: 10px;
+  line-height: 1.8;
+  color: var(--anatomy-muted);
+  margin: 12px 0 0;
+}
+.inline-generation-explanation {
+  border-top: 1px solid var(--anatomy-faint);
+  margin-top: 24px;
+  padding-top: 12px;
+}
+.inline-generation-explanation h4 {
+  font: 11px/1.6 var(--anatomy-mono);
+  color: var(--anatomy-strong);
+  margin: 14px 0 6px;
+}
+.inline-generation-explanation p {
+  font-size: 11px !important;
+  line-height: 1.8 !important;
+}
+@media (max-width: 650px) {
+  .generation-status {
+    margin-left: 0;
+    flex-basis: 100%;
+  }
+  .principle-controls button {
+    font-size: 10px !important;
+  }
+  .principle-legend {
+    font-size: 9px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .generation-overlay {
+    transition: none;
+  }
+}
+
+/* Air and light are SVG overlays; all motion follows the shared illustration clock. */
+.sunlight-field,
+.wind-field {
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.generation-overlay[data-source='false'] .sunlight-field,
+.generation-overlay[data-source='false'] .wind-field {
+  opacity: 0;
+}
+.sun-emitter circle {
+  fill: var(--photon);
+  opacity: 0.65;
+}
+.sun-emitter path {
+  fill: none;
+  stroke: var(--photon);
+  stroke-width: 1;
+  stroke-linecap: round;
+  opacity: 0.65;
+}
+.sunlit-surface {
+  fill: var(--photon);
+  opacity: 0.28;
+}
+.photon-dot {
+  fill: var(--photon);
+  stroke: var(--anatomy-card);
+  stroke-width: 0.6;
+}
+.absorption-flash circle:first-child {
+  fill: var(--photon);
+  fill-opacity: 0.3;
+  stroke: var(--photon);
+  stroke-width: 1;
+}
+.absorption-flash circle:last-child {
+  fill: var(--photon);
+  fill-opacity: 0.45;
+  stroke: none;
+}
+.wind-guide {
+  fill: none;
+  stroke: var(--charge-blue);
+  stroke-width: 1;
+  opacity: 0.1;
+}
+.wind-streak {
+  fill: none;
+  stroke: var(--charge-blue);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+.wind-direction {
+  fill: none;
+  stroke: var(--charge-blue);
+  stroke-width: 2;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sunlight-field,
+  .wind-field {
+    transition: none;
+  }
+}
+
+.wind-guide {
+  opacity: 0.24;
+  stroke-width: 1.2;
+}
+.wind-streak {
+  stroke-width: 3;
+}
+.full-wind-field .wind-streak {
+  stroke-width: 3.6;
+}
+.photon-wave,
+.photon-head {
+  stroke-width: 2.2;
+}
+.charge circle {
+  stroke-width: 1.8;
+}
+.absorption-flash circle:first-child {
+  stroke-width: 1.8;
+}
+.full-blade {
+  stroke-width: 1.2;
+}
+.blade-ridge {
+  fill: none;
+  stroke: var(--anatomy-mid);
+  stroke-width: 0.6;
+}
+.renewable-explorer[data-kind='wind'] .renewable-svg {
+  height: clamp(400px, 55vh, 600px);
+  aspect-ratio: auto;
+}
+@media (max-width: 650px) {
+  .renewable-explorer[data-kind='wind'] .renewable-svg {
+    height: 330px;
+  }
+}

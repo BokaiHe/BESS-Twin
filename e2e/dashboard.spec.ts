@@ -16,6 +16,7 @@ test('desktop: data matches the engine, seek is deterministic, fault, language s
   })
   await page.goto('/')
   await expect(page.locator('canvas')).toBeVisible({ timeout: 30_000 })
+  await page.locator('.device-row').filter({ hasText: 'BESS-01' }).click()
   const sunny = simulateDay('sunny')
   await expect(page.getByTestId('kpi-renewable')).toContainText(
     sunny.frames[720].metrics.renewableMW.toFixed(1),

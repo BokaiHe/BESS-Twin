@@ -8,8 +8,656 @@ import type {
   StrategyCode,
   TariffBand,
 } from './domain/types'
+import { cabinetChinese, renewableChinese } from './explorerCopyZh'
+
+const renewableEnglish = {
+  principle: {
+    title: 'Generation principle',
+    play: 'Play animation',
+    pause: 'Pause animation',
+    static: 'Reduced motion · static directions',
+    running: 'Teaching animation · playing',
+    paused: 'Teaching animation · paused',
+    on: 'On',
+    off: 'Off',
+    controls: 'Illustration controls',
+    note: 'Conceptual, slowed teaching animation. Particle sizes, layer thicknesses and motion are exaggerated. These controls affect this illustration only; plant simulation and live equipment are unchanged.',
+    pv: {
+      title: 'From sunlight to DC electricity',
+      caption: 'CONNECTED CELL SECTION · ELECTRON FLOW',
+      sourceLabel: 'Sunlight',
+      inactive: 'Light off · no photocurrent shown',
+      load: 'DC load',
+      photons: 'Photons',
+      electrons: 'Electrons',
+      holes: 'Holes',
+      nSide: 'n-side (−)',
+      pSide: 'p-side (+)',
+      circuit: 'External electron path',
+      steps: [
+        {
+          title: '01 · Absorb light',
+          body: 'Sunlight illuminates the cell. When a photon is absorbed, its energy can excite an electron and leave a hole. A brief glow marks absorption, followed by charge separation: the photon does not literally turn into an electron.',
+        },
+        {
+          title: '02 · Collect charge',
+          body: 'In this representative p-base / n-emitter cell, the junction helps collect electrons toward the n-side and holes toward the p-side. Holes represent missing electrons in the semiconductor; they are not particles flowing through the metal wire.',
+        },
+        {
+          title: '03 · Power a load',
+          body: 'Collected electrons travel from the front n-contact through the external load to the rear p-contact. This is electron flow; conventional current points in the opposite direction. The circuit and junction thickness are schematic.',
+        },
+      ],
+      detail:
+        'Exploded teaching view: the gaps separate layers for inspection. Charge routes show collection in an intact cell, not travel through air. Diffusion, recombination and microscopic carrier statistics are omitted.',
+      source: 'https://www.energy.gov/cmei/systems/solar-photovoltaic-cell-basics',
+    },
+    wind: {
+      title: 'From blade lift to electrical power',
+      caption: 'CONNECTED DRIVETRAIN · GENERATOR SECTION',
+      sourceLabel: 'Wind',
+      airflow: 'Airflow toward blades',
+      overviewLegend: 'Wind-driven rotor',
+      overviewDetail:
+        'Watch incoming wind turn the rotor. Pause or switch Wind off to inspect the complete turbine; click it to open the nacelle. Slowed teaching motion, not measured wind speed or RPM.',
+      inactive: 'Wind off · motion stopped',
+      rotor: 'Blades + main shaft · 1×',
+      generator: 'Generator rotor · 4×',
+      stator: 'Stator · stationary',
+      output: 'AC before power electronics',
+      steps: [
+        {
+          title: '01 · Capture wind',
+          body: 'Incoming airflow is shown by moving streaks approaching the rotor. Aerodynamic lift turns the three blades and hub. The low-speed shaft turns at the same rate; its surface marks follow the blade phase.',
+        },
+        {
+          title: '02 · Transmit rotation',
+          body: 'The gearbox drives the high-speed shaft and generator rotor. This animation uses an illustrative 4:1 speed increase so both rotations remain visible; it is not the gearbox ratio of the simulated turbine.',
+        },
+        {
+          title: '03 · Induce voltage',
+          body: 'The rotating magnetic field changes the flux through stationary stator windings, inducing voltage. Only the magnetic rotor turns in this representative permanent-magnet section. The housing, stator, bearings and supports stay fixed.',
+        },
+      ],
+      detail:
+        'Exploded teaching view: the separated shafts and generator rotate in phase to explain the intact drivetrain. Gaps are for inspection, not real power-transmitting connections. Rotor blades are shortened. A single magnetic pole pair and a representative AC phase are shown; actual generator designs, pole counts and drivetrain ratios vary. Power electronics and a transformer prepare the output for the collection grid. Speed and electrical frequency are not to scale.',
+      source: 'https://www.energy.gov/cmei/systems/explore-wind-turbine-text-version',
+    },
+  },
+
+  context: 'HEALTHY SYSTEM · STRUCTURE EXPLORER',
+  loading: 'Preparing the equipment…',
+  levels: 'Viewing level',
+  components: 'Select a component',
+  role: 'WHAT IT DOES',
+  connection: 'HOW IT CONNECTS',
+  reset: 'Reassemble',
+  back: 'Previous level',
+  theme: 'Toggle explorer theme',
+  moving: 'Moving components…',
+  reference: 'Technical reference · U.S. Department of Energy',
+  selectHint: 'Select a named component for its role.',
+  cellHint: 'Click the silicon wafer to inspect its layers',
+  pv: {
+    title: 'Solar Module Explorer',
+    subtitle: 'From a complete module to the junction inside one solar cell.',
+    stages: ['Complete module', 'Laminate layers', 'Cell detail'],
+    next: ['Separate laminate layers', 'Inspect one solar cell', 'Reassemble module'],
+    hints: [
+      'Click the module to separate its layers',
+      'Click a cell to look inside',
+      'Select a layer to learn its function',
+    ],
+    defaults: ['frame', 'glass', 'silicon'],
+    note: 'Educational glass/backsheet crystalline-silicon module. Cell count, thickness and spacing are illustrative. Glass/glass modules and other cell architectures differ. The inverter is separate equipment.',
+    source: 'https://www.energy.gov/cmei/systems/solar-photovoltaic-manufacturing-basics',
+    parts: [
+      {
+        id: 'frame',
+        name: 'Frame & mounting',
+        level: 0,
+        role: 'Aluminium rails protect the laminate edges and transfer wind and snow loads to the mounting structure.',
+        connection:
+          'Clamps attach the frame to the support rails. Frame bonding is part of the installation grounding design.',
+      },
+      {
+        id: 'glass',
+        name: 'Front glass',
+        level: 1,
+        role: 'The transparent front cover admits sunlight and protects the fragile cells against weather and impact.',
+        connection:
+          'It is bonded to the cells through an encapsulant. Transparency here is exaggerated so the cell layout stays visible.',
+      },
+      {
+        id: 'encapsulant',
+        name: 'Encapsulant',
+        level: 1,
+        role: 'Polymer layers hold the cells in place, provide electrical insulation and help protect the cell circuit from moisture.',
+        connection:
+          'Front and rear encapsulant bond the glass, cell circuit and rear protective layer during lamination.',
+      },
+      {
+        id: 'cells',
+        name: 'Silicon cells',
+        level: 1,
+        role: 'Semiconductor cells absorb light and produce direct-current electrical power. Click a cell to examine a representative junction.',
+        connection:
+          'Metal contacts and ribbons connect cells into the module circuit. The 24 cells drawn here are a simplified layout, not a product specification.',
+      },
+      {
+        id: 'ribbons',
+        name: 'Interconnect ribbons',
+        level: 1,
+        role: 'Conductive ribbons carry current between cell contacts.',
+        connection:
+          'Series connections add cell voltages; substring and module wiring determine the complete electrical layout.',
+      },
+      {
+        id: 'backsheet',
+        name: 'Protective backsheet',
+        level: 1,
+        role: 'An insulating rear laminate protects the cell circuit from the environment.',
+        connection:
+          'This example uses a polymer backsheet. Some modules use rear glass instead, including many bifacial designs.',
+      },
+      {
+        id: 'junction',
+        name: 'Junction box & connectors',
+        level: 1,
+        role: 'The rear junction box provides a protected termination for the module circuit and its output connections.',
+        connection:
+          'DC output leads connect modules into strings. A downstream inverter converts DC into grid-compatible AC.',
+      },
+      {
+        id: 'contact',
+        name: 'Rear contact',
+        level: 2,
+        role: 'The rear metal contact collects charge from the back of the cell and completes its electrical connection.',
+        connection:
+          'It connects to the adjacent cell through module interconnects. This is a simplified front/rear-contact architecture.',
+      },
+      {
+        id: 'silicon',
+        name: 'Silicon base',
+        level: 2,
+        role: 'Light absorbed in silicon can create mobile electrons and holes. Carrier collection allows the illuminated cell to supply an external circuit.',
+        connection:
+          'The base and emitter form a semiconductor junction. The drawing exaggerates their thicknesses for visibility.',
+      },
+      {
+        id: 'junction',
+        name: 'Emitter & junction',
+        level: 2,
+        role: 'A thin region with different doping forms a junction with the silicon base. The junction helps separate photogenerated charge carriers.',
+        connection:
+          'This is a conceptual p–n junction, not a drawing of every passivation or selective-contact layer in a modern commercial cell.',
+      },
+      {
+        id: 'coating',
+        name: 'Anti-reflection coating',
+        level: 2,
+        role: 'A thin optical coating reduces reflected light so more light enters the semiconductor.',
+        connection:
+          'It lies at the illuminated surface. Its thickness is greatly exaggerated; real cells also use surface texturing and passivation.',
+      },
+      {
+        id: 'contacts',
+        name: 'Front contact grid',
+        level: 2,
+        role: 'Fine metal fingers collect current and deliver it to larger busbars while shading only part of the illuminated area.',
+        connection:
+          'Busbars connect to the module ribbons. The external circuit connects the front and rear contacts.',
+      },
+    ],
+  },
+  wind: {
+    title: 'Wind Turbine Explorer',
+    subtitle: 'Follow the mechanical path from wind-driven blades to the generator.',
+    stages: ['Complete turbine', 'Nacelle interior', 'Drivetrain'],
+    next: ['Open the nacelle', 'Separate the drivetrain', 'Reassemble turbine'],
+    hints: [
+      'Click the turbine to open its nacelle',
+      'Click the shaft or gearbox to separate the drivetrain',
+      'Select a component to follow the power path',
+    ],
+    defaults: ['rotor', 'gearbox', 'generator'],
+    note: 'Educational three-bladed, upwind turbine with a gearbox. Direct-drive turbines omit the gearbox. Shape, spacing and proportions are illustrative and do not specify the simulated farm’s 4 MW turbine model. Expanded joints show assembly relationships, not an operating state.',
+    source: 'https://www.energy.gov/cmei/systems/explore-wind-turbine-text-version',
+    parts: [
+      {
+        id: 'rotor',
+        name: 'Blades, hub & pitch',
+        level: 0,
+        role: 'Aerodynamic lift turns the blades and hub. Pitch mechanisms adjust blade angle to regulate aerodynamic loading and power.',
+        connection:
+          'The hub transfers rotor torque to the main shaft. The three blade shapes here are simplified, not aerodynamic design profiles.',
+      },
+      {
+        id: 'tower',
+        name: 'Tower & foundation',
+        level: 0,
+        role: 'The tower raises the rotor into the wind and carries the nacelle and rotor loads to the foundation.',
+        connection:
+          'The yaw bearing connects the tower top to the nacelle. Electrical cables run down the tower to power-conversion and collection equipment.',
+      },
+      {
+        id: 'housing',
+        name: 'Nacelle enclosure',
+        level: 1,
+        role: 'The protective housing shelters drivetrain and auxiliary equipment from the weather.',
+        connection:
+          'Panels are lifted away in this teaching view. They are not doors that open during normal generation.',
+      },
+      {
+        id: 'shaft',
+        name: 'Low-speed main shaft',
+        level: 1,
+        role: 'The main shaft carries high torque from the slowly rotating rotor toward the gearbox.',
+        connection:
+          'Main bearings support the shaft. Internal shaft sections are concealed inside the illustrated bearing housings.',
+      },
+      {
+        id: 'bearing',
+        name: 'Main bearings',
+        level: 1,
+        role: 'Bearing assemblies support the rotating shaft and transfer mechanical loads into the bedplate.',
+        connection:
+          'Their housings sit on pedestals. Bearings allow shaft rotation while the surrounding structure remains stationary.',
+      },
+      {
+        id: 'gearbox',
+        name: 'Gearbox',
+        level: 1,
+        role: 'The gearbox increases rotational speed and reduces torque for the generator-side shaft, with mechanical losses.',
+        connection:
+          'This figure shows its outer housing, not individual gear teeth. Direct-drive turbines connect their rotor to a generator without this stage.',
+      },
+      {
+        id: 'coupling',
+        name: 'High-speed shaft',
+        level: 1,
+        role: 'The generator-side shaft transmits torque from the gearbox output.',
+        connection:
+          'Couplings accommodate the mechanical connection to the generator. Expanded gaps reveal this connection path.',
+      },
+      {
+        id: 'brake',
+        name: 'Mechanical brake',
+        level: 1,
+        role: 'A disc and caliper provide mechanical braking or holding as part of the turbine’s control and safety design.',
+        connection:
+          'This example places the brake on the high-speed side. Blade pitch also plays a major role in controlling and stopping the rotor.',
+      },
+      {
+        id: 'generator',
+        name: 'Generator',
+        level: 1,
+        role: 'Electromagnetic interaction converts mechanical rotation into electrical power.',
+        connection:
+          'Power electronics and a transformer condition the output for the collection network; these downstream systems are outside this nacelle detail.',
+      },
+      {
+        id: 'yaw',
+        name: 'Yaw bearing & bedplate',
+        level: 1,
+        role: 'The bedplate supports the drivetrain. The yaw system changes the nacelle heading to face the wind.',
+        connection:
+          'The yaw bearing sits at the tower top. Yaw motors and gearing are omitted from this simplified cutaway.',
+      },
+      {
+        id: 'cooling',
+        name: 'Cooling equipment',
+        level: 1,
+        role: 'Thermal-management equipment removes heat produced by mechanical and electrical losses.',
+        connection:
+          'Actual turbines may combine liquid loops, oil cooling and air heat exchangers. The housing shown is a representative cooling unit.',
+      },
+      {
+        id: 'sensors',
+        name: 'Wind sensing',
+        level: 1,
+        role: 'Wind-direction and wind-speed measurements support turbine control.',
+        connection:
+          'The roof-mounted vane represents wind sensing here. The controller uses wind and equipment measurements to coordinate yaw, pitch and generation.',
+      },
+    ],
+  },
+}
+
+const cabinetEnglish = {
+  title: 'BESS Container Explorer',
+  subtitle: 'A closer look at a utility-scale AC block.',
+  loading: 'Preparing the container…',
+  context: 'HEALTHY SYSTEM · STRUCTURE EXPLORER',
+  reference: 'PowerTitan 2.0 architecture reference',
+  note: 'Educational cutaway inspired by PowerTitan 2.0. Layout, rack and cell counts are illustrative; this is not manufacturer CAD. Ratings describe the whole BESS unit.',
+  enclosure: 'Enclosure',
+  systems: 'Internal systems',
+  module: 'Battery module',
+  cells: 'Cell layers',
+  reveal: 'Reveal cell layers',
+  reassemble: 'Reassemble module',
+  rack: 'Rack',
+  rackSelection: 'Choose a rack to extract its top module',
+  moving: 'Moving layers…',
+  stageStatus: ['Modules seated', 'Module extracted', 'Cell layers expanded'],
+  extractHint: 'Click the extracted module to reveal cells',
+  extractedBattery: {
+    name: 'An extracted battery module',
+    short: 'Battery module',
+    kicker: '02 / RACK-TO-MODULE',
+    body: 'The top example module slides forward from the selected rack. It remains assembled: a protective cover encloses the cells, with a cold plate and support tray underneath.',
+    items: ['Protective module cover', 'Cell array inside', 'Cold plate & support tray'],
+    connection:
+      'Reveal the cell layers to lift the cover, separate the representative cells and monitoring board, and expose the cold plate. This motion explains the hierarchy; it is not a servicing procedure.',
+  },
+  labelsHeading: 'Module components',
+  cellLabel: 'Cell',
+  cellHint: 'Click a cell in the drawing to open its cutaway.',
+  cellContext: 'Representative cell · top example module',
+  cell: {
+    name: 'Battery cell',
+    short: 'Prismatic cell',
+    kicker: 'CELL / ENERGY STORAGE',
+    body: 'A cell is the basic electrochemical energy-storage unit. During charging it stores energy chemically; during discharging it supplies DC electrical energy to the connected circuit.',
+    items: [
+      'Electrodes and electrolyte store and release energy',
+      'Positive and negative terminals carry current',
+      'A prismatic housing contains the cell assembly',
+    ],
+    connection:
+      'Cells are interconnected to form a module. Monitoring electronics measure cell voltage and temperature for the BMS, while heat passes toward the cold plate. The visible terminals are schematic; this view does not specify wiring, capacity or live measurements.',
+  },
+  moduleDetails: {
+    cover: {
+      name: 'Protective module cover',
+      short: 'Module cover',
+      kicker: 'MODULE / ENCLOSURE',
+      body: 'The cover encloses the cell assembly and helps protect internal components from accidental contact. It lifts away in this educational view to reveal the module layers.',
+      items: ['Top cover and side panels', 'Module front face', 'Handling feature'],
+      connection:
+        'The cover belongs to the module housing. It does not store energy or convert electrical power.',
+    },
+    cells: {
+      name: 'Battery cell array',
+      short: 'Battery cells',
+      kicker: 'MODULE / CELL ARRAY',
+      body: 'These representative prismatic cells form the energy-storage core of the module. Click a cell in the drawing to open its cutaway.',
+      items: ['Twelve representative cells', 'Top terminal surfaces', 'Individual cell selection'],
+      connection:
+        'Electrical interconnects combine cells into a module. Cell count and placement are illustrative and do not define a manufacturer-specific series or parallel arrangement.',
+    },
+    board: {
+      name: 'Module monitoring board',
+      short: 'Monitoring board',
+      kicker: 'MODULE / BMS SENSING',
+      body: 'The monitoring board acquires cell measurements and passes information to the battery management system. It represents the module-level sensing electronics.',
+      items: [
+        'Cell-voltage acquisition',
+        'Temperature sensor inputs',
+        'Communication with the BMS',
+      ],
+      connection:
+        'Sensing leads connect cells and sensors to this board; those leads are omitted here. The board monitors the battery and does not perform AC/DC conversion.',
+    },
+    terminal: {
+      name: 'DC terminal interface',
+      short: 'DC terminals',
+      kicker: 'MODULE / ELECTRICAL INTERFACE',
+      body: 'This covered interface represents the module connection to the battery rack DC circuit. Conductors carry charging and discharging current through the connection.',
+      items: [
+        'Module connection point',
+        'Insulating terminal cover',
+        'Bidirectional DC current path',
+      ],
+      connection:
+        'The module DC path continues through rack connections and protection toward the PCS. Internal busbars and wiring are omitted from this illustration.',
+    },
+    coldplate: {
+      name: 'Liquid-cooling cold plate',
+      short: 'Cold plate',
+      kicker: 'MODULE / HEAT REMOVAL',
+      body: 'The cold plate provides a thermal path beneath the cells. Coolant circulating through internal channels carries heat toward the liquid-cooling unit.',
+      items: [
+        'Heat-transfer surface',
+        'Internal coolant channels',
+        'Connection to the cooling circuit',
+      ],
+      connection:
+        'Heat travels from the cells through their thermal interface to the plate. Coolant ports, channels and pipework are not drawn in this simplified view.',
+    },
+    tray: {
+      name: 'Module support tray',
+      short: 'Support tray',
+      kicker: 'MODULE / MECHANICAL SUPPORT',
+      body: 'The tray provides a mechanical base for the module assembly and supports the layers above it inside the rack.',
+      items: ['Structural base', 'Support for the module layers', 'Rack mounting interface'],
+      connection:
+        'The tray holds the module assembly in position. It is shown separately from the cold plate to distinguish mechanical support from heat removal.',
+    },
+  },
+  cellView: 'Single-cell cutaway',
+  openCell: 'Open cell cutaway',
+  backToModule: 'Back to module',
+  expandCell: 'Expand cell',
+  assembleCell: 'Reassemble cell',
+  cellMaterials: 'Cell materials',
+  cellDiagram:
+    'Exploded prismatic lithium-ion cell with electrodes, separator and electrolyte. Use the material buttons for keyboard navigation.',
+  cellCutawayHint: 'Drag to rotate · scroll to zoom · click to inspect',
+  camera: {
+    title: 'Cell camera',
+    hint: 'Drag to rotate · scroll to zoom',
+    out: 'Zoom out',
+    in: 'Zoom in',
+    reset: 'Reset view',
+    help: 'Drag with the mouse to rotate; scroll to zoom at the pointer. Arrow keys rotate, plus and minus zoom, Home resets the front view.',
+  },
+  cellStructureNote:
+    'One representative electrode pair. Thicknesses and pores are enlarged. Electrolyte wets the porous electrodes and separator; it is not a separate solid layer.',
+  cellReference: 'Battery science reference',
+  internalParts: {
+    positive: {
+      name: 'Cathode · Positive electrode',
+      short: 'Cathode (+)',
+      kicker: 'CELL / POSITIVE ELECTRODE',
+      body: 'The positive electrode accepts lithium ions during discharge and releases them during charging.',
+      items: ['Lithium-containing active material', 'Metal current collector'],
+      connection:
+        'Ions arrive through the electrolyte; electrons arrive through the external circuit. Cathode and anode names here follow the discharge convention.',
+    },
+    negative: {
+      name: 'Anode · Negative electrode',
+      short: 'Anode (−)',
+      kicker: 'CELL / NEGATIVE ELECTRODE',
+      body: 'The negative electrode stores lithium during charging and releases it during discharge. Graphite is a common active material.',
+      items: ['Lithium-storage active material', 'Metal current collector'],
+      connection:
+        'During discharge, lithium ions enter the electrolyte while electrons travel through the external circuit.',
+    },
+    separator: {
+      name: 'Porous separator',
+      short: 'Separator',
+      kicker: 'CELL / ELECTRICAL SEPARATION',
+      body: 'The separator keeps the electrodes from touching while allowing lithium ions to pass through electrolyte-filled pores.',
+      items: ['Electrically insulating membrane', 'Microscopic pores'],
+      connection:
+        'It blocks direct electronic contact between electrodes. The enlarged dots represent pores, not their real size or arrangement.',
+    },
+    electrolyte: {
+      name: 'Electrolyte',
+      short: 'Electrolyte',
+      kicker: 'CELL / ION TRANSPORT',
+      body: 'The electrolyte carries lithium ions between the electrodes. It wets the porous electrodes and separator.',
+      items: ['Ion-conducting medium', 'Liquid within the porous structure'],
+      connection:
+        'The muted blue-grey tint marks wetted surfaces. It does not represent a separate sheet; electrons travel through the external circuit.',
+    },
+  },
+  flow: {
+    title: 'Charge transport',
+    mode: 'Charge or discharge',
+    pause: 'Pause flow',
+    play: 'Play flow',
+    ions: 'Li⁺ · Lithium ions',
+    electrons: 'e⁻ · Electrons',
+    ionSymbol: 'Li⁺',
+    electronSymbol: 'e⁻',
+    external: 'External circuit · electron flow',
+    note: 'Illustrative loop; no live SOC or particle-speed scale. Arrows show electron flow, opposite to conventional current.',
+    reduced:
+      'Reduced motion: static particles and direction arrows. Electron flow is opposite to conventional current.',
+    expand:
+      'Expand the cell to see the transport paths. Electron flow is opposite to conventional current.',
+    discharge: {
+      label: 'Discharge',
+      device: 'Load',
+      ions: 'Negative → positive, through the electrolyte and separator pores.',
+      electrons:
+        'Negative → external load → positive, delivering electrical energy. Electrons do not cross the separator.',
+    },
+    charge: {
+      label: 'Charge',
+      device: 'DC source',
+      ions: 'Positive → negative, through the electrolyte and separator pores; lithium is stored in the negative electrode.',
+      electrons:
+        'The source draws electrons from the positive electrode and supplies them to the negative electrode, storing energy.',
+    },
+  },
+  views: 'Viewing level',
+  components: 'Explore components',
+  dark: 'Dark drawing',
+  light: 'Light drawing',
+  tour: 'Component tour',
+  stopTour: 'Pause tour',
+  hint: 'Click a battery rack to extract its top module',
+  moduleHint: 'Click a cell to look inside',
+  assembledHint: 'Click the enclosure to look inside',
+  open: 'Remove enclosure',
+  inspect: 'Inspect a battery module',
+  back: 'Back to systems',
+  contains: 'WHAT YOU ARE LOOKING AT',
+  role: 'HOW IT CONNECTS',
+  design: 'Design context',
+  rating: 'Unit rating',
+  duration: 'Nominal duration',
+  hours: '2 hours',
+  format: 'Container format',
+  feet: '20 ft class',
+  figure: 'FIG. 01',
+  moduleFigure: 'FIG. 02',
+  diagram: 'Isometric storage container. Use the component buttons for keyboard navigation.',
+  moduleDiagram:
+    'Battery module cutaway with representative cells, a cold plate and monitoring electronics.',
+  moduleBattery: {
+    name: 'Inside a battery module',
+    short: 'Battery cells',
+    kicker: '02 / CELL-TO-MODULE',
+    body: 'This lid-off detail reveals representative prismatic cells. Their terminals sit on top, with a monitoring board alongside and a cold plate underneath. Cell count and arrangement are illustrative.',
+    items: ['Cells & terminal surfaces', 'Module monitoring board', 'Cold plate & support tray'],
+    connection:
+      'In a real module, electrical interconnects join the cells and sensing leads feed the monitoring board. Those internal connections are omitted here; no series or parallel configuration is implied.',
+  },
+  parts: {
+    enclosure: {
+      name: 'Container enclosure',
+      short: 'Enclosure',
+      kicker: '01 / STRUCTURE',
+      body: 'The weather-protective enclosure brings batteries, power conversion and service equipment into one AC storage block. The long service face provides access to the rack bays.',
+      items: ['Structural frame', 'Service doors', 'Separated compartments'],
+      connection:
+        'The AC output connects to external collection and transformer equipment. The station transformer is outside this illustration.',
+    },
+    battery: {
+      name: 'Battery racks & modules',
+      short: 'Battery racks',
+      kicker: '02 / ENERGY STORAGE',
+      body: 'Cells store energy electrochemically. Cells are assembled into modules, and modules form battery racks. Repeated drawers here show that hierarchy, not the exact product configuration.',
+      items: ['Prismatic cells', 'Battery modules', 'Rack supports'],
+      connection:
+        'Each rack connects through DC protection to its associated string PCS. Cold plates remove heat from the battery modules.',
+    },
+    bms: {
+      name: 'Battery Management System',
+      short: 'BMS',
+      kicker: '03 / MONITORING',
+      body: 'Distributed monitoring electronics collect cell voltage and temperature information. Rack and system controllers use these measurements for battery supervision, balancing and operating limits.',
+      items: ['Module acquisition board', 'Rack controller', 'Communication links'],
+      connection:
+        'The BMS shares battery state and permissible charging or discharging limits with the PCS and supervisory controller. It does not perform AC/DC conversion.',
+    },
+    protection: {
+      name: 'DC connection & protection',
+      short: 'DC protection',
+      kicker: '04 / ELECTRICAL CONNECTION',
+      body: 'The DC interface connects a battery rack to power conversion equipment. Switching, isolation and protective devices are grouped around this connection.',
+      items: ['DC terminals & busbars', 'Fuses & switching devices', 'Electrical monitoring'],
+      connection:
+        'Power passes through the DC connection on its way between batteries and PCS. Small terminal covers represent the connection points in the module view.',
+    },
+    pcs: {
+      name: 'Power Conversion System',
+      short: 'String PCS',
+      kicker: '05 / BIDIRECTIONAL CONVERSION',
+      body: 'The PCS converts AC to DC while charging, and DC to AC while discharging. The reference architecture associates a string PCS with each battery rack, rather than relying on one central converter.',
+      items: ['Power electronics', 'Converter controller', 'Thermal & electrical interfaces'],
+      connection:
+        'Rack-side DC becomes AC for the collection circuit. The illustrated lower converter blocks identify the function; their positions are schematic.',
+    },
+    cooling: {
+      name: 'Liquid cooling system',
+      short: 'Liquid cooling',
+      kicker: '06 / THERMAL MANAGEMENT',
+      body: 'A liquid cooling unit conditions coolant and circulates it through distribution lines and module cold plates. Heat leaves the battery through the cold plate rather than through the electrical terminals.',
+      items: ['Liquid cooling unit', 'Pump & distribution circuit', 'Module cold plates'],
+      connection:
+        'The service-bay unit and the thin plates beneath the drawers belong to the same thermal system. Internal plumbing is omitted in this simplified cutaway.',
+    },
+    safety: {
+      name: 'Fire detection & safety',
+      short: 'Fire & safety',
+      kicker: '07 / SYSTEM SAFETY',
+      body: 'Detection, fire-control equipment and compartment separation form part of the system safety design. Small sensor heads and a control panel identify these functions in a healthy system.',
+      items: ['Detection sensors', 'Fire-control panel', 'Compartment separation'],
+      connection:
+        'Detection and safety controls coordinate with the storage equipment. Suppression and venting arrangements depend on the selected product and project configuration.',
+    },
+    auxiliary: {
+      name: 'Auxiliary power & communication',
+      short: 'Auxiliary systems',
+      kicker: '08 / SUPPORT SERVICES',
+      body: 'Auxiliary distribution powers control and service equipment. Local controllers and network devices exchange operating information with the station-level energy management system.',
+      items: ['Control power supply', 'Backup control power', 'Communication gateway'],
+      connection:
+        'The station EMS schedules charging and discharging; the BMS supervises the batteries and the PCS converts power. The station EMS is outside this container view.',
+    },
+  },
+}
+
+export type RenewableCopy = typeof renewableEnglish
+export type CabinetCopy = typeof cabinetEnglish
 
 const zh = {
+  cabinet: cabinetChinese,
+  renewables: renewableChinese,
+  hub: {
+    title: '设备内部探索',
+    count: '3 个探索器',
+    sub: '拆开储能集装箱、光伏组件和风机，看电是怎么发出来、存起来的。',
+    show: '展开设备探索',
+    hide: '收起',
+    enter: '进入探索',
+    items: {
+      container: {
+        name: '储能集装箱',
+        desc: '外壳 → 电池簇 → 模组 → 电芯，含充放电离子流动画',
+      },
+      pv: { name: '光伏组件', desc: '层压结构 → 电芯 PN 结，含光生发电动画' },
+      wind: { name: '风力发电机', desc: '机舱 → 齿轮箱 → 发电机，含传动与发电动画' },
+    },
+  },
+  exploreInside: '查看集装箱内部',
+  exploreEquipment: '探索设备内部',
   brandSub: '源网荷储数字孪生',
   site: '风光储综合园区',
   simBadge: '仿真演示',
@@ -91,7 +739,11 @@ const zh = {
     temp: '电池温度',
     soh: '健康度 SOH',
     available: '可用放电能力',
-    voltage: '电压等级',
+    voltage: '额定电压',
+    connectionVoltage: '并网侧额定电压',
+    voltageNote: '交流额定电压等级；当前仿真不计算运行电压。',
+    storageVoltageNote: '35 kV 为升压后的接入母线等级，并非电池直流或 PCS 端电压。',
+    voltageSidesNote: '斜线分隔设备两侧的额定电压，不表示实时电压变化。',
     rating: '额定配置',
     output: '实际出力',
     dcPotential: '直流可用功率',
@@ -263,6 +915,32 @@ const zh = {
 export type Dict = typeof zh
 
 const en: Dict = {
+  cabinet: cabinetEnglish,
+  renewables: renewableEnglish,
+  hub: {
+    title: 'Inside the equipment',
+    count: '3 explorers',
+    sub: 'Open up the storage container, a solar module and a wind turbine to see how energy is made and stored.',
+    show: 'Show equipment explorers',
+    hide: 'Hide',
+    enter: 'Explore',
+    items: {
+      container: {
+        name: 'BESS container',
+        desc: 'Enclosure → racks → module → cell, with charge/discharge ion flow',
+      },
+      pv: {
+        name: 'Solar module',
+        desc: 'Laminate layers → cell junction, with photovoltaic generation',
+      },
+      wind: {
+        name: 'Wind turbine',
+        desc: 'Nacelle → gearbox → generator, with drivetrain animation',
+      },
+    },
+  },
+  exploreInside: 'Explore inside',
+  exploreEquipment: 'Explore inside',
   brandSub: 'Source · Grid · Load · Storage',
   site: 'Hybrid Energy Park',
   simBadge: 'Simulation',
@@ -341,7 +1019,13 @@ const en: Dict = {
     temp: 'Cell temperature',
     soh: 'State of health',
     available: 'Available discharge',
-    voltage: 'Voltage',
+    voltage: 'Nominal voltage',
+    connectionVoltage: 'Nominal grid connection',
+    voltageNote: 'Nominal AC levels; operating voltage is not simulated.',
+    storageVoltageNote:
+      '35 kV is the bus connection after step-up, not the battery DC or PCS terminal voltage.',
+    voltageSidesNote:
+      'The slash separates the two sides of the equipment, not changes in operating voltage.',
     rating: 'Rating',
     output: 'Output',
     dcPotential: 'DC potential',

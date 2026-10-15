@@ -4,6 +4,7 @@ import { NODES } from '../domain/topology'
 import type { NodeId, NodeKind, Snapshot } from '../domain/types'
 import { useI18n } from '../i18n'
 import type { Selection } from '../components/scene/shared'
+import { VoltageInfo } from './VoltageInfo'
 import { kindIcon } from './DetailCard'
 import { TONE, modeText, modeTone, mw, unitMode } from './format'
 
@@ -88,7 +89,6 @@ export function DeviceList({
               </span>
               <span className="device-name">
                 <strong>{l(n.name)}</strong>
-                <small>{n.voltage}</small>
               </span>
               <span className="pill sm" style={{ ['--tone' as string]: st.tone }}>
                 {st.text}
@@ -102,6 +102,7 @@ export function DeviceList({
                 )}
               </span>
               <ChevronRight size={14} className="chev" />
+              <VoltageInfo selection={n.id} compact />
             </button>
           )
         })}

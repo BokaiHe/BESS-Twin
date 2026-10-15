@@ -25,8 +25,11 @@ import { Timeline } from './ui/Timeline'
 import { Modal } from './ui/Modal'
 import { SavingsPanel } from './ui/SavingsPanel'
 import { GuidedTour } from './ui/GuidedTour'
+import { ExplorerHub } from './ui/ExplorerHub'
 import { TONE, clusterMode, modeText, modeTone, mw } from './ui/format'
 
+const ContainerExplorer = lazy(() => import('./components/cabinet/ContainerExplorer'))
+const RenewableExplorer = lazy(() => import('./components/renewables/RenewableExplorer'))
 const EnergyScene = lazy(() => import('./components/EnergyScene'))
 
 class SceneBoundary extends Component<
@@ -58,17 +61,32 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
   const [playing, setPlaying] = useState(false)
   const [speed, setSpeed] = useState(30)
   const [touring, setTouring] = useState(false)
-  const [selected, setSelected] = useState<Selection | null>('bess-cluster')
+  const [selected, setSelected] = useState<Selection | null>(null)
   const [focus, setFocus] = useState<{ key: Focus; serial: number }>({ key: 'overview', serial: 0 })
   const [zoomCmd, setZoomCmd] = useState<{ dir: 1 | -1; serial: number }>({ dir: 1, serial: 0 })
   const [autoRotate, setAutoRotate] = useState(false)
-  const [modal, setModal] = useState<'about' | 'savings' | 'alarms' | null>(null)
+  const [modal, setModal] = useState<
+    'about' | 'savings' | 'alarms' | 'container' | 'pv' | 'wind' | null
+  >(null)
   const [reducedMotion, setReducedMotion] = useState(false)
   const tourReturn = useRef<{ selected: Selection | null; rotate: boolean; focus: Focus }>({
     selected: null,
     rotate: false,
     focus: 'overview',
   })
+
+  useEffect(() => {
+    // Old preview bookmarks now land on the site overview, too.
+    const url = new URL(window.location.href)
+    if (url.searchParams.get('view') === 'container') {
+      url.searchParams.delete('view')
+      window.history.replaceState(
+        window.history.state,
+        '',
+        `${url.pathname}${url.search}${url.hash}`,
+      )
+    }
+  }, [])
 
   useEffect(() => {
     document.title =
@@ -303,6 +321,7 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
         <SceneBoundary fallback={t.noWebgl}>
           <Suspense fallback={<div className="scene-fallback">{t.sceneLoading}</div>}>
             <EnergyScene
+              paused={modal === 'container' || modal === 'pv' || modal === 'wind'}
               snapshot={snapshot}
               clock={clock}
               scenario={scenario}
@@ -332,6 +351,13 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
 
         <div className="left-col">
           <KpiStrip snapshot={snapshot} onSavings={() => setModal('savings')} />
+          <ExplorerHub
+            onOpen={(kind) => {
+              setPlaying(false)
+              setTouring(false)
+              setModal(kind)
+            }}
+          />
           {alarm && (
             <button
               className={`card alarm-toast ${alarm.severity}`}
@@ -390,6 +416,13 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
               selection={selected}
               snapshot={snapshot}
               onSelect={select}
+              onInspect={() => {
+                setPlaying(false)
+                setTouring(false)
+                setModal(
+                  selected === 'pv' ? 'pv' : selected.startsWith('wind-') ? 'wind' : 'container',
+                )
+              }}
               onClose={() => {
                 setSelected(null)
                 flyTo('overview')
@@ -448,6 +481,24 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
 
       {touring && <GuidedTour onClose={closeTour} onFocus={focusTour} />}
 
+      {modal === 'container' && (
+        <Modal title={t.cabinet.title} className="container-modal" onClose={() => setModal(null)}>
+          <Suspense fallback={<p>{t.cabinet.loading}</p>}>
+            <ContainerExplorer />
+          </Suspense>
+        </Modal>
+      )}
+      {(modal === 'pv' || modal === 'wind') && (
+        <Modal
+          title={t.renewables[modal].title}
+          className="renewable-modal"
+          onClose={() => setModal(null)}
+        >
+          <Suspense fallback={<p>{t.renewables.loading}</p>}>
+            <RenewableExplorer key={modal} kind={modal} />
+          </Suspense>
+        </Modal>
+      )}
       {modal === 'about' && (
         <Modal title={t.about} onClose={() => setModal(null)}>
           {t.aboutBody.map((p) => (

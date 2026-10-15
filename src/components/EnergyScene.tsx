@@ -41,6 +41,8 @@ import {
 } from './scene/models'
 
 export interface SceneProps {
+  /** Retain the scene while an opaque explorer covers it, rendering only changes. */
+  paused?: boolean
   snapshot: Snapshot
   /** Fractional minute, advanced every animation frame during playback (visual only). */
   clock: MutableRefObject<number>
@@ -563,7 +565,11 @@ function World(props: SceneProps) {
         )
       })}
       {selected && <Brackets selection={selected} />}
-      <CameraRig focus={props.focus} zoomCmd={props.zoomCmd} autoRotate={props.autoRotate} />
+      <CameraRig
+        focus={props.focus}
+        zoomCmd={props.zoomCmd}
+        autoRotate={props.autoRotate && !props.paused}
+      />
     </>
   )
 }
@@ -573,6 +579,7 @@ export default function EnergyScene(props: SceneProps) {
   return (
     <>
       <Canvas
+        frameloop={props.paused ? 'demand' : 'always'}
         shadows={{ type: PCFShadowMap }}
         orthographic
         camera={{

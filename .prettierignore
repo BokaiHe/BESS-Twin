@@ -5,3 +5,10 @@ playwright-report
 package-lock.json
 *.tsbuildinfo
 docs/screenshots
+
+scripts/anatomy-kit/
+src/components/cabinet/geometry.ts
+src/components/cabinet/iso.css
+
+src/components/cabinet/cellGeometry.ts
+src/components/renewables/geometry.json

@@ -7,21 +7,31 @@ export function Modal({
   children,
   onClose,
   wide = false,
+  className = '',
 }: {
   title: string
   children: ReactNode
   onClose: () => void
   wide?: boolean
+  className?: string
 }) {
   const dialog = useRef<HTMLDialogElement>(null)
   const { t } = useI18n()
   useEffect(() => {
-    dialog.current?.showModal()
+    const element = dialog.current
+    const previous = document.activeElement
+    element?.showModal()
+    return () => {
+      element?.close()
+      if (previous instanceof HTMLElement && previous.isConnected)
+        previous.focus({ preventScroll: true })
+    }
   }, [])
   return (
     <dialog
       ref={dialog}
-      className={`modal${wide ? ' is-wide' : ''}`}
+      className={`modal${wide ? ' is-wide' : ''} ${className}`}
+      aria-label={title}
       onCancel={onClose}
       onClick={(e) => {
         if (e.target === dialog.current) onClose()

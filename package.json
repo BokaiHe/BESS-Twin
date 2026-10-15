@@ -17,7 +17,12 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "report": "node scripts/simulation-report.mjs",
-    "build:pages": "tsc -b && vite build --mode pages"
+    "build:pages": "tsc -b && vite build --mode pages",
+    "cabinet:build": "node scripts/build-cabinet.mjs --audit",
+    "cell:build": "node scripts/build-cell.mjs --audit",
+    "cell:orbit-audit": "node scripts/audit-cell-orbit.mjs",
+    "renewables:build": "node scripts/build-renewables.mjs --audit",
+    "explorers:previews": "node scripts/capture-explorer-previews.mjs"
   },
   "dependencies": {
     "@react-three/drei": "10.7.9",

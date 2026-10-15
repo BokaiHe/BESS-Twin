@@ -17,6 +17,7 @@ import { BESS_IDS, EDGES, NODE_BY_ID, connectedEdgeIds } from '../domain/topolog
 import type { NodeId, NodeKind, Snapshot } from '../domain/types'
 import { useI18n } from '../i18n'
 import type { Selection } from '../components/scene/shared'
+import { VoltageInfo } from './VoltageInfo'
 import { TONE, clusterMode, modeText, modeTone, mw, priceText, unitMode } from './format'
 
 const KIND_ICON: Record<NodeKind, typeof Sun> = {
@@ -147,11 +148,13 @@ export function DetailCard({
   snapshot,
   onSelect,
   onClose,
+  onInspect,
 }: {
   selection: Selection
   snapshot: Snapshot
   onSelect: (s: Selection) => void
   onClose: () => void
+  onInspect: () => void
 }) {
   const { t, l, lang } = useI18n()
   const m = snapshot.metrics
@@ -228,7 +231,6 @@ export function DetailCard({
     const rowsBase = (
       <>
         <Row label={t.detail.rating}>{l(node.rating)}</Row>
-        <Row label={t.detail.voltage}>{node.voltage}</Row>
       </>
     )
     if (node.kind === 'bess') {
@@ -383,7 +385,32 @@ export function DetailCard({
           <X size={15} />
         </button>
       </header>
-      <div className="detail-body">{body}</div>
+      <div className="detail-body">
+        <VoltageInfo selection={selection} />
+        {(selection === 'bess-cluster' ||
+          selection.startsWith('bess-') ||
+          selection === 'pv' ||
+          selection.startsWith('wind-')) && (
+          <button className="container-entry" onClick={onInspect}>
+            <span aria-hidden="true">
+              {selection === 'pv' ? (
+                <Sun size={18} />
+              ) : selection.startsWith('wind-') ? (
+                <Wind size={18} />
+              ) : (
+                <BatteryCharging size={18} />
+              )}
+            </span>
+            <span>
+              {selection === 'pv' || selection.startsWith('wind-')
+                ? t.exploreEquipment
+                : t.exploreInside}
+            </span>
+            <span aria-hidden="true">↗</span>
+          </button>
+        )}
+        {body}
+      </div>
     </aside>
   )
 }
