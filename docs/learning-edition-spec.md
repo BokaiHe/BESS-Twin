@@ -118,6 +118,8 @@ interface StorageTankProps {
   - `ratedMW = 0`：水管画成关闭状态，算式显示 “无法充放电”；
   - 两者都为 0：只显示一句说明。
 
+实现补充（第 2 步）：`StorageTankProps` 使用判别联合。快照模式传入 `storedMWh` 和 `flowMW`；草稿模式传 `preview: true`，类型上禁止同时传入这两项，避免显示旧数据。草稿斜线带仅表示 SOC 可用区间。固定视觉标尺读取参数规则上限（80 MWh、20 MW），极小尺寸保留最小可见值。`LazyStorageTank` 负责按需加载，纯计算位于 `src/learning/tank.ts`。水面和虚线动画只表达方向与相对速度，不积分电量；暂停按钮与减少动态效果设置均可停止循环，静态箭头和读数保留。时长按全部铭牌容量计算，额定管径不表示故障后的可用功率。
+
 ### 2.3 接入点
 
 1. **储能总览详情卡**（`DetailCard.tsx`，`selection === 'bess-cluster'`）：放在 SOC 环下方，读取当前快照，随时间轴实时变化。

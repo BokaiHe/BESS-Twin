@@ -1,0 +1,185 @@
+.storage-tank {
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid #dbe6f2;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #f7fbff, #f1f7fc);
+  color: var(--text-2);
+  font-size: 12px;
+  min-width: 0;
+}
+.tank-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 28px;
+  gap: 8px;
+  color: var(--text);
+}
+.tank-pause {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid #cad9ed;
+  border-radius: 8px;
+  background: #fff;
+  flex-shrink: 0;
+}
+.tank-caption {
+  color: #63748a;
+  font-size: 11px;
+}
+.tank-drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 4px 0;
+  overflow: visible;
+}
+.tank-drawing text {
+  fill: #475569;
+  font: 12px var(--font);
+}
+.tank-drawing .tank-capacity {
+  font-weight: 650;
+  fill: #224b81;
+}
+.tank-shell {
+  stroke: #6990b5;
+  stroke-width: 1.5;
+  fill: #ffffff90;
+  transition: width 240ms ease;
+}
+.tank-water {
+  transition:
+    y 300ms ease,
+    height 300ms ease,
+    width 240ms ease;
+}
+.tank-surface {
+  stroke: #089bb6;
+  stroke-width: 1.5;
+  fill: none;
+}
+.tank-bound line {
+  stroke: #70879c;
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+}
+.tank-pipe {
+  stroke: #bfd3e8;
+  stroke-linejoin: round;
+}
+.tank-pipe-core {
+  stroke: #edf5fc;
+  stroke-linejoin: round;
+  transition: stroke-width 240ms ease;
+}
+.tank-original {
+  stroke: #8492a8;
+  stroke-dasharray: 4 4;
+  fill: none;
+  opacity: 0.8;
+}
+.tank-original rect {
+  fill: none;
+  stroke-width: 1.5;
+}
+.tank-flow {
+  stroke: #0a9fb8;
+  stroke-dasharray: 5 6;
+  stroke-linecap: round;
+}
+.tank-moving .tank-flow {
+  animation: tank-flow var(--tank-duration) linear infinite;
+}
+.tank-moving .tank-surface {
+  animation: tank-wave 2.4s linear infinite;
+}
+.storage-tank[data-direction='charging'] .tank-flow {
+  animation-direction: reverse;
+}
+.storage-tank[data-paused='true'] .tank-flow,
+.storage-tank[data-paused='true'] .tank-surface {
+  animation-play-state: paused;
+}
+.tank-arrow {
+  fill: none;
+  stroke: #1c678d;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.tank-valve {
+  stroke: #66788d;
+  stroke-width: 2;
+  fill: #fff;
+}
+.tank-state {
+  color: #215875;
+  font-weight: 650;
+}
+.tank-reading,
+.tank-range {
+  margin-top: 4px;
+  overflow-wrap: anywhere;
+}
+.tank-equation {
+  margin-top: 8px;
+  color: #23416b;
+}
+.tank-equation span {
+  display: block;
+  font-size: 10px;
+  color: #63748a;
+}
+.tank-reference {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 11px;
+}
+.tank-reference i {
+  width: 18px;
+  border-top: 2px dashed #8492a8;
+  flex-shrink: 0;
+}
+.tank-explanation {
+  margin-top: 8px;
+  font-size: 11px;
+}
+.tank-explanation summary {
+  cursor: pointer;
+  color: #34577c;
+}
+.tank-explanation p {
+  margin-top: 6px;
+  line-height: 1.6;
+}
+@keyframes tank-flow {
+  to {
+    stroke-dashoffset: -22;
+  }
+}
+@keyframes tank-wave {
+  to {
+    /* A full wave period keeps the loop continuous. */
+    transform: translateX(48px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tank-moving .tank-flow,
+  .tank-moving .tank-surface {
+    animation: none;
+  }
+  .tank-shell,
+  .tank-water,
+  .tank-pipe-core {
+    transition: none;
+  }
+  .tank-pause {
+    display: none;
+  }
+}

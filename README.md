@@ -103,7 +103,7 @@ The fixed simulation date is `2026-06-18`, UTC+08:00; it is independent of the c
 
 The browser tests currently use the installed Microsoft Edge channel and start a test server on port 5178. On a machine without Edge, install that browser or change `channel` in `playwright.config.ts` to a browser available in your environment.
 
-The test suites contain **69 unit tests** and **60 browser flows**. Coverage includes scenario changes, deterministic seeking, the exact fault boundary, bill comparability, language persistence, all 13 walkthrough steps, equipment disassembly, battery transport, solar/wind generation animations and the explorer hub. See [verification notes](docs/verification.md) for results and known limitations.
+The test suites contain **75 unit tests** and **63 browser flows**. Coverage includes scenario changes, deterministic seeking, the exact fault boundary, bill comparability, language persistence, all 13 walkthrough steps, equipment disassembly, battery transport, solar/wind generation animations and the explorer hub. See [verification notes](docs/verification.md) for results and known limitations.
 
 ## Project structure
 
@@ -235,8 +235,16 @@ Underlined terms in the dashboard, storage details, voltage explanation, timelin
 
 The 35 definitions and popup layout load on first interaction. Keyboard focus or a click opens an explanation; Escape closes it and restores focus. Only one explanation is open at a time. On narrow screens, the card sits near the bottom of the viewport. This stage does not change simulation physics, introduce dependencies, or require browser storage.
 
-The reviewed implementation plan is in [the learning edition specification](docs/learning-edition-spec.md). The tank analogy, energy-flow chart, Learn hub, lessons and challenges remain later stages; the existing guided-tour entry is unchanged in this stage.
+The reviewed implementation plan is in [the learning edition specification](docs/learning-edition-spec.md). The energy-flow chart, Learn hub, lessons and challenges remain later stages; the existing guided-tour entry is unchanged in this stage.
 
 To compare learning-layer startup against a previous release, build both checkouts with `npm run build:pages`, then run `node scripts/check-learning-performance.mjs /path/to/baseline/dist`. The script serves both distributions locally, alternates fresh Edge contexts, checks the 15 KB initial-JavaScript gzip budget, and records visibility and warmed scenario-switch timings in `test-results/learning-performance.json`. Run it separately from the browser regression suite; the measurements are machine-specific.
 
 Preview this stage: [desktop glossary](docs/screenshots/learning-glossary.png) · [mobile explanation](docs/screenshots/learning-term-mobile.png). See [verification notes](docs/verification.md) and [performance samples](docs/learning-performance.json) for the exact test scope and measurement limits.
+
+## Learning edition: animated storage tank (local stage 2)
+
+Click the **BESS plant** label in the site to see a water-tank analogy beneath the SOC display. Tank width represents installed MWh, pipe thickness represents rated MW, and water level reads the selected minute's stored energy. At 10:00 on the sunny day the flow enters the tank; at 19:00 it leaves. The water surface and moving dashes are illustrative and can be paused; reduced-motion preferences retain a static level and direction arrows.
+
+Open **What if…** to resize the capacity-preview tank immediately with the storage sliders. The dashed outline retains the original proposal on the same fixed scale. The hatched SOC band is not a simulated water level: this draft intentionally does not reuse the previous result's energy while waiting for the worker. Zero power closes the pipe; zero capacity removes the tank. The formula shows nominal full-capacity duration, with actual usable duration subject to SOC, losses and available units.
+
+The SVG component and its styles load on demand. This stage changes no dispatch logic or dependencies. Preview: [snapshot tank](docs/screenshots/learning-tank-detail.png) · [parameter preview](docs/screenshots/learning-tank-preview.png) · [Chinese mobile explanation](docs/screenshots/learning-tank-mobile-zh.png).

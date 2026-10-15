@@ -1,3 +1,4 @@
+import { LazyStorageTank } from './learning/LazyStorageTank'
 import { Term } from './learning/Term'
 import { parameterTerms } from '../learning/termLinks'
 import { useEffect, useMemo, useState } from 'react'
@@ -261,6 +262,17 @@ export function DesignStudy({
               {c.pvAc}: {(proposal.pvDCMWp / 1.25).toFixed(1)} MWac
             </span>
           </div>
+          <LazyStorageTank
+            preview
+            capacityMWh={proposal.batteryMWh}
+            ratedMW={proposal.batteryMW}
+            socMinPct={proposal.socMinPct}
+            socMaxPct={proposal.socMaxPct}
+            compareTo={{
+              capacityMWh: original.parameters.batteryMWh,
+              ratedMW: original.parameters.batteryMW,
+            }}
+          />
           {fields((Object.keys(PARAMETER_RULES) as ParameterKey[]).slice(0, 9))}
           <details>
             <summary>{c.advanced}</summary>

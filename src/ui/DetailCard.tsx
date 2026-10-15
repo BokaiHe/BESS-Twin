@@ -1,3 +1,4 @@
+import { LazyStorageTank } from './learning/LazyStorageTank'
 import { Term } from './learning/Term'
 import {
   ArrowLeft,
@@ -201,6 +202,15 @@ export function DetailCard({
             </span>
           </div>
         </div>
+        <LazyStorageTank
+          size="sm"
+          capacityMWh={INSTALLED_MWH}
+          ratedMW={INSTALLED_MW}
+          storedMWh={m.storedMWh}
+          socMinPct={snapshot.parameters.socMinPct}
+          socMaxPct={snapshot.parameters.socMaxPct}
+          flowMW={m.batteryDischargeMW - m.batteryChargeMW}
+        />
         <div className="units">
           <h3>{t.detail.units}</h3>
           <div className="unit-grid">
