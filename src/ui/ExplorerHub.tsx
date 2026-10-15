@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowUpRight, ChevronDown, Layers3, X } from 'lucide-react'
 import { useI18n } from '../i18n'
 
@@ -14,14 +14,28 @@ const src = (kind: ExplorerKind) => `${import.meta.env.BASE_URL}explorers/${IMAG
 export function ExplorerHub({ onOpen }: { onOpen: (kind: ExplorerKind) => void }) {
   const { t } = useI18n()
   const [open, setOpen] = useState(false)
+  // Expanding/collapsing swaps the focused control, so hand focus to its counterpart:
+  // the first preview after expanding, the badge after collapsing. Skip the first render.
+  const badge = useRef<HTMLButtonElement>(null)
+  const firstTile = useRef<HTMLButtonElement>(null)
+  const toggled = useRef(false)
+  useEffect(() => {
+    if (!toggled.current) return
+    ;(open ? firstTile : badge).current?.focus({ preventScroll: true })
+  }, [open])
+  const toggle = (next: boolean) => {
+    toggled.current = true
+    setOpen(next)
+  }
 
   if (!open)
     return (
       <button
+        ref={badge}
         className="card hub-badge"
         aria-expanded={false}
         aria-label={t.hub.show}
-        onClick={() => setOpen(true)}
+        onClick={() => toggle(true)}
       >
         <span className="hub-thumbs" aria-hidden="true">
           {KINDS.map((k) => (
@@ -51,7 +65,7 @@ export function ExplorerHub({ onOpen }: { onOpen: (kind: ExplorerKind) => void }
           aria-expanded={true}
           aria-label={t.hub.hide}
           title={t.hub.hide}
-          onClick={() => setOpen(false)}
+          onClick={() => toggle(false)}
         >
           <X size={15} />
         </button>
@@ -60,6 +74,7 @@ export function ExplorerHub({ onOpen }: { onOpen: (kind: ExplorerKind) => void }
         {KINDS.map((k, i) => (
           <button
             key={k}
+            ref={i === 0 ? firstTile : undefined}
             className="hub-tile"
             style={{ animationDelay: `${i * 60}ms` }}
             onClick={() => onOpen(k)}

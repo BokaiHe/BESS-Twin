@@ -5,6 +5,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useLayoutEffect,
   useRef,
   useState,
   type ReactNode,
@@ -69,6 +70,27 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
     'about' | 'savings' | 'alarms' | 'container' | 'pv' | 'wind' | null
   >(null)
   const [reducedMotion, setReducedMotion] = useState(false)
+  // The left column may only use the height above the timeline and its legend, so the
+  // explorer hub can never slide underneath them (it scrolls internally instead).
+  const overlay = useRef<HTMLDivElement>(null)
+  const bottomRow = useRef<HTMLDivElement>(null)
+  useLayoutEffect(() => {
+    const root = overlay.current,
+      row = bottomRow.current
+    if (!root || !row) return
+    const update = () => {
+      const legend = row.querySelector<HTMLElement>('.legend-chip')
+      const legendSpace = legend && legend.offsetParent ? legend.offsetHeight + 8 : 0
+      const reserve =
+        root.getBoundingClientRect().bottom - row.getBoundingClientRect().top + legendSpace + 12
+      root.style.setProperty('--bottom-reserve', `${Math.round(reserve)}px`)
+    }
+    update()
+    const observer = new ResizeObserver(update)
+    observer.observe(row)
+    observer.observe(root)
+    return () => observer.disconnect()
+  }, [day])
   const tourReturn = useRef<{ selected: Selection | null; rotate: boolean; focus: Focus }>({
     selected: null,
     rotate: false,
@@ -338,7 +360,7 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
         </SceneBoundary>
       </div>
 
-      <div className="overlay">
+      <div className="overlay" ref={overlay}>
         <TopBar
           scenario={scenario}
           setScenario={changeScenario}
@@ -351,13 +373,6 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
 
         <div className="left-col">
           <KpiStrip snapshot={snapshot} onSavings={() => setModal('savings')} />
-          <ExplorerHub
-            onOpen={(kind) => {
-              setPlaying(false)
-              setTouring(false)
-              setModal(kind)
-            }}
-          />
           {alarm && (
             <button
               className={`card alarm-toast ${alarm.severity}`}
@@ -373,6 +388,13 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
               <ArrowUpRight size={15} />
             </button>
           )}
+          <ExplorerHub
+            onOpen={(kind) => {
+              setPlaying(false)
+              setTouring(false)
+              setModal(kind)
+            }}
+          />
         </div>
 
         <div className="right-col">
@@ -431,7 +453,7 @@ export default function App({ source = simulationSource }: { source?: TwinDataSo
           )}
         </div>
 
-        <div className="bottom-row">
+        <div className="bottom-row" ref={bottomRow}>
           <div className="timeline-slot">
             <div className="legend-chip">
               {(

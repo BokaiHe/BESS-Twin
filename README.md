@@ -102,7 +102,7 @@ The fixed simulation date is `2026-06-18`, UTC+08:00; it is independent of the c
 
 The browser tests currently use the installed Microsoft Edge channel and start a test server on port 5178. On a machine without Edge, install that browser or change `channel` in `playwright.config.ts` to a browser available in your environment.
 
-The test suites contain **46 unit tests** and **39 browser flows**. Coverage includes scenario changes, deterministic seeking, the exact fault boundary, bill comparability, language persistence, all 13 walkthrough steps, equipment disassembly, battery transport, solar/wind generation animations and the explorer hub. See [verification notes](docs/verification.md) for results and known limitations.
+The test suites contain **46 unit tests** and **45 browser flows**. Coverage includes scenario changes, deterministic seeking, the exact fault boundary, bill comparability, language persistence, all 13 walkthrough steps, equipment disassembly, battery transport, solar/wind generation animations and the explorer hub. See [verification notes](docs/verification.md) for results and known limitations.
 
 ## Project structure
 
@@ -146,13 +146,13 @@ Nominal AC voltage is displayed in device lists and detail cards. Storage's 35 k
 
 ### Known interface issues in this snapshot
 
-- At desktop sizes such as 1366 × 768 and 1024 × 768, the expanded equipment hub can extend behind the timeline; the fault notification below it can also be obscured. Collapse the hub or use a device detail card's **Explore inside** entry as a workaround.
-- Expanding or collapsing the hub currently loses keyboard focus; focus transfer and restoration need improvement.
 - Chinese solar explanations currently use the same term for solar cells and battery cells; terminology should be differentiated in a follow-up.
 
-These issues are retained and documented for this version snapshot.
+This terminology issue remains in the current version.
 
 ## Equipment explorers
+
+The hub reserves space above the timeline on desktop. Viewports at most 900 px wide or 740 px high use a vertically scrolling page, so previews, close controls and fault alerts remain reachable. Expanding the hub focuses its first card; collapsing restores focus to the badge; closing an explorer returns focus to its originating card.
 
 The **Inside the equipment** badge below the KPI cards expands into preview cards for the three explorers (BESS container, solar module, wind turbine); each card opens its explorer directly. The same explorers remain available from **Explore inside** in the matching detail card. All explorer copy follows the language toggle: English lives in `src/i18n.tsx`, Chinese in `src/explorerCopyZh.ts`, and TypeScript checks that both have the same shape. Explorer type and colours are aligned with the main interface. Preview images in `public/explorers/` are captured from the real explorers with `npm run explorers:previews` (re-run after geometry changes).
 

@@ -360,6 +360,7 @@ svg {
 .left-col {
   position: absolute;
   top: calc(var(--edge) + 64px);
+  bottom: var(--bottom-reserve, 320px);
   left: var(--edge);
   right: calc(var(--right-w) + 70px);
   display: flex;
@@ -1543,7 +1544,7 @@ svg {
     display: none;
   }
 }
-@media (max-width: 900px) {
+@media (max-width: 900px), (max-height: 740px) {
   :root {
     --edge: 12px;
   }
@@ -1608,6 +1609,7 @@ svg {
     width: 100%;
   }
   .left-col {
+    bottom: auto;
     margin-top: 10px;
   }
   .kpi-strip {
@@ -1978,7 +1980,7 @@ svg {
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 900px), (max-height: 740px) {
   .tour-btn {
     display: inline-flex;
     width: 38px;
@@ -2116,7 +2118,14 @@ html[lang|='zh'] .modal:is(.container-modal, .renewable-modal) * {
 .hub-chev {
   color: var(--muted);
 }
+.left-col > :not(.hub-panel) {
+  flex-shrink: 0;
+}
 .hub-panel {
+  min-height: 0;
+  flex: 0 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   width: min(640px, 100%);
   padding: 12px;
   animation: rise 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -2211,7 +2220,7 @@ html[lang|='zh'] .modal:is(.container-modal, .renewable-modal) * {
   font-weight: 600;
   color: var(--brand);
 }
-@media (max-width: 900px) {
+@media (max-width: 900px), (max-height: 740px) {
   .hub-badge,
   .hub-panel {
     width: 100%;
@@ -2235,5 +2244,35 @@ html[lang|='zh'] .modal:is(.container-modal, .renewable-modal) * {
   .hub-panel,
   .hub-tile {
     animation: none;
+  }
+}
+/* Compact desktop cards; shorter viewports use the scrolling shell above. */
+@media (min-width: 901px) and (min-height: 741px) and (max-height: 900px) {
+  .hub-panel {
+    padding: 8px;
+  }
+  .hub-head {
+    align-items: center;
+    padding-bottom: 6px;
+  }
+  .hub-head p {
+    display: none;
+  }
+  .hub-tile {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding: 5px;
+  }
+  .hub-image {
+    width: 64px;
+    flex-shrink: 0;
+  }
+  .hub-tile-text small,
+  .hub-enter {
+    display: none;
+  }
+  .hub-tile-text {
+    padding: 0;
   }
 }

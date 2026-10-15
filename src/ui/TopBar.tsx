@@ -45,6 +45,7 @@ export function TopBar({
               key={id}
               className={id === scenario ? 'is-active' : ''}
               aria-pressed={id === scenario}
+              aria-label={t.scenarios[id].name}
               onClick={() => setScenario(id)}
               title={t.scenarios[id].hint}
             >
