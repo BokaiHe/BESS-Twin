@@ -32,7 +32,10 @@ export function Modal({
       ref={dialog}
       className={`modal${wide ? ' is-wide' : ''} ${className}`}
       aria-label={title}
-      onCancel={onClose}
+      onCancel={(event) => {
+        event.preventDefault()
+        onClose()
+      }}
       onClick={(e) => {
         if (e.target === dialog.current) onClose()
       }}

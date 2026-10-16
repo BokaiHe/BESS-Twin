@@ -1,3 +1,5 @@
+import { LockKeyhole } from 'lucide-react'
+import type { ChallengeId } from '../learning/progress'
 import { LazyStorageTank } from './learning/LazyStorageTank'
 import { Term } from './learning/Term'
 import { parameterTerms } from '../learning/termLinks'
@@ -27,9 +29,11 @@ import { currencyCode, displayMoney } from './format'
 
 function ParameterField({
   name,
+  locked,
   value,
   onChange,
 }: {
+  locked?: string
   name: ParameterKey
   value: number
   onChange: (n: number, debounce?: boolean) => void
@@ -39,6 +43,7 @@ function ParameterField({
   const [typed, setTyped] = useState(String(value))
   useEffect(() => setTyped(String(value)), [value])
   const commit = () => {
+    if (locked) return
     const n = typed.trim() ? Number(typed) : NaN
     const rounded = Number.isFinite(n)
       ? Number(
@@ -54,9 +59,16 @@ function ParameterField({
     <div className="parameter-field">
       <div className="parameter-label">
         <Term id={parameterTerms[name]}>{t.study.labels[name]}</Term> <small>{rule.unit}</small>
+        {locked && (
+          <span className="parameter-lock" title={locked}>
+            <LockKeyhole size={12} />
+            <span className="sr-only">{locked}</span>
+          </span>
+        )}
       </div>
       <div>
         <input
+          disabled={!!locked}
           id={`range-${name}`}
           aria-label={t.study.labels[name]}
           data-testid={`parameter-${name}`}
@@ -68,6 +80,7 @@ function ParameterField({
           onChange={(e) => onChange(Number(e.target.value))}
         />
         <input
+          disabled={!!locked}
           type="number"
           aria-label={`${t.study.labels[name]} (${t.study.number})`}
           min={rule.min}
@@ -115,7 +128,15 @@ export function DesignStudy({
   scenario,
   onScenario,
   onRetry,
+  mode = 'free',
+  challengeRules,
 }: {
+  mode?: 'free' | { challenge: ChallengeId }
+  challengeRules?: {
+    editable: readonly ParameterKey[]
+    start: SimulationParameters
+    lockedText: string
+  }
   proposal: SimulationParameters
   onChange: (p: SimulationParameters, debounce?: boolean) => void
   onPin: () => void
@@ -197,6 +218,11 @@ export function DesignStudy({
       <ParameterField
         key={key}
         name={key}
+        locked={
+          mode !== 'free' && !challengeRules?.editable.includes(key)
+            ? challengeRules?.lockedText
+            : undefined
+        }
         value={proposal[key]}
         onChange={(value, debounce) => onChange({ ...proposal, [key]: value }, debounce)}
       />
@@ -215,6 +241,7 @@ export function DesignStudy({
         <label>
           {c.scenario}{' '}
           <select
+            disabled={mode !== 'free'}
             aria-label={c.scenario}
             value={scenario}
             onChange={(e) => onScenario(e.target.value as ScenarioId)}
@@ -226,12 +253,19 @@ export function DesignStudy({
             ))}
           </select>
         </label>
-        <button className="pill-btn" onClick={() => onChange(DEFAULT_PARAMETERS, false)}>
+        <button
+          className="pill-btn"
+          onClick={() =>
+            onChange(mode === 'free' ? DEFAULT_PARAMETERS : challengeRules!.start, false)
+          }
+        >
           {c.reset}
         </button>
-        <button className="pill-btn" disabled={busy || !!error} onClick={onPin}>
-          {c.pin}
-        </button>
+        {mode === 'free' && (
+          <button className="pill-btn" disabled={busy || !!error} onClick={onPin}>
+            {c.pin}
+          </button>
+        )}
       </div>
       <p
         className={`study-status${busy ? ' is-busy' : ''}`}
@@ -291,16 +325,18 @@ export function DesignStudy({
             <h3>{c.daily}</h3>
             <span>{t.scenarios[applied.id].name}</span>
           </div>
-          <div
-            className={`comparison-message ${comparison.status}`}
-            data-testid="comparison-status"
-          >
-            <strong>{c.comparison[comparison.status]}</strong>
-            <span>{comparison.comparableSavingsCny === null ? c.difference : c.savings}</span>
-            <b data-testid="comparison-bill">
-              {amounts(displayMoney(comparison.billDifferenceCny, lang))} {currencyCode(lang)}
-            </b>
-          </div>
+          {mode === 'free' && (
+            <div
+              className={`comparison-message ${comparison.status}`}
+              data-testid="comparison-status"
+            >
+              <strong>{c.comparison[comparison.status]}</strong>
+              <span>{comparison.comparableSavingsCny === null ? c.difference : c.savings}</span>
+              <b data-testid="comparison-bill">
+                {amounts(displayMoney(comparison.billDifferenceCny, lang))} {currencyCode(lang)}
+              </b>
+            </div>
+          )}
           <div className="comparison-table-wrap">
             <table className="comparison-table">
               <thead>

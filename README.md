@@ -24,6 +24,14 @@ An interactive digital twin of a renewable energy park, built with React, Vite, 
 - **English by default**, with a Chinese language toggle and persistence of explicit language choices.
 - **Responsive layout** for desktop and mobile.
 
+## Parameter challenges (local learning edition)
+
+Open **Learn → Parameter challenges** to try four engine-backed tasks: keep a cloudy day supplied, stay under an 8 MW import cap, explore tariff spreads, and absorb excess renewables. Only the relevant controls are editable; the original design stays fixed to each challenge's starting configuration. Goals and stars update only after the latest full-day result arrives. Best passing scores are saved locally, shared across languages, with a session-only fallback when browser storage is unavailable.
+
+Exiting restores both free-mode designs, scenario, time, selection, camera and playback settings. C1/C2 reward improved supply even when the starting design has shortages. C3 uses the proposed tariff's **own no-storage baseline**, never a bill difference across tariffs; valley and mid prices cannot exceed their starting levels. C4 counts network curtailment separately from inverter clipping. These are instructional targets for the existing dispatch policy, not an optimization or investment recommendation.
+
+Reproduce the candidate scan with `node scripts/scan-challenges.mjs`. It verifies a failing start and reachable one-, two- and three-star designs for every challenge; results are in [docs/challenge-scan.json](docs/challenge-scan.json). The finite scan does not claim globally optimal sizing. This learning edition has not been pushed or deployed.
+
 ## Run locally
 
 Use Node.js 22.12 or newer. Node.js 24 is used for deployment and has been verified locally.
@@ -235,7 +243,7 @@ Underlined terms in the dashboard, storage details, voltage explanation, timelin
 
 The 35 definitions and popup layout load on first interaction. Keyboard focus or a click opens an explanation; Escape closes it and restores focus. Only one explanation is open at a time. On narrow screens, the card sits near the bottom of the viewport. This stage does not change simulation physics, introduce dependencies, or require browser storage.
 
-The reviewed implementation plan is in [the learning edition specification](docs/learning-edition-spec.md). The Learn hub is available in stage 4 and guided lessons in stage 5; parameter challenges remain a later stage.
+The reviewed implementation plan is in [the learning edition specification](docs/learning-edition-spec.md). The Learn hub is available in stage 4, guided lessons in stage 5, and parameter challenges in stage 6.
 
 To compare learning-layer startup against a previous release, build both checkouts with `npm run build:pages`, then run `node scripts/check-learning-performance.mjs /path/to/baseline/dist`. The script serves both distributions locally, alternates fresh Edge contexts, checks the 15 KB initial-JavaScript gzip budget, and records visibility and warmed scenario-switch timings in `test-results/learning-performance.json`. Run it separately from the browser regression suite; the measurements are machine-specific.
 
@@ -259,9 +267,9 @@ The chart and calculation load on demand using the existing Recharts dependency.
 
 ## Learning edition: learning centre and progress (local stage 4)
 
-Choose **Learn** in the top bar for **Guided tour**, **Energy glossary** and **View energy flows**. The first-visit hint opens the same centre. Contextual term links and the bill's energy-flow entry remain available. Five guided lessons are available in stage 5. Parameter challenges remain upcoming content.
+Choose **Learn** in the top bar for **Guided tour**, **Energy glossary** and **View energy flows**. The first-visit hint opens the same centre. Contextual term links and the bill's energy-flow entry remain available. Five guided lessons and four parameter challenges are also available.
 
-Finishing all tour steps records **Completed**; opening the glossary or energy chart records **Viewed**, not mastery. These three activities form the current activity summary. Progress persists across reloads and language changes in this browser under `bess-twin-learning-v1`; the record also preserves the specified lesson and challenge fields for later stages. There is no account or server sync. Other tabs update an open centre through browser storage events.
+Finishing all tour steps records **Completed**; opening the glossary or energy chart records **Viewed**, not mastery. These three activities form the current activity summary. Progress persists across reloads and language changes in this browser under `bess-twin-learning-v1`; the record also stores completed lessons and best challenge scores. There is no account or server sync. Other tabs update an open centre through browser storage events.
 
 Malformed or obsolete fields are ignored safely. If storage access or saving fails, the centre explains that progress is session-only and keeps it in memory. **Reset learning progress** asks for confirmation and clears only learning data, preserving simulation parameters and language preferences. Closing a reference returns to its centre card; closing the centre or tour returns to Learn. Opening learning pauses playback without changing the selected minute or simulation parameters.
 

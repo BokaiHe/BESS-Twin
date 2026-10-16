@@ -1,0 +1,64 @@
+.challenge-goals {
+  background: #f4f8fd;
+  border: 1px solid #d7e3ef;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 18px;
+  line-height: 1.55;
+  font-size: 13px;
+}
+.challenge-goals h3 {
+  margin-top: 0;
+}
+.challenge-goals h3:focus {
+  outline: none;
+}
+.challenge-goals ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.challenge-goals li {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 4px 8px;
+  border-bottom: 1px solid #dce5ee;
+  padding: 8px 0;
+}
+.challenge-goals li > span:last-child {
+  grid-column: 2;
+  color: #637389;
+}
+.challenge-goals li[data-pass='true'] > span:first-child {
+  color: #11825d;
+  font-weight: 700;
+}
+.challenge-success {
+  background: #e8f7f0;
+  border-left: 3px solid #199b6b;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 12px 0;
+}
+.challenge-goals details > summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.challenge-modal input:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.parameter-lock {
+  display: inline-flex;
+  align-items: center;
+  color: #637389;
+  margin-left: 5px;
+}
+.challenge-cards {
+  margin-top: 22px;
+}
+.challenge-goals p,
+.challenge-goals strong {
+  overflow-wrap: anywhere;
+}

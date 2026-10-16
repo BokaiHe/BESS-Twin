@@ -1,0 +1,4779 @@
+{
+  "modelVersion": "parameters-v1",
+  "inputDataId": "demo-2026-06-18-v1",
+  "note": "Finite candidate scan, not a claim of a global optimum. Stars are ordered from one to three.",
+  "challenges": [
+    {
+      "id": "c1-cloudy-supply",
+      "initial": {
+        "parameters": {
+          "batteryMW": 10,
+          "batteryMWh": 20,
+          "pvDCMWp": 20,
+          "windMW": 12,
+          "gridImportMW": 10,
+          "gridExportMW": 15,
+          "valleyPrice": 0.35,
+          "flatPrice": 0.68,
+          "peakPrice": 1.08,
+          "socMinPct": 10,
+          "socMaxPct": 90,
+          "chargeEfficiencyPct": 95,
+          "dischargeEfficiencyPct": 95,
+          "reserveMWh": 1
+        },
+        "pass": false,
+        "stars": 0,
+        "score": 20,
+        "solver": "converged",
+        "criteria": [
+          {
+            "id": "converged",
+            "pass": true,
+            "value": "0.000000 MWh"
+          },
+          {
+            "id": "supply",
+            "pass": false,
+            "value": "3.4723 MWh"
+          }
+        ]
+      },
+      "witnesses": [
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 80,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 80,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 40,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 40,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 30,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 30,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        }
+      ],
+      "candidates": [
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 20,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "4.1092 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 30,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 30,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "3.4346 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 35,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 35,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "3.4346 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 40,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 40,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "3.4346 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 50,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 50,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "3.4346 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 80,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 80,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "3.4346 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 20,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "3.4723 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 30,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 30,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "0.0024 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 35,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 35,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "0.0024 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 40,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 40,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "0.0024 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 50,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 50,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "0.0024 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 80,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 80,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "0.0024 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 20,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "3.4723 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 30,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 30,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 35,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 35,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 40,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 40,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 50,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 50,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 80,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 80,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 20,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "3.4723 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 30,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 30,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 35,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 35,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 40,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 40,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 50,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 50,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 80,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 80,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 20,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "3.4723 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 30,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 30,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 35,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 35,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 40,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 40,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 50,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 50,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 80,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 10,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 80,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c2-import-cap",
+      "initial": {
+        "parameters": {
+          "batteryMW": 4,
+          "batteryMWh": 20,
+          "pvDCMWp": 20,
+          "windMW": 12,
+          "gridImportMW": 8,
+          "gridExportMW": 15,
+          "valleyPrice": 0.35,
+          "flatPrice": 0.68,
+          "peakPrice": 1.08,
+          "socMinPct": 10,
+          "socMaxPct": 90,
+          "chargeEfficiencyPct": 95,
+          "dischargeEfficiencyPct": 95,
+          "reserveMWh": 1
+        },
+        "pass": false,
+        "stars": 0,
+        "score": 4,
+        "solver": "converged",
+        "criteria": [
+          {
+            "id": "converged",
+            "pass": true,
+            "value": "0.000000 MWh"
+          },
+          {
+            "id": "supply",
+            "pass": false,
+            "value": "4.8980 MWh"
+          },
+          {
+            "id": "import",
+            "pass": true,
+            "value": "8.000 MW"
+          }
+        ]
+      },
+      "witnesses": [
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 30,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 20,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 30,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 10,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 30,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 8,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        }
+      ],
+      "candidates": [
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 4,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "4.8980 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 30,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 4,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "4.8980 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 35,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 4,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "4.8980 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 40,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 4,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "4.8980 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 50,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 4,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "4.8980 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 80,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 4,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "4.8980 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 6,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "3.4083 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 30,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 6,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "0.9590 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 35,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 6,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "0.9590 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 40,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 6,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "0.9590 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 50,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 6,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "0.9590 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 80,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 6,
+          "solver": "not-converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": false,
+              "value": "0.546265 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "0.9590 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 8,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "3.4083 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 30,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 8,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 35,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 8,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 40,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 8,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 50,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 8,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 80,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 8,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 10,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "3.4083 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 30,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 10,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 35,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 10,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 40,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 10,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 50,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 10,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 80,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 10,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 20,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": false,
+              "value": "3.4083 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 30,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 20,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 35,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 20,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 40,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 20,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 50,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 20,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 80,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 8,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 20,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "import",
+              "pass": true,
+              "value": "8.000 MW"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c3-spread",
+      "initial": {
+        "parameters": {
+          "batteryMW": 10,
+          "batteryMWh": 20,
+          "pvDCMWp": 20,
+          "windMW": 12,
+          "gridImportMW": 15,
+          "gridExportMW": 15,
+          "valleyPrice": 0.35,
+          "flatPrice": 0.68,
+          "peakPrice": 1.08,
+          "socMinPct": 10,
+          "socMaxPct": 90,
+          "chargeEfficiencyPct": 95,
+          "dischargeEfficiencyPct": 95,
+          "reserveMWh": 1
+        },
+        "pass": false,
+        "stars": 0,
+        "score": 0.73,
+        "solver": "converged",
+        "criteria": [
+          {
+            "id": "converged",
+            "pass": true,
+            "value": "0.000000 MWh"
+          },
+          {
+            "id": "tariff",
+            "pass": true,
+            "value": "0.35 / 0.68 / 1.08 CNY/kWh"
+          },
+          {
+            "id": "savings",
+            "pass": false,
+            "value": "10967.39 CNY"
+          }
+        ]
+      },
+      "witnesses": [
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.95,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 1.6,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.35 / 0.68 / 1.95 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "23363.14 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.55,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 1.2,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.35 / 0.68 / 1.55 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "17663.95 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.4,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 1.05,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.35 / 0.68 / 1.40 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "15526.75 CNY"
+            }
+          ]
+        }
+      ],
+      "candidates": [
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.2,
+            "flatPrice": 0.5,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 0.88,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.20 / 0.50 / 1.08 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": false,
+              "value": "10967.39 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.2,
+            "flatPrice": 0.5,
+            "peakPrice": 1.37,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 1.17,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.20 / 0.50 / 1.37 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "15099.31 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.2,
+            "flatPrice": 0.5,
+            "peakPrice": 1.4,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 1.2,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.20 / 0.50 / 1.40 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "15526.75 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.2,
+            "flatPrice": 0.5,
+            "peakPrice": 1.55,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 1.35,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.20 / 0.50 / 1.55 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "17663.95 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.2,
+            "flatPrice": 0.5,
+            "peakPrice": 1.95,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 1.75,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.20 / 0.50 / 1.95 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "23363.14 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.2,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 0.88,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.20 / 0.68 / 1.08 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": false,
+              "value": "10967.39 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.2,
+            "flatPrice": 0.68,
+            "peakPrice": 1.37,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 1.17,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.20 / 0.68 / 1.37 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "15099.31 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.2,
+            "flatPrice": 0.68,
+            "peakPrice": 1.4,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 1.2,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.20 / 0.68 / 1.40 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "15526.75 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.2,
+            "flatPrice": 0.68,
+            "peakPrice": 1.55,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 1.35,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.20 / 0.68 / 1.55 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "17663.95 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.2,
+            "flatPrice": 0.68,
+            "peakPrice": 1.95,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 1.75,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.20 / 0.68 / 1.95 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "23363.14 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.5,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 0.73,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.35 / 0.50 / 1.08 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": false,
+              "value": "10967.39 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.5,
+            "peakPrice": 1.37,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 1.02,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.35 / 0.50 / 1.37 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "15099.31 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.5,
+            "peakPrice": 1.4,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 1.05,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.35 / 0.50 / 1.40 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "15526.75 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.5,
+            "peakPrice": 1.55,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 1.2,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.35 / 0.50 / 1.55 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "17663.95 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.5,
+            "peakPrice": 1.95,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 1.6,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.35 / 0.50 / 1.95 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "23363.14 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 0.73,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.35 / 0.68 / 1.08 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": false,
+              "value": "10967.39 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.37,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 1.02,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.35 / 0.68 / 1.37 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "15099.31 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.4,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 1.05,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.35 / 0.68 / 1.40 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "15526.75 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.55,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 1.2,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.35 / 0.68 / 1.55 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "17663.95 CNY"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 20,
+            "windMW": 12,
+            "gridImportMW": 15,
+            "gridExportMW": 15,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.95,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 1.6,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "tariff",
+              "pass": true,
+              "value": "0.35 / 0.68 / 1.95 CNY/kWh"
+            },
+            {
+              "id": "savings",
+              "pass": true,
+              "value": "23363.14 CNY"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c4-curtailment",
+      "initial": {
+        "parameters": {
+          "batteryMW": 10,
+          "batteryMWh": 20,
+          "pvDCMWp": 40,
+          "windMW": 24,
+          "gridImportMW": 15,
+          "gridExportMW": 0,
+          "valleyPrice": 0.35,
+          "flatPrice": 0.68,
+          "peakPrice": 1.08,
+          "socMinPct": 10,
+          "socMaxPct": 90,
+          "chargeEfficiencyPct": 95,
+          "dischargeEfficiencyPct": 95,
+          "reserveMWh": 1
+        },
+        "pass": false,
+        "stars": 0,
+        "score": 20,
+        "solver": "converged",
+        "criteria": [
+          {
+            "id": "converged",
+            "pass": true,
+            "value": "0.000000 MWh"
+          },
+          {
+            "id": "supply",
+            "pass": true,
+            "value": "0.0000 MWh"
+          },
+          {
+            "id": "curtailment",
+            "pass": false,
+            "value": "146.435 MWh"
+          }
+        ]
+      },
+      "witnesses": [
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 80,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 80,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": true,
+              "value": "130.585 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 50,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 50,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": true,
+              "value": "130.585 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 35,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 35,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": true,
+              "value": "133.820 MWh"
+            }
+          ]
+        }
+      ],
+      "candidates": [
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 20,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 20,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "154.492 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 30,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 30,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "154.492 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 35,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 35,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "154.492 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 40,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 40,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "154.492 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 50,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 50,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "154.492 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 4,
+            "batteryMWh": 80,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 80,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "154.492 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 20,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 20,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "147.828 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 30,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 30,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "147.828 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 35,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 35,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "147.828 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 40,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 40,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "147.828 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 50,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 50,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "147.828 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 6,
+            "batteryMWh": 80,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 80,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "147.828 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 20,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 20,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "146.435 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 30,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 30,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "139.449 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 35,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 35,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "139.449 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 40,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 40,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "139.449 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 50,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 50,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "139.449 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 8,
+            "batteryMWh": 80,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 80,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "139.449 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 20,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 20,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "146.435 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 30,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 30,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "138.031 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 35,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 35,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": true,
+              "value": "133.820 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 40,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 40,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": true,
+              "value": "130.585 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 50,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 50,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": true,
+              "value": "130.585 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 10,
+            "batteryMWh": 80,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 80,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": true,
+              "value": "130.585 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 20,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 20,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "146.435 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 30,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": false,
+          "stars": 0,
+          "score": 30,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": false,
+              "value": "138.031 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 35,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 3,
+          "score": 35,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": true,
+              "value": "133.820 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 40,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 40,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": true,
+              "value": "129.610 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 50,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 2,
+          "score": 50,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": true,
+              "value": "121.188 MWh"
+            }
+          ]
+        },
+        {
+          "parameters": {
+            "batteryMW": 20,
+            "batteryMWh": 80,
+            "pvDCMWp": 40,
+            "windMW": 24,
+            "gridImportMW": 15,
+            "gridExportMW": 0,
+            "valleyPrice": 0.35,
+            "flatPrice": 0.68,
+            "peakPrice": 1.08,
+            "socMinPct": 10,
+            "socMaxPct": 90,
+            "chargeEfficiencyPct": 95,
+            "dischargeEfficiencyPct": 95,
+            "reserveMWh": 1
+          },
+          "pass": true,
+          "stars": 1,
+          "score": 80,
+          "solver": "converged",
+          "criteria": [
+            {
+              "id": "converged",
+              "pass": true,
+              "value": "0.000000 MWh"
+            },
+            {
+              "id": "supply",
+              "pass": true,
+              "value": "0.0000 MWh"
+            },
+            {
+              "id": "curtailment",
+              "pass": true,
+              "value": "119.726 MWh"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

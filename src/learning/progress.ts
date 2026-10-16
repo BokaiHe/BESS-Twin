@@ -108,6 +108,34 @@ export function createProgressStore(storage: () => StoragePort) {
     snapshot = { progress, persistent }
     emit()
   }
+  const markChallenge = (id: ChallengeId, best: number, stars: 1 | 2 | 3) => {
+    if (!Number.isFinite(best) || best < 0 || !Number.isInteger(stars) || stars < 1 || stars > 3)
+      return
+    const current = read(),
+      previous = current.progress.challenges[id]
+    const value =
+      previous && previous.best <= best
+        ? {
+            best: previous.best,
+            stars:
+              previous.best === best
+                ? (Math.max(previous.stars, stars) as 1 | 2 | 3)
+                : previous.stars,
+          }
+        : { best, stars }
+    const progress: LearningProgress = {
+      ...current.progress,
+      challenges: { ...current.progress.challenges, [id]: value },
+    }
+    let persistent = current.persistent
+    try {
+      storage().setItem(PROGRESS_KEY, JSON.stringify(progress))
+    } catch {
+      persistent = false
+    }
+    snapshot = { progress, persistent }
+    emit()
+  }
   const resetProgress = () => {
     let persistent = true
     try {
@@ -126,6 +154,7 @@ export function createProgressStore(storage: () => StoragePort) {
     getSnapshot,
     markActivity,
     markLessonDone,
+    markChallenge,
     resetProgress,
     refresh,
     subscribe: (listener: () => void) => {
@@ -140,6 +169,7 @@ const store = createProgressStore(() => window.localStorage)
 export const getProgressSnapshot = store.getSnapshot
 export const markActivity = store.markActivity
 export const markLessonDone = store.markLessonDone
+export const markChallenge = store.markChallenge
 export const resetProgress = store.resetProgress
 export function subscribeProgress(listener: () => void) {
   const unsubscribe = store.subscribe(listener)

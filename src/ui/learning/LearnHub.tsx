@@ -1,6 +1,8 @@
+import { CHALLENGES } from '../../learning/challenges'
+import { challengeCopy } from '../../learning/challengeCopy'
 import { LESSONS } from '../../learning/lessons'
 import { lessonCopy } from '../../learning/lessonCopy'
-import type { LessonId } from '../../learning/progress'
+import type { LessonId, ChallengeId } from '../../learning/progress'
 import './lesson-runner.css'
 import { useRef, useState, useSyncExternalStore } from 'react'
 import { ArrowUpRight, BookOpen, CheckCircle2, GitBranch, Sparkles } from 'lucide-react'
@@ -16,11 +18,13 @@ export default function LearnHub({
   onGlossary,
   onFlows,
   onLesson,
+  onChallenge,
 }: {
   onClose: () => void
   onTour: () => void
   onGlossary: (trigger: HTMLButtonElement) => void
   onFlows: () => void
+  onChallenge?: (id: ChallengeId) => void
   onLesson?: (id: LessonId) => void
 }) {
   const { lang, t, l } = useI18n()
@@ -118,10 +122,30 @@ export default function LearnHub({
             </button>
           ))}
         </section>
-        <aside className="learn-next">
-          <strong>{c.next}</strong>
-          <p>{c.future}</p>
-        </aside>
+        <section className="lesson-cards challenge-cards" aria-label={challengeCopy[lang].title}>
+          <strong>
+            {challengeCopy[lang].title} · {Object.keys(progress.challenges).length} /{' '}
+            {CHALLENGES.length}
+          </strong>
+          <small>{challengeCopy[lang].intro}</small>
+          {!onChallenge && <p>{lessonCopy[lang].source}</p>}
+          {CHALLENGES.map((challenge) => (
+            <button
+              key={challenge.id}
+              disabled={!onChallenge}
+              data-testid={`learn-${challenge.id}`}
+              onClick={() => onChallenge?.(challenge.id)}
+            >
+              <strong>{l(challenge.title)}</strong>
+              <span>{l(challenge.hint)}</span>
+              <small>
+                {progress.challenges[challenge.id]
+                  ? `${challengeCopy[lang].best}: ${progress.challenges[challenge.id]!.best.toFixed(2)} ${challenge.score.unit} · ${'★'.repeat(progress.challenges[challenge.id]!.stars)}`
+                  : challengeCopy[lang].start}
+              </small>
+            </button>
+          ))}
+        </section>
         <footer className="learn-storage">
           <p role="status">{persistent ? c.saved : c.sessionOnly}</p>
           <button

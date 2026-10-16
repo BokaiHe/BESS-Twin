@@ -1,3 +1,4 @@
+import type { ChallengeId } from './learning/progress'
 import type {
   CameraPort,
   CameraState,
@@ -39,6 +40,7 @@ import { SavingsPanel } from './ui/SavingsPanel'
 import { ExplorerHub } from './ui/ExplorerHub'
 import { TONE, clusterMode, modeText, modeTone, mw } from './ui/format'
 
+const ChallengeRunner = lazy(() => import('./ui/learning/ChallengeRunner'))
 const LessonRunner = lazy(() => import('./ui/learning/LessonRunner'))
 const LearnHub = lazy(() => import('./ui/learning/LearnHub'))
 const GuidedTour = lazy(() =>
@@ -100,6 +102,10 @@ export default function App({ source }: { source?: TwinDataSource }) {
   const [cameraRestore, setCameraRestore] = useState<{ state: CameraState; serial: number }>()
   const learnWasPlaying = useRef(false)
   const [lessonSession, setLessonSession] = useState<LessonSession | null>(null)
+  const [challengeSession, setChallengeSession] = useState<{
+    id: ChallengeId
+    saved: LessonSavedState
+  } | null>(null)
   const [playing, setPlaying] = useState(false)
   const [speed, setSpeed] = useState(30)
   const [touring, setTouring] = useState(false)
@@ -258,12 +264,57 @@ export default function App({ source }: { source?: TwinDataSource }) {
   useLayoutEffect(() => {
     if (!day || day.id === appliedScenario.current) return
     appliedScenario.current = day.id
-    if (day.id === 'fault' && !lessonSession) {
+    if (day.id === 'fault' && !lessonSession && !challengeSession) {
       setMinute(1050)
       clock.current = 1050
       select(FAULT_NODE)
     }
-  }, [day, select, lessonSession])
+  }, [day, select, lessonSession, challengeSession])
+
+  const restoreLearning = (saved: LessonSavedState, phase: 'request' | 'finish') => {
+    setPlaying(false)
+    stopAt.current = null
+    if (phase === 'request') {
+      study.setProposal(saved.proposal, false)
+      study.setOriginal(saved.original)
+      setScenario(saved.scenario)
+    } else {
+      clock.current = saved.minute
+      setMinute(saved.minute)
+      setSelected(saved.selected)
+      setSpeed(saved.speed)
+      setAutoRotate(saved.rotate)
+      flyTo(saved.focus)
+      if (saved.camera)
+        setCameraRestore((previous) => ({
+          state: saved.camera!,
+          serial: (previous?.serial ?? 0) + 1,
+        }))
+      setLessonSession(null)
+      setChallengeSession(null)
+      setPlaying(saved.playing)
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          window.scrollTo(...saved.scroll)
+          document.querySelector<HTMLButtonElement>('.learn-btn')?.focus({ preventScroll: true })
+        }),
+      )
+    }
+  }
+
+  const captureLearningState = (): LessonSavedState => ({
+    proposal: study.proposal,
+    original: study.original,
+    scenario,
+    minute,
+    selected,
+    focus: focus.key,
+    playing: learnWasPlaying.current,
+    speed,
+    rotate: autoRotate,
+    camera: cameraPort.current?.capture() ?? null,
+    scroll: [window.scrollX, window.scrollY],
+  })
 
   const snapshot: Snapshot | null = day
     ? snapshotAt(day, Math.min(1439, Math.max(0, Math.floor(minute))))
@@ -373,7 +424,13 @@ export default function App({ source }: { source?: TwinDataSource }) {
         <Suspense fallback={<div className="scene-fallback">{t.sceneLoading}</div>}>
           {snapshot && (
             <EnergyScene
-              paused={modal !== null || glossary !== null || flowView !== null || study.busy}
+              paused={
+                modal !== null ||
+                glossary !== null ||
+                flowView !== null ||
+                !!challengeSession ||
+                study.busy
+              }
               snapshot={snapshot}
               clock={clock}
               cameraPort={cameraPort}
@@ -517,37 +574,7 @@ export default function App({ source }: { source?: TwinDataSource }) {
                   setSpeed(15)
                   setPlaying(true)
                 }}
-                restore={(saved: LessonSavedState, phase) => {
-                  setPlaying(false)
-                  stopAt.current = null
-                  if (phase === 'request') {
-                    study.setProposal(saved.proposal, false)
-                    study.setOriginal(saved.original)
-                    setScenario(saved.scenario)
-                  } else {
-                    clock.current = saved.minute
-                    setMinute(saved.minute)
-                    setSelected(saved.selected)
-                    setSpeed(saved.speed)
-                    setAutoRotate(saved.rotate)
-                    flyTo(saved.focus)
-                    if (saved.camera)
-                      setCameraRestore((previous) => ({
-                        state: saved.camera!,
-                        serial: (previous?.serial ?? 0) + 1,
-                      }))
-                    setLessonSession(null)
-                    setPlaying(saved.playing)
-                    requestAnimationFrame(() =>
-                      requestAnimationFrame(() => {
-                        window.scrollTo(...saved.scroll)
-                        document
-                          .querySelector<HTMLButtonElement>('.learn-btn')
-                          ?.focus({ preventScroll: true })
-                      }),
-                    )
-                  }
-                }}
+                restore={restoreLearning}
               />
             </Suspense>
           )}
@@ -712,22 +739,22 @@ export default function App({ source }: { source?: TwinDataSource }) {
             onTour={toggleTour}
             onGlossary={(trigger) => openGlossary({ trigger })}
             onFlows={() => openFlows()}
+            onChallenge={
+              study.enabled && !study.busy && !study.error
+                ? (id) => {
+                    const saved = captureLearningState()
+                    setPlaying(false)
+                    setTouring(false)
+                    setAutoRotate(false)
+                    setModal(null)
+                    setChallengeSession({ id, saved })
+                  }
+                : undefined
+            }
             onLesson={
               study.enabled && !study.busy && !study.error
                 ? (id) => {
-                    const saved: LessonSavedState = {
-                      proposal: study.proposal,
-                      original: study.original,
-                      scenario,
-                      minute,
-                      selected,
-                      focus: focus.key,
-                      playing: learnWasPlaying.current,
-                      speed,
-                      rotate: autoRotate,
-                      camera: cameraPort.current?.capture() ?? null,
-                      scroll: [window.scrollX, window.scrollY],
-                    }
+                    const saved = captureLearningState()
                     setPlaying(false)
                     setTouring(false)
                     setModal(null)
@@ -735,6 +762,33 @@ export default function App({ source }: { source?: TwinDataSource }) {
                   }
                 : undefined
             }
+          />
+        </Suspense>
+      )}
+      {challengeSession && (
+        <Suspense
+          fallback={
+            <div className="card scene-computing" role="status">
+              {t.learn.loading}
+            </div>
+          }
+        >
+          <ChallengeRunner
+            session={challengeSession}
+            proposal={study.proposal}
+            result={study.result}
+            busy={study.busy}
+            error={study.error}
+            retry={study.retry}
+            prepare={(id, p) => {
+              setPlaying(false)
+              stopAt.current = null
+              study.setOriginal(p)
+              study.setProposal(p, false)
+              setScenario(id)
+            }}
+            onChange={study.setProposal}
+            restore={restoreLearning}
           />
         </Suspense>
       )}
