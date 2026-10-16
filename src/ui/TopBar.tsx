@@ -17,6 +17,7 @@ const ICONS = { sunny: Sun, cloudy: Cloud, fault: TriangleAlert } as const
 
 export function TopBar({
   scenario,
+  lessonActive = false,
   setScenario,
   snapshot,
   touring,
@@ -26,6 +27,7 @@ export function TopBar({
   onAbout,
   onStudy,
 }: {
+  lessonActive?: boolean
   scenario: ScenarioId
   setScenario: (id: ScenarioId) => void
   snapshot: Snapshot
@@ -57,6 +59,7 @@ export function TopBar({
           return (
             <button
               key={id}
+              disabled={lessonActive}
               className={id === scenario ? 'is-active' : ''}
               aria-pressed={id === scenario}
               aria-label={t.scenarios[id].name}
@@ -85,6 +88,7 @@ export function TopBar({
         </div>
         <button
           className="card pill-btn learn-btn"
+          disabled={lessonActive}
           aria-label={t.learn.open}
           aria-haspopup="dialog"
           onClick={onLearn}
@@ -124,7 +128,11 @@ export function TopBar({
           </button>
         </div>
       )}
-      <FirstVisitHint touring={touring} hasExplored={hasExplored} onStart={onLearn} />
+      <FirstVisitHint
+        touring={touring || lessonActive}
+        hasExplored={hasExplored}
+        onStart={onLearn}
+      />
     </header>
   )
 }

@@ -93,6 +93,21 @@ export function createProgressStore(storage: () => StoragePort) {
     snapshot = { progress, persistent }
     emit()
   }
+  const markLessonDone = (id: LessonId) => {
+    const current = read()
+    const progress: LearningProgress = {
+      ...current.progress,
+      lessons: { ...current.progress.lessons, [id]: 'done' },
+    }
+    let persistent = current.persistent
+    try {
+      storage().setItem(PROGRESS_KEY, JSON.stringify(progress))
+    } catch {
+      persistent = false
+    }
+    snapshot = { progress, persistent }
+    emit()
+  }
   const resetProgress = () => {
     let persistent = true
     try {
@@ -110,6 +125,7 @@ export function createProgressStore(storage: () => StoragePort) {
   return {
     getSnapshot,
     markActivity,
+    markLessonDone,
     resetProgress,
     refresh,
     subscribe: (listener: () => void) => {
@@ -123,6 +139,7 @@ export function createProgressStore(storage: () => StoragePort) {
 const store = createProgressStore(() => window.localStorage)
 export const getProgressSnapshot = store.getSnapshot
 export const markActivity = store.markActivity
+export const markLessonDone = store.markLessonDone
 export const resetProgress = store.resetProgress
 export function subscribeProgress(listener: () => void) {
   const unsubscribe = store.subscribe(listener)

@@ -1,3 +1,4 @@
+import type { CameraPort } from '../learning/lessonTypes'
 import {
   useEffect,
   useMemo,
@@ -41,6 +42,8 @@ import {
 } from './scene/models'
 
 export interface SceneProps {
+  cameraPort?: RefObject<CameraPort | null>
+  cameraRestore?: { state: import('../learning/lessonTypes').CameraState; serial: number }
   /** Retain the scene while an opaque explorer covers it, rendering only changes. */
   paused?: boolean
   snapshot: Snapshot
@@ -358,10 +361,14 @@ function Brackets({ selection }: { selection: Selection }) {
 /* ---------------- Camera ---------------- */
 
 function CameraRig({
+  cameraPort,
+  cameraRestore,
   focus,
   zoomCmd,
   autoRotate,
 }: {
+  cameraPort?: SceneProps['cameraPort']
+  cameraRestore?: SceneProps['cameraRestore']
   focus: SceneProps['focus']
   zoomCmd: SceneProps['zoomCmd']
   autoRotate: boolean
@@ -415,6 +422,42 @@ function CameraRig({
     start(controls.current.target.toArray() as V3, Math.max(fit * 0.6, Math.min(fit * 5, z)))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [zoomCmd.serial])
+  useEffect(() => {
+    if (!cameraPort) return
+    cameraPort.current = {
+      capture: () =>
+        controls.current
+          ? {
+              position: camera.position.toArray() as V3,
+              target: controls.current.target.toArray() as V3,
+              zoom: (camera as OrthographicCamera).zoom,
+            }
+          : null,
+      restore: (state) => {
+        const c = controls.current
+        if (!c) return
+        anim.current = null
+        // Flush damping before restoring the saved orbit, target and orthographic zoom.
+        const damping = c.enableDamping
+        c.enableDamping = false
+        c.update()
+        c.enableDamping = damping
+        camera.position.set(...state.position)
+        c.target.set(...state.target)
+        ;(camera as OrthographicCamera).zoom = state.zoom
+        camera.updateProjectionMatrix()
+        c.update()
+      },
+    }
+    return () => {
+      cameraPort.current = null
+    }
+  }, [camera, cameraPort])
+  // Restore in the same R3F commit, after focus/zoom effects. A DOM requestAnimationFrame
+  // can run before the canvas applies its new focus and be overwritten by that effect.
+  useEffect(() => {
+    if (cameraRestore) cameraPort?.current?.restore(cameraRestore.state)
+  }, [cameraRestore, cameraPort])
   useFrame((_, dt) => {
     const a = anim.current,
       c = controls.current
@@ -583,6 +626,8 @@ function World(props: SceneProps) {
       })}
       {selected && <Brackets selection={selected} />}
       <CameraRig
+        cameraPort={props.cameraPort}
+        cameraRestore={props.cameraRestore}
         focus={props.focus}
         zoomCmd={props.zoomCmd}
         autoRotate={props.autoRotate && !props.paused}

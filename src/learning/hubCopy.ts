@@ -38,7 +38,7 @@ export const hubCopy: Record<Lang, HubCopy> = {
     viewed: 'Viewed',
     notStarted: 'Not yet explored',
     next: 'Next in the learning edition',
-    future: 'Guided lessons and parameter challenges will be added in the next stages.',
+    future: 'Parameter challenges will be added in the next stage.',
     saved:
       'Progress is saved in this browser. It is shared between languages, not synced to an account.',
     sessionOnly:
@@ -64,7 +64,7 @@ export const hubCopy: Record<Lang, HubCopy> = {
     viewed: '已查看',
     notStarted: '尚未探索',
     next: '后续学习内容',
-    future: '引导课程和参数挑战将在后续阶段加入。',
+    future: '参数挑战将在下一阶段加入。',
     saved: '进度保存在当前浏览器，中英文共用，不会同步到账号。',
     sessionOnly: '浏览器存储不可用。本次访问仍可记录进度，但无法保证刷新后保留。',
     reset: '重置学习进度',

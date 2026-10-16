@@ -1,3 +1,7 @@
+import { LESSONS } from '../../learning/lessons'
+import { lessonCopy } from '../../learning/lessonCopy'
+import type { LessonId } from '../../learning/progress'
+import './lesson-runner.css'
 import { useRef, useState, useSyncExternalStore } from 'react'
 import { ArrowUpRight, BookOpen, CheckCircle2, GitBranch, Sparkles } from 'lucide-react'
 import { useI18n } from '../../i18n'
@@ -11,13 +15,15 @@ export default function LearnHub({
   onTour,
   onGlossary,
   onFlows,
+  onLesson,
 }: {
   onClose: () => void
   onTour: () => void
   onGlossary: (trigger: HTMLButtonElement) => void
   onFlows: () => void
+  onLesson?: (id: LessonId) => void
 }) {
-  const { lang, t } = useI18n()
+  const { lang, t, l } = useI18n()
   const c = hubCopy[lang]
   const { progress, persistent } = useSyncExternalStore(subscribeProgress, getProgressSnapshot)
   const resetButton = useRef<HTMLButtonElement>(null)
@@ -91,6 +97,27 @@ export default function LearnHub({
             </button>
           ))}
         </div>
+        <section className="lesson-cards" aria-label={lessonCopy[lang].lessons}>
+          <strong>
+            {lessonCopy[lang].lessons} · {Object.keys(progress.lessons).length} / {LESSONS.length}
+          </strong>
+          <small>{lessonCopy[lang].duration}</small>
+          {!onLesson && <p>{lessonCopy[lang].source}</p>}
+          {LESSONS.map((lesson) => (
+            <button
+              key={lesson.id}
+              disabled={!onLesson}
+              data-testid={`learn-${lesson.id}`}
+              onClick={() => onLesson?.(lesson.id)}
+            >
+              <strong>{l(lesson.title)}</strong>
+              <span>{l(lesson.summary)}</span>
+              <small>
+                {progress.lessons[lesson.id] ? lessonCopy[lang].completed : lessonCopy[lang].start}
+              </small>
+            </button>
+          ))}
+        </section>
         <aside className="learn-next">
           <strong>{c.next}</strong>
           <p>{c.future}</p>

@@ -1,3 +1,10 @@
+import type {
+  CameraPort,
+  CameraState,
+  LessonSession,
+  LessonSavedState,
+} from './learning/lessonTypes'
+import { DEFAULT_PARAMETERS } from './domain/parameters'
 import { GLOSSARY_EVENT, type GlossaryRequest, openGlossary } from './learning/termLinks'
 import { flowCopy } from './learning/copy'
 import {
@@ -32,6 +39,7 @@ import { SavingsPanel } from './ui/SavingsPanel'
 import { ExplorerHub } from './ui/ExplorerHub'
 import { TONE, clusterMode, modeText, modeTone, mw } from './ui/format'
 
+const LessonRunner = lazy(() => import('./ui/learning/LessonRunner'))
 const LearnHub = lazy(() => import('./ui/learning/LearnHub'))
 const GuidedTour = lazy(() =>
   import('./ui/GuidedTour').then((module) => ({ default: module.GuidedTour })),
@@ -87,6 +95,11 @@ export default function App({ source }: { source?: TwinDataSource }) {
   useEffect(() => setFlowHint(false), [day])
   const [minute, setMinute] = useState(720)
   const clock = useRef(720)
+  const stopAt = useRef<number | null>(null)
+  const cameraPort = useRef<CameraPort | null>(null)
+  const [cameraRestore, setCameraRestore] = useState<{ state: CameraState; serial: number }>()
+  const learnWasPlaying = useRef(false)
+  const [lessonSession, setLessonSession] = useState<LessonSession | null>(null)
   const [playing, setPlaying] = useState(false)
   const [speed, setSpeed] = useState(30)
   const [touring, setTouring] = useState(false)
@@ -168,11 +181,14 @@ export default function App({ source }: { source?: TwinDataSource }) {
       // A frame timestamp can precede the performance.now() taken when playback started,
       // so never step backwards, and keep the clock inside the simulated day.
       const elapsed = Math.max(0, now - last) / 1000
-      clock.current = Math.min(1439, Math.max(0, clock.current + elapsed * speed))
+      clock.current = Math.min(stopAt.current ?? 1439, Math.max(0, clock.current + elapsed * speed))
       last = Math.max(last, now)
       const m = Math.floor(clock.current)
       setMinute((prev) => (prev === m ? prev : m))
-      if (clock.current >= 1439) {
+      if (stopAt.current !== null && clock.current >= stopAt.current) {
+        stopAt.current = null
+        setPlaying(false)
+      } else if (clock.current >= 1439) {
         setPlaying(false)
         setTouring(false)
         if (day && hintedDay.current !== day) {
@@ -199,6 +215,8 @@ export default function App({ source }: { source?: TwinDataSource }) {
   const seek = useCallback((m: number) => {
     setPlaying(false)
     setTouring(false)
+    clock.current = m
+    stopAt.current = null
     setMinute(m)
   }, [])
 
@@ -240,12 +258,12 @@ export default function App({ source }: { source?: TwinDataSource }) {
   useLayoutEffect(() => {
     if (!day || day.id === appliedScenario.current) return
     appliedScenario.current = day.id
-    if (day.id === 'fault') {
+    if (day.id === 'fault' && !lessonSession) {
       setMinute(1050)
       clock.current = 1050
       select(FAULT_NODE)
     }
-  }, [day, select])
+  }, [day, select, lessonSession])
 
   const snapshot: Snapshot | null = day
     ? snapshotAt(day, Math.min(1439, Math.max(0, Math.floor(minute))))
@@ -358,6 +376,8 @@ export default function App({ source }: { source?: TwinDataSource }) {
               paused={modal !== null || glossary !== null || flowView !== null || study.busy}
               snapshot={snapshot}
               clock={clock}
+              cameraPort={cameraPort}
+              cameraRestore={cameraRestore}
               scenario={snapshot?.scenarioId ?? scenario}
               selected={selected}
               highlighted={highlighted}
@@ -403,11 +423,12 @@ export default function App({ source }: { source?: TwinDataSource }) {
   const alarm = snapshot.alarms[0]
 
   return (
-    <div className="app">
+    <div className={`app${lessonSession ? ' lesson-active' : ''}`}>
       {scene}
 
       <div className="overlay" ref={overlay}>
         <TopBar
+          lessonActive={!!lessonSession}
           scenario={snapshot.scenarioId}
           setScenario={changeScenario}
           snapshot={snapshot}
@@ -421,13 +442,14 @@ export default function App({ source }: { source?: TwinDataSource }) {
             autoRotate
           }
           onLearn={() => {
+            learnWasPlaying.current = playing
             setPlaying(false)
             setModal('learn')
           }}
           onAlarms={() => setModal('alarms')}
           onAbout={() => setModal('about')}
           onStudy={
-            study.enabled
+            study.enabled && !lessonSession
               ? () => {
                   setPlaying(false)
                   setTouring(false)
@@ -458,6 +480,76 @@ export default function App({ source }: { source?: TwinDataSource }) {
               </span>
               <ArrowUpRight size={15} />
             </button>
+          )}
+          {lessonSession && (
+            <Suspense
+              fallback={
+                <div className="card lesson-runner" role="status">
+                  {t.learn.loading}
+                </div>
+              }
+            >
+              <LessonRunner
+                session={lessonSession}
+                result={study.result}
+                busy={study.busy}
+                error={study.error}
+                minute={minute}
+                playing={playing}
+                reducedMotion={reducedMotion}
+                retry={study.retry}
+                prepare={(id) => {
+                  setPlaying(false)
+                  stopAt.current = null
+                  setTouring(false)
+                  setAutoRotate(false)
+                  study.setProposal(DEFAULT_PARAMETERS, false)
+                  study.setOriginal(DEFAULT_PARAMETERS)
+                  setScenario(id)
+                }}
+                move={(m, key) => {
+                  seek(m)
+                  setSelected(key === 'overview' ? null : key)
+                  flyTo(key)
+                }}
+                playUntil={(m) => {
+                  stopAt.current = m
+                  setSpeed(15)
+                  setPlaying(true)
+                }}
+                restore={(saved: LessonSavedState, phase) => {
+                  setPlaying(false)
+                  stopAt.current = null
+                  if (phase === 'request') {
+                    study.setProposal(saved.proposal, false)
+                    study.setOriginal(saved.original)
+                    setScenario(saved.scenario)
+                  } else {
+                    clock.current = saved.minute
+                    setMinute(saved.minute)
+                    setSelected(saved.selected)
+                    setSpeed(saved.speed)
+                    setAutoRotate(saved.rotate)
+                    flyTo(saved.focus)
+                    if (saved.camera)
+                      setCameraRestore((previous) => ({
+                        state: saved.camera!,
+                        serial: (previous?.serial ?? 0) + 1,
+                      }))
+                    setLessonSession(null)
+                    setPlaying(saved.playing)
+                    requestAnimationFrame(() =>
+                      requestAnimationFrame(() => {
+                        window.scrollTo(...saved.scroll)
+                        document
+                          .querySelector<HTMLButtonElement>('.learn-btn')
+                          ?.focus({ preventScroll: true })
+                      }),
+                    )
+                  }
+                }}
+              />
+            </Suspense>
           )}
           <ExplorerHub
             onOpen={(kind) => {
@@ -509,13 +601,21 @@ export default function App({ source }: { source?: TwinDataSource }) {
               selection={selected}
               snapshot={snapshot}
               onSelect={select}
-              onInspect={() => {
-                setPlaying(false)
-                setTouring(false)
-                setModal(
-                  selected === 'pv' ? 'pv' : selected.startsWith('wind-') ? 'wind' : 'container',
-                )
-              }}
+              onInspect={
+                lessonSession
+                  ? undefined
+                  : () => {
+                      setPlaying(false)
+                      setTouring(false)
+                      setModal(
+                        selected === 'pv'
+                          ? 'pv'
+                          : selected.startsWith('wind-')
+                            ? 'wind'
+                            : 'container',
+                      )
+                    }
+              }
               onClose={() => {
                 setSelected(null)
                 flyTo('overview')
@@ -525,7 +625,7 @@ export default function App({ source }: { source?: TwinDataSource }) {
         </div>
 
         <div className="bottom-row" ref={bottomRow}>
-          <div className="timeline-slot">
+          <div className="timeline-slot" inert={!!lessonSession}>
             <footer className="legend-chip">
               {(
                 [
@@ -551,7 +651,7 @@ export default function App({ source }: { source?: TwinDataSource }) {
                 </a>
               </em>
             </footer>
-            {flowHint && !touring && (
+            {flowHint && !touring && !lessonSession && (
               <div className="card energy-day-hint" role="status">
                 <span>{flowCopy[lang].hint}</span>
                 <button className="pill-btn" onClick={() => openFlows()}>
@@ -612,6 +712,29 @@ export default function App({ source }: { source?: TwinDataSource }) {
             onTour={toggleTour}
             onGlossary={(trigger) => openGlossary({ trigger })}
             onFlows={() => openFlows()}
+            onLesson={
+              study.enabled && !study.busy && !study.error
+                ? (id) => {
+                    const saved: LessonSavedState = {
+                      proposal: study.proposal,
+                      original: study.original,
+                      scenario,
+                      minute,
+                      selected,
+                      focus: focus.key,
+                      playing: learnWasPlaying.current,
+                      speed,
+                      rotate: autoRotate,
+                      camera: cameraPort.current?.capture() ?? null,
+                      scroll: [window.scrollX, window.scrollY],
+                    }
+                    setPlaying(false)
+                    setTouring(false)
+                    setModal(null)
+                    setLessonSession({ id, saved })
+                  }
+                : undefined
+            }
           />
         </Suspense>
       )}

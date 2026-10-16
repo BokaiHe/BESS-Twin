@@ -235,7 +235,7 @@ Underlined terms in the dashboard, storage details, voltage explanation, timelin
 
 The 35 definitions and popup layout load on first interaction. Keyboard focus or a click opens an explanation; Escape closes it and restores focus. Only one explanation is open at a time. On narrow screens, the card sits near the bottom of the viewport. This stage does not change simulation physics, introduce dependencies, or require browser storage.
 
-The reviewed implementation plan is in [the learning edition specification](docs/learning-edition-spec.md). The Learn hub is available in stage 4; lessons and challenges remain later stages.
+The reviewed implementation plan is in [the learning edition specification](docs/learning-edition-spec.md). The Learn hub is available in stage 4 and guided lessons in stage 5; parameter challenges remain a later stage.
 
 To compare learning-layer startup against a previous release, build both checkouts with `npm run build:pages`, then run `node scripts/check-learning-performance.mjs /path/to/baseline/dist`. The script serves both distributions locally, alternates fresh Edge contexts, checks the 15 KB initial-JavaScript gzip budget, and records visibility and warmed scenario-switch timings in `test-results/learning-performance.json`. Run it separately from the browser regression suite; the measurements are machine-specific.
 
@@ -259,10 +259,22 @@ The chart and calculation load on demand using the existing Recharts dependency.
 
 ## Learning edition: learning centre and progress (local stage 4)
 
-Choose **Learn** in the top bar for **Guided tour**, **Energy glossary** and **View energy flows**. The first-visit hint opens the same centre. Contextual term links and the bill's energy-flow entry remain available. Lessons and challenges are described as upcoming content, with no inactive navigation masquerading as a working feature.
+Choose **Learn** in the top bar for **Guided tour**, **Energy glossary** and **View energy flows**. The first-visit hint opens the same centre. Contextual term links and the bill's energy-flow entry remain available. Five guided lessons are available in stage 5. Parameter challenges remain upcoming content.
 
 Finishing all tour steps records **Completed**; opening the glossary or energy chart records **Viewed**, not mastery. These three activities form the current activity summary. Progress persists across reloads and language changes in this browser under `bess-twin-learning-v1`; the record also preserves the specified lesson and challenge fields for later stages. There is no account or server sync. Other tabs update an open centre through browser storage events.
 
 Malformed or obsolete fields are ignored safely. If storage access or saving fails, the centre explains that progress is session-only and keeps it in memory. **Reset learning progress** asks for confirmation and clears only learning data, preserving simulation parameters and language preferences. Closing a reference returns to its centre card; closing the centre or tour returns to Learn. Opening learning pauses playback without changing the selected minute or simulation parameters.
 
 The centre, progress module and walkthrough load on demand. Desktop controls stay on one row at 1024, 1366 and 1600 px, including short windows; the phone retains accessible compact controls. See [desktop centre](docs/screenshots/learning-hub.png), [Chinese mobile centre](docs/screenshots/learning-hub-mobile-zh.png) and [verification notes](docs/verification.md).
+
+## Learning edition: guided lessons (local stage 5)
+
+Choose **Learn → Guided lessons** for five self-paced, bilingual lessons: storage basics, surplus solar, the evening peak, cloudy-day preparation and losing a storage unit. L1 uses the live tank analogy in the storage detail card. L2–L5 ask for a prediction before advancing the existing timeline and revealing the measured outcome. Wrong predictions still receive the full explanation. Predictions can have several observed outcomes; if none matches, the panel reports the actual data without inventing a correct option.
+
+Lessons use the default simulation parameters. Non-default proposals require an explanation and confirmation first. The original and proposed designs, scenario, minute, selection, camera orbit/zoom, playback speed and running state are saved once, including when continuing into another lesson. Completing or exiting restores that context after its matching calculation arrives. The normal fault-day jump is suppressed during lesson setup and restoration. Parameter and timeline controls are reserved for the lesson; language, camera and device inspection cards remain usable. Equipment cutaway entry is hidden during a lesson.
+
+The runner sits beside the scene on desktop and at the bottom on short/mobile screens. Playback reads existing minute snapshots and stops at the checkpoint; it does not integrate energy. Reduced-motion mode reveals the checkpoint without autoplay, and normal playback includes a skip option. Completing the last step records the lesson separately from viewed references in the existing browser progress record.
+
+Course content, predicates and the runner load on demand. No dispatch rules, worker algorithms or dependencies change. The fault lesson uses `StudyResult.sunny` at the same minute and parameters; the cloudy-day result uses the existing baseline alias, which is not interpreted as a separate sunny comparison. See [the specification](docs/learning-edition-spec.md) and [verification notes](docs/verification.md).
+
+Local production-preview check: `node scripts/check-lessons-preview.mjs` (start the Pages-mode preview on port 5180 first). Screenshots: [desktop lesson](docs/screenshots/learning-lessons.png) · [Chinese mobile prediction](docs/screenshots/learning-lessons-mobile-zh.png).

@@ -166,7 +166,7 @@ export function DetailCard({
   snapshot: Snapshot
   onSelect: (s: Selection) => void
   onClose: () => void
-  onInspect: () => void
+  onInspect?: () => void
 }) {
   const { t, l, lang } = useI18n()
   const m = snapshot.metrics
@@ -429,25 +429,26 @@ export function DetailCard({
         {(selection === 'bess-cluster' ||
           selection.startsWith('bess-') ||
           selection === 'pv' ||
-          selection.startsWith('wind-')) && (
-          <button className="container-entry" onClick={onInspect}>
-            <span aria-hidden="true">
-              {selection === 'pv' ? (
-                <Sun size={18} />
-              ) : selection.startsWith('wind-') ? (
-                <Wind size={18} />
-              ) : (
-                <BatteryCharging size={18} />
-              )}
-            </span>
-            <span>
-              {selection === 'pv' || selection.startsWith('wind-')
-                ? t.exploreEquipment
-                : t.exploreInside}
-            </span>
-            <span aria-hidden="true">↗</span>
-          </button>
-        )}
+          selection.startsWith('wind-')) &&
+          onInspect && (
+            <button className="container-entry" onClick={onInspect}>
+              <span aria-hidden="true">
+                {selection === 'pv' ? (
+                  <Sun size={18} />
+                ) : selection.startsWith('wind-') ? (
+                  <Wind size={18} />
+                ) : (
+                  <BatteryCharging size={18} />
+                )}
+              </span>
+              <span>
+                {selection === 'pv' || selection.startsWith('wind-')
+                  ? t.exploreEquipment
+                  : t.exploreInside}
+              </span>
+              <span aria-hidden="true">↗</span>
+            </button>
+          )}
         {body}
       </div>
     </aside>
