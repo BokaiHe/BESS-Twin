@@ -1,0 +1,31 @@
+{
+  "recordedAt": "2026-10-16T05:34:49.249Z",
+  "url": "http://127.0.0.1:5180/BESS-Twin/",
+  "durationSeconds": 30,
+  "chapters": [
+    {
+      "title": "Sunny day: read precomputed snapshots",
+      "seconds": 0
+    },
+    {
+      "title": "Storage at the evening peak",
+      "seconds": 5.63
+    },
+    {
+      "title": "Explore the container and its cell transport",
+      "seconds": 8.01
+    },
+    {
+      "title": "Discharge flow fully visible",
+      "seconds": 16.79
+    },
+    {
+      "title": "Double capacity and wait for the recalculated comparison",
+      "seconds": 20.11
+    }
+  ],
+  "originalCapacityMWh": 20,
+  "proposedCapacityMWh": 40,
+  "errors": [],
+  "note": "Chapter offsets are measured from the ready page before trimming. Actual comparison values are rendered by the app; no result text is replaced."
+}

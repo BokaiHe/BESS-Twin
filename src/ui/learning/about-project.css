@@ -1,0 +1,81 @@
+.project-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.project-tabs button {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #d5deeb;
+  border-radius: 12px;
+  background: #f3f6fa;
+  color: #475569;
+  font: inherit;
+  cursor: pointer;
+}
+.project-tabs button[aria-selected='true'] {
+  background: #eaf0ff;
+  border-color: #547dff;
+  color: #244bc2;
+}
+.about-project h3 {
+  font-size: clamp(22px, 3vw, 30px);
+  line-height: 1.2;
+  margin: 8px 0 16px;
+}
+.about-project h4 {
+  font-size: 16px;
+  margin: 26px 0 12px;
+}
+.project-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: #52657d;
+}
+.project-decisions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.project-decisions article {
+  background: #f4f7fb;
+  border-radius: 12px;
+  padding: 16px;
+}
+.project-decisions p,
+.project-architecture p {
+  margin-bottom: 0;
+}
+.project-architecture {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.project-architecture li {
+  border-top: 3px solid #7b97d8;
+  background: #f4f7fb;
+  padding: 12px;
+  border-radius: 4px;
+}
+.project-architecture span {
+  display: block;
+  color: #4268be;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.about-project a {
+  color: #244bc2;
+  text-underline-offset: 3px;
+}
+.about-project :focus-visible {
+  outline: 2px solid #4268be;
+  outline-offset: 3px;
+}
+@media (max-width: 600px) {
+  .project-decisions,
+  .project-architecture {
+    grid-template-columns: 1fr;
+  }
+}

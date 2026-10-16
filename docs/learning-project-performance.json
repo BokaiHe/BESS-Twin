@@ -1,0 +1,153 @@
+{
+  "measuredAt": "2026-10-16T05:18:35.529Z",
+  "note": "Edge headless, 1366x768, fresh contexts, warmed browser/GPU, local production builds. Canvas/data visibility is not a GPU frame-time measurement. Switches wait for idle prewarming.",
+  "assets": {
+    "baseline": {
+      "paths": [
+        "/BESS-Twin/assets/index-B_oBbN5z.js",
+        "/BESS-Twin/assets/i18n-Sq8RnGUJ.js",
+        "/BESS-Twin/assets/config-C2R0xIoe.js",
+        "/BESS-Twin/assets/createLucideIcon-BdD445dm.js"
+      ],
+      "gzipBytes": 501592
+    },
+    "learning": {
+      "paths": [
+        "/BESS-Twin/assets/index-BOF74Ta4.js",
+        "/BESS-Twin/assets/i18n-Sq8RnGUJ.js",
+        "/BESS-Twin/assets/config-C2R0xIoe.js",
+        "/BESS-Twin/assets/createLucideIcon-BdD445dm.js"
+      ],
+      "gzipBytes": 501644
+    }
+  },
+  "addedGzipBytes": 52,
+  "runs": [
+    {
+      "variant": "baseline",
+      "replies": 3,
+      "canvasMs": 537.7000000178814,
+      "dataMs": 537.7000000178814,
+      "lastCommitMs": 84.5,
+      "switches": {
+        "fault": {
+          "actionMs": 313,
+          "commitMs": 107
+        },
+        "cloudy": {
+          "actionMs": 294,
+          "commitMs": 68
+        },
+        "sunny": {
+          "actionMs": 267,
+          "commitMs": 85
+        }
+      }
+    },
+    {
+      "variant": "learning",
+      "replies": 3,
+      "canvasMs": 553.9000000059605,
+      "dataMs": 553.9000000059605,
+      "lastCommitMs": 74.2000000178814,
+      "switches": {
+        "fault": {
+          "actionMs": 384,
+          "commitMs": 124
+        },
+        "cloudy": {
+          "actionMs": 371,
+          "commitMs": 97
+        },
+        "sunny": {
+          "actionMs": 267,
+          "commitMs": 74
+        }
+      }
+    },
+    {
+      "variant": "learning",
+      "replies": 3,
+      "canvasMs": 556.2000000178814,
+      "dataMs": 556.3000000119209,
+      "lastCommitMs": 67.80000001192093,
+      "switches": {
+        "fault": {
+          "actionMs": 312,
+          "commitMs": 104
+        },
+        "cloudy": {
+          "actionMs": 276,
+          "commitMs": 73
+        },
+        "sunny": {
+          "actionMs": 220,
+          "commitMs": 68
+        }
+      }
+    },
+    {
+      "variant": "baseline",
+      "replies": 3,
+      "canvasMs": 575.0999999940395,
+      "dataMs": 575.1999999880791,
+      "lastCommitMs": 73.5,
+      "switches": {
+        "fault": {
+          "actionMs": 308,
+          "commitMs": 113
+        },
+        "cloudy": {
+          "actionMs": 324,
+          "commitMs": 77
+        },
+        "sunny": {
+          "actionMs": 257,
+          "commitMs": 74
+        }
+      }
+    },
+    {
+      "variant": "baseline",
+      "replies": 3,
+      "canvasMs": 548.7999999821186,
+      "dataMs": 548.9000000059605,
+      "lastCommitMs": 61.79999998211861,
+      "switches": {
+        "fault": {
+          "actionMs": 322,
+          "commitMs": 116
+        },
+        "cloudy": {
+          "actionMs": 275,
+          "commitMs": 91
+        },
+        "sunny": {
+          "actionMs": 188,
+          "commitMs": 62
+        }
+      }
+    },
+    {
+      "variant": "learning",
+      "replies": 3,
+      "canvasMs": 576.1999999880791,
+      "dataMs": 576.1999999880791,
+      "lastCommitMs": 80.7000000178814,
+      "switches": {
+        "fault": {
+          "actionMs": 373,
+          "commitMs": 124
+        },
+        "cloudy": {
+          "actionMs": 320,
+          "commitMs": 80
+        },
+        "sunny": {
+          "actionMs": 243,
+          "commitMs": 81
+        }
+      }
+    }
+  ]
+}

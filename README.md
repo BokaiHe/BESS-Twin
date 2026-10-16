@@ -4,7 +4,28 @@ An interactive digital twin of a renewable energy park, built with React, Vite, 
 
 **[Live demo](https://bokaihe.github.io/BESS-Twin/)** · **[Source](https://github.com/BokaiHe/BESS-Twin)**
 
-![BESS Twin energy park](docs/screenshots/overview-en.png)
+![BESS Twin: playback, storage cutaway and capacity comparison](docs/demo.gif)
+
+[Watch the 30-second WebM](docs/demo.webm) · [Recording storyboard and instructions](docs/demo-storyboard.md)
+
+## Why this project exists
+
+BESS Twin helps beginners connect an energy park's physical equipment to its operating decisions: why batteries charge, when they discharge, and why MW and MWh describe different constraints. It combines a shared electrical topology with a read-only learning layer, rather than presenting independent animated numbers.
+
+- **Periodic steady states:** sunny and cloudy days end with the stored energy they started with; fault days inherit the same-parameter sunny state. Unconverged results are explicit.
+- **Honest comparisons:** serving less electricity is not a saving. Unequal supplied energy makes bill comparisons invalid; unserved load, network curtailment and inverter clipping remain separate.
+- **Immutable snapshots:** seeking reads precomputed results. Cards, 3D flows, charts and equipment explorers use the same data without integrating again.
+- **Background calculation:** a Web Worker, cached results and idle scenario prewarming keep calculation separate from interaction; stale replies cannot overwrite a newer request.
+
+```mermaid
+flowchart LR
+  A[Validated parameters + day scenario] --> B[Simulation Web Worker]
+  B --> C[Immutable SimulationDay / Snapshot]
+  C --> D[3D scene + cards + charts]
+  C --> E[Lessons + challenges + explorers]
+```
+
+Open **About the model → About this project** for the bilingual explanation. Before the documentation step, the verified local baseline was **123 unit tests and 89 browser tests passing** (16 October 2026); later runs and limitations are recorded in [the verification log](docs/verification.md). These are recorded checks, not a live badge. The learning edition is currently local and may be ahead of the published demo.
 
 > This is an illustrative simulation, not a connection to operating equipment or a remote-control system.
 

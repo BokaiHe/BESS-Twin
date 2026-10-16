@@ -40,6 +40,7 @@ import { SavingsPanel } from './ui/SavingsPanel'
 import { ExplorerHub } from './ui/ExplorerHub'
 import { TONE, clusterMode, modeText, modeTone, mw } from './ui/format'
 
+const AboutProject = lazy(() => import('./ui/learning/AboutProject'))
 const ChallengeRunner = lazy(() => import('./ui/learning/ChallengeRunner'))
 const LessonRunner = lazy(() => import('./ui/learning/LessonRunner'))
 const LearnHub = lazy(() => import('./ui/learning/LearnHub'))
@@ -873,10 +874,10 @@ export default function App({ source }: { source?: TwinDataSource }) {
         </Modal>
       )}
       {modal === 'about' && (
-        <Modal title={t.about} onClose={() => setModal(null)}>
-          {t.aboutBody.map((p) => (
-            <p key={p}>{p}</p>
-          ))}
+        <Modal title={t.about} onClose={() => setModal(null)} wide>
+          <Suspense fallback={<p>{t.about}</p>}>
+            <AboutProject />
+          </Suspense>
         </Modal>
       )}
       {modal === 'savings' && (
