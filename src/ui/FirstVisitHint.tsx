@@ -39,8 +39,8 @@ export function FirstVisitHint({
 
   const dismiss = () => {
     setVisible(false)
-    // Both hint actions disappear; leave focus on the persistent tour entry.
-    document.querySelector<HTMLButtonElement>('.tour-btn')?.focus({ preventScroll: true })
+    // Both hint actions disappear; leave focus on the persistent learning entry.
+    document.querySelector<HTMLButtonElement>('.learn-btn')?.focus({ preventScroll: true })
   }
   if (!visible || touring || hasExplored) return null
   return (

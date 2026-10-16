@@ -1,0 +1,124 @@
+.learn-hub-modal {
+  width: min(780px, calc(100vw - 32px));
+  max-width: none;
+}
+.learn-hub > p {
+  color: var(--text-2);
+}
+.learn-progress {
+  margin: 18px 0;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #edf5ff;
+}
+.learn-progress > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.learn-progress progress {
+  width: 100%;
+  height: 8px;
+  accent-color: var(--brand);
+  margin: 10px 0;
+}
+.learn-progress small {
+  display: block;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+.learn-cards {
+  display: grid;
+  gap: 10px;
+}
+.learn-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #dce5f0;
+  border-radius: 14px;
+  text-align: left;
+  background: #fff;
+}
+.learn-card:hover {
+  background: #f3f7fc;
+  border-color: #a6c2e8;
+}
+.learn-card:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: 2px;
+}
+.learn-card-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: #edf5ff;
+  color: var(--brand);
+}
+.learn-card-copy {
+  display: grid;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+}
+.learn-card-copy > span {
+  font-size: 12px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+.learn-card-copy small {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+}
+.learn-card-copy small.is-done {
+  color: #13724e;
+}
+.learn-card > svg {
+  flex-shrink: 0;
+  color: var(--brand);
+}
+.learn-next {
+  padding: 14px 0;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--text-2);
+}
+.learn-next p {
+  margin-top: 5px;
+}
+.learn-storage {
+  border-top: 1px solid #dce5f0;
+  padding-top: 12px;
+  font-size: 12px;
+}
+.learn-storage > p {
+  margin-bottom: 10px;
+  color: var(--text-2);
+}
+.learn-reset {
+  padding: 12px;
+  border-radius: 10px;
+  background: #f5f7fa;
+}
+.learn-reset p {
+  margin-bottom: 10px;
+}
+.learn-reset button {
+  margin-right: 8px;
+}
+@media (max-width: 540px) {
+  .learn-card {
+    padding: 12px;
+    gap: 10px;
+  }
+  .learn-card-icon {
+    width: 34px;
+    height: 34px;
+  }
+}

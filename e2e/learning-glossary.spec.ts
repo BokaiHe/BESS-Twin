@@ -106,7 +106,7 @@ test('phone explanations stay in view in both languages with reduced motion', as
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     await page.keyboard.press('Escape')
   }
-  await page.getByRole('button', { name: '关于模型', exact: true }).click()
+  await page.getByRole('button', { name: '学习', exact: true }).click()
   await page.getByRole('button', { name: '能源术语表', exact: true }).click()
   await page.getByRole('searchbox').fill('削峰')
   await expect(page.locator('[data-glossary-id="peak-shaving"]')).toBeVisible()
@@ -124,7 +124,7 @@ test('glossary remains usable without browser storage', async ({ page }) => {
       })
   })
   await page.goto('/')
-  await page.getByRole('button', { name: 'About the model', exact: true }).click()
+  await page.getByRole('button', { name: 'Learn', exact: true }).click()
   await page.getByRole('button', { name: 'Energy glossary', exact: true }).click()
   const dialog = page.getByRole('dialog', { name: 'Energy glossary' })
   await dialog.getByRole('searchbox').fill('PCS')

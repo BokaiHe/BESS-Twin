@@ -2,8 +2,7 @@ import {
   Bell,
   Cloud,
   Info,
-  Pause,
-  Sparkles,
+  BookOpen,
   Sun,
   TriangleAlert,
   Zap,
@@ -22,7 +21,7 @@ export function TopBar({
   snapshot,
   touring,
   hasExplored,
-  toggleTour,
+  onLearn,
   onAlarms,
   onAbout,
   onStudy,
@@ -32,7 +31,7 @@ export function TopBar({
   snapshot: Snapshot
   touring: boolean
   hasExplored: boolean
-  toggleTour: () => void
+  onLearn: () => void
   onAlarms: () => void
   onStudy?: () => void
   onAbout: () => void
@@ -85,12 +84,13 @@ export function TopBar({
           <strong>{timeLabel(snapshot.minute)}</strong>
         </div>
         <button
-          className={`card pill-btn tour-btn${touring ? ' is-on' : ''}`}
-          aria-label={touring ? t.tour.stop : t.tour.start}
-          onClick={toggleTour}
+          className="card pill-btn learn-btn"
+          aria-label={t.learn.open}
+          aria-haspopup="dialog"
+          onClick={onLearn}
         >
-          {touring ? <Pause size={14} /> : <Sparkles size={14} />}
-          <span>{touring ? t.tour.stop : t.tour.start}</span>
+          <BookOpen size={16} />
+          <span>{t.learn.open}</span>
         </button>
         <div className="card icon-group">
           <button
@@ -124,7 +124,7 @@ export function TopBar({
           </button>
         </div>
       )}
-      <FirstVisitHint touring={touring} hasExplored={hasExplored} onStart={toggleTour} />
+      <FirstVisitHint touring={touring} hasExplored={hasExplored} onStart={onLearn} />
     </header>
   )
 }

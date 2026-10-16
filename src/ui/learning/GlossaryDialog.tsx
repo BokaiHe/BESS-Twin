@@ -1,3 +1,4 @@
+import { markActivity } from '../../learning/progress'
 import { useEffect, useRef, useState } from 'react'
 import { useI18n } from '../../i18n'
 import { GLOSSARY, searchGlossary, type GlossaryId } from '../../learning/glossary'
@@ -11,6 +12,7 @@ export default function GlossaryDialog({
   initialId?: GlossaryId
   onClose: () => void
 }) {
+  useEffect(() => markActivity('glossary'), [])
   const { lang } = useI18n()
   const c = learningCopy[lang]
   const [query, setQuery] = useState('')

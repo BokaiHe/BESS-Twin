@@ -5,8 +5,8 @@ import { energyFlows } from '../src/simulation/energyFlows'
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('bess-twin-tour-hint-seen', '1'))
 })
-async function fromAbout(page: Page) {
-  await page.getByRole('button', { name: 'About the model', exact: true }).click()
+async function fromLearning(page: Page) {
+  await page.getByRole('button', { name: 'Learn', exact: true }).click()
   await page.getByRole('button', { name: 'View energy flows', exact: true }).click()
   return page.getByRole('dialog', { name: 'Where the energy goes', exact: true })
 }
@@ -20,7 +20,7 @@ test('lazy full-day Sankey supports keyboard routes, noon scope and matching dat
   await page.goto('/')
   await expect(page.getByTestId('kpi-soc')).toBeVisible()
   expect(requests.some((url) => /EnergyFlowChart|energyFlows\.ts/.test(url))).toBe(false)
-  const dialog = await fromAbout(page)
+  const dialog = await fromLearning(page)
   const pv = dialog.locator('[data-flow-link="pv-batteryCharge"]'),
     discharge = dialog.locator('[data-flow-link="batteryDischarge-load"]')
   await expect(pv).toBeVisible()
@@ -79,7 +79,7 @@ test('zero storage and no supply omit phantom nodes but keep the unmet demand vi
   })
   await expect(page.getByTestId('study-results')).toHaveAttribute('data-applied-capacity', '0')
   await page.keyboard.press('Escape')
-  const chart = await fromAbout(page)
+  const chart = await fromLearning(page)
   await expect(chart).toContainText('No energy transferred in this interval.')
   await expect(chart.locator('[data-flow-node]')).toHaveCount(0)
   await expect(chart.getByTestId('flow-loss')).toHaveText('0.000 MWh')
@@ -93,7 +93,7 @@ test('fault inventory and bilingual charts fit short and mobile windows with red
   await page.goto('/')
   await page.getByRole('button', { name: 'Storage fault', exact: true }).click()
   await expect(page.getByTestId('timeline-time')).toHaveText('17:30')
-  let chart = await fromAbout(page)
+  let chart = await fromLearning(page)
   const result = energyFlows(simulateDay('fault'), 0, 1440)
   const expected = result.storage.lossMWh.toLocaleString('en-US', {
     minimumFractionDigits: 3,
@@ -113,7 +113,7 @@ test('fault inventory and bilingual charts fit short and mobile windows with red
   await page.keyboard.press('Escape')
   await page.keyboard.press('Escape')
   await page.getByRole('button', { name: '切换到中文' }).click()
-  await page.getByRole('button', { name: '关于模型', exact: true }).click()
+  await page.getByRole('button', { name: '学习', exact: true }).click()
   await page.getByRole('button', { name: '查看能量去向', exact: true }).click()
   chart = page.getByRole('dialog', { name: '能量去了哪里', exact: true })
   await expect(chart).toContainText('储能库存与损耗')

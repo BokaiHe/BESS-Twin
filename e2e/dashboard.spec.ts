@@ -80,6 +80,7 @@ test('desktop: data matches the engine, seek is deterministic, fault, language s
 
   // The explanatory tour pauses at the current minute instead of auto-playing the day.
   const tourMinute = await page.getByTestId('timeline-time').textContent()
+  await page.getByRole('button', { name: '学习', exact: true }).click()
   await page.getByRole('button', { name: '功能导览', exact: true }).click()
   await expect(page.getByRole('dialog')).toContainText('认识能源园区')
   await page.getByRole('button', { name: '退出导览', exact: true }).click()
@@ -211,9 +212,10 @@ test('first visit defaults to English and walkthrough explains modules without a
     // Legacy automatic locale detection must not override the new English default.
     await page.addInitScript(() => localStorage.setItem('bess-twin-lang', 'zh'))
     await page.goto('/')
-    await expect(page.getByRole('button', { name: 'Guided tour', exact: true })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Learn', exact: true })).toBeVisible()
     await expect(page.locator('html')).toHaveAttribute('lang', 'en')
     const minute = await page.getByTestId('timeline-time').textContent()
+    await page.getByRole('button', { name: 'Learn', exact: true }).click()
     await page.getByRole('button', { name: 'Guided tour', exact: true }).click()
     const dialog = page.getByRole('dialog')
     await expect(dialog).toContainText('Meet the energy site')
@@ -246,13 +248,15 @@ test('first visit defaults to English and walkthrough explains modules without a
     await dialog.getByRole('button', { name: 'Start exploring', exact: true }).click()
     await expect(dialog).toHaveCount(0)
     await expect(page.getByTestId('timeline-time')).toHaveText(minute!)
+    await page.getByRole('button', { name: 'Learn', exact: true }).click()
     await page.getByRole('button', { name: 'Guided tour', exact: true }).click()
     await page.keyboard.press('Escape')
     await expect(dialog).toHaveCount(0)
     await page.getByRole('button', { name: '切换到中文' }).click()
     await page.reload()
-    await expect(page.getByRole('button', { name: '功能导览', exact: true })).toBeVisible()
+    await expect(page.getByRole('button', { name: '学习', exact: true })).toBeVisible()
     await page.setViewportSize({ width: 390, height: 844 })
+    await page.getByRole('button', { name: '学习', exact: true }).click()
     await page.getByRole('button', { name: '功能导览', exact: true }).click()
     await expect(dialog).toContainText('认识能源园区')
     await expect

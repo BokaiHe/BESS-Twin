@@ -1,3 +1,4 @@
+import { markActivity } from '../learning/progress'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, Sparkles, X } from 'lucide-react'
 import { useI18n, type Dict } from '../i18n'
@@ -42,7 +43,7 @@ export function GuidedTour({
   const copy = t.tour.steps[step.key]
 
   useEffect(() => {
-    const previous = document.activeElement as HTMLElement | null
+    const previous = document.querySelector<HTMLElement>('.learn-btn')
     const scroll = { left: window.scrollX, top: window.scrollY }
     const element = dialog.current
     element?.showModal()
@@ -132,7 +133,12 @@ export function GuidedTour({
           </button>
           <button
             className="guide-next"
-            onClick={() => (index === STEPS.length - 1 ? onClose() : setIndex((i) => i + 1))}
+            onClick={() => {
+              if (index === STEPS.length - 1) {
+                markActivity('tour')
+                onClose()
+              } else setIndex((i) => i + 1)
+            }}
           >
             {index === STEPS.length - 1 ? t.tour.finish : t.tour.next}
             <ArrowRight size={15} />

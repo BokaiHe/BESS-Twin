@@ -1,5 +1,5 @@
 import { GLOSSARY_EVENT, type GlossaryRequest, openGlossary } from './learning/termLinks'
-import { learningCopy, flowCopy } from './learning/copy'
+import { flowCopy } from './learning/copy'
 import {
   Component,
   Suspense,
@@ -29,10 +29,13 @@ import { DeviceList } from './ui/DeviceList'
 import { Timeline } from './ui/Timeline'
 import { Modal } from './ui/Modal'
 import { SavingsPanel } from './ui/SavingsPanel'
-import { GuidedTour } from './ui/GuidedTour'
 import { ExplorerHub } from './ui/ExplorerHub'
 import { TONE, clusterMode, modeText, modeTone, mw } from './ui/format'
 
+const LearnHub = lazy(() => import('./ui/learning/LearnHub'))
+const GuidedTour = lazy(() =>
+  import('./ui/GuidedTour').then((module) => ({ default: module.GuidedTour })),
+)
 const EnergyFlowChart = lazy(() => import('./ui/learning/EnergyFlowChart'))
 const GlossaryDialog = lazy(() => import('./ui/learning/GlossaryDialog'))
 const ContainerExplorer = lazy(() => import('./components/cabinet/ContainerExplorer'))
@@ -92,7 +95,7 @@ export default function App({ source }: { source?: TwinDataSource }) {
   const [zoomCmd, setZoomCmd] = useState<{ dir: 1 | -1; serial: number }>({ dir: 1, serial: 0 })
   const [autoRotate, setAutoRotate] = useState(false)
   const [modal, setModal] = useState<
-    'about' | 'savings' | 'alarms' | 'container' | 'pv' | 'wind' | 'study' | null
+    'about' | 'savings' | 'alarms' | 'container' | 'pv' | 'wind' | 'study' | 'learn' | null
   >(null)
   const [reducedMotion, setReducedMotion] = useState(false)
   // The left column may only use the height above the timeline and its legend, so the
@@ -417,7 +420,10 @@ export default function App({ source }: { source?: TwinDataSource }) {
             zoomCmd.serial > 0 ||
             autoRotate
           }
-          toggleTour={toggleTour}
+          onLearn={() => {
+            setPlaying(false)
+            setModal('learn')
+          }}
           onAlarms={() => setModal('alarms')}
           onAbout={() => setModal('about')}
           onStudy={
@@ -593,6 +599,22 @@ export default function App({ source }: { source?: TwinDataSource }) {
         </div>
       </div>
 
+      {modal === 'learn' && (
+        <Suspense
+          fallback={
+            <div className="card scene-computing" role="status">
+              {t.learn.loading}
+            </div>
+          }
+        >
+          <LearnHub
+            onClose={() => setModal(null)}
+            onTour={toggleTour}
+            onGlossary={(trigger) => openGlossary({ trigger })}
+            onFlows={() => openFlows()}
+          />
+        </Suspense>
+      )}
       {flowView && (
         <Suspense
           fallback={
@@ -616,7 +638,17 @@ export default function App({ source }: { source?: TwinDataSource }) {
           <GlossaryDialog initialId={glossary.id} onClose={closeGlossary} />
         </Suspense>
       )}
-      {touring && <GuidedTour onClose={closeTour} onFocus={focusTour} />}
+      {touring && (
+        <Suspense
+          fallback={
+            <div className="card scene-computing" role="status">
+              {t.learn.loading}
+            </div>
+          }
+        >
+          <GuidedTour onClose={closeTour} onFocus={focusTour} />
+        </Suspense>
+      )}
 
       {modal === 'container' && (
         <Modal title={t.cabinet.title} className="container-modal" onClose={() => setModal(null)}>
@@ -653,15 +685,6 @@ export default function App({ source }: { source?: TwinDataSource }) {
       )}
       {modal === 'about' && (
         <Modal title={t.about} onClose={() => setModal(null)}>
-          <button
-            className="pill-btn"
-            onClick={(event) => openGlossary({ trigger: event.currentTarget })}
-          >
-            {learningCopy[lang].glossary}
-          </button>
-          <button className="pill-btn" onClick={() => openFlows()}>
-            {flowCopy[lang].entry}
-          </button>
           {t.aboutBody.map((p) => (
             <p key={p}>{p}</p>
           ))}

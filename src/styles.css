@@ -294,10 +294,10 @@ svg {
   color: var(--text);
   font-size: 14px;
 }
-.tour-btn {
+.learn-btn {
   color: var(--brand);
 }
-.tour-btn.is-on {
+.learn-btn.is-on {
   background: var(--brand);
   color: #fff;
 }
@@ -1533,7 +1533,7 @@ svg {
   .brand-text small {
     display: none;
   }
-  .tour-btn span {
+  .learn-btn span {
     display: none;
   }
 }
@@ -1597,7 +1597,7 @@ svg {
     font-size: 12px;
   }
   .live-chip,
-  .tour-btn {
+  .learn-btn {
     display: none;
   }
   .brand {
@@ -1982,7 +1982,7 @@ svg {
 }
 
 @media (max-width: 900px), (max-height: 740px) {
-  .tour-btn {
+  .learn-btn {
     display: inline-flex;
     width: 38px;
     height: 38px;
@@ -2311,12 +2311,12 @@ html[lang|='zh'] .modal:is(.container-modal, .renewable-modal) * {
 .first-visit-hint > p {
   grid-column: 1;
 }
-.tour-btn,
+.learn-btn,
 .study-entry,
 .topbar-right {
   flex-shrink: 0;
 }
-.tour-btn {
+.learn-btn {
   white-space: nowrap;
 }
 .scene-computing {
@@ -2331,7 +2331,7 @@ html[lang|='zh'] .modal:is(.container-modal, .renewable-modal) * {
   z-index: 12;
 }
 @media (max-width: 900px), (max-height: 740px) {
-  .tour-btn span {
+  .learn-btn span {
     display: none;
   }
 }
@@ -2761,4 +2761,45 @@ button.term:focus-visible {
 }
 .energy-flow-entry {
   margin-bottom: 16px;
+}
+
+/* Keep the primary controls on one row on desktop, even in a short window. */
+@media (min-width: 901px) {
+  .topbar {
+    gap: 8px;
+  }
+  .topbar-right {
+    gap: 6px;
+  }
+  .scenario-switch {
+    order: 0;
+    width: auto;
+    height: 52px;
+    margin-left: auto;
+  }
+  .scenario-switch button {
+    flex: 0 0 auto;
+    height: 42px;
+  }
+  .live-chip {
+    display: flex;
+  }
+  .learn-btn {
+    display: inline-flex;
+    width: auto;
+    height: 40px;
+    padding: 0 12px;
+  }
+  .learn-btn span {
+    display: inline;
+  }
+  .study-entry {
+    order: 0;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1080px) {
+  .scenario-switch span {
+    display: none;
+  }
 }

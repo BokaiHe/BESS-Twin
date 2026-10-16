@@ -43,7 +43,7 @@ No backend, API keys, external 3D assets or paid services are required to run th
 
 ## Explore the demo
 
-1. Open **Guided tour** for a step-by-step introduction to the modules.
+1. Open **Learn → Guided tour** for a step-by-step introduction to the modules.
 2. Select a full-day scenario at the top of the screen.
 3. Use the timeline, chart or time bookmarks to inspect midday and the evening peak.
 4. Select a 3D object, label or device row to inspect its measurements and connected lines.
@@ -103,7 +103,7 @@ The fixed simulation date is `2026-06-18`, UTC+08:00; it is independent of the c
 
 The browser tests currently use the installed Microsoft Edge channel and start a test server on port 5178. On a machine without Edge, install that browser or change `channel` in `playwright.config.ts` to a browser available in your environment.
 
-The test suites contain **88 unit tests** and **68 browser flows**. Coverage includes scenario changes, deterministic seeking, the exact fault boundary, bill comparability, language persistence, all 13 walkthrough steps, equipment disassembly, battery transport, solar/wind generation animations and the explorer hub. See [verification notes](docs/verification.md) for results and known limitations.
+The test suites contain **97 unit tests** and **74 browser flows**. Coverage includes scenario changes, deterministic seeking, the exact fault boundary, bill comparability, language persistence, all 13 walkthrough steps, equipment disassembly, battery transport, solar/wind generation animations and the explorer hub. See [verification notes](docs/verification.md) for results and known limitations.
 
 ## Project structure
 
@@ -213,7 +213,7 @@ Geometry checks: `npm run renewables:build`. Browser regression checks: `npx pla
 
 Share metadata is present in the initial HTML, following the [Open Graph protocol](https://ogp.me/). `public/social-preview.png` is the simplified energy-park screenshot, with English equipment labels and without dashboard panels. Forks should update the canonical, Open Graph and card URLs in `index.html`; copy a new screenshot and update its declared dimensions when refreshing the cover. Preview rendering and caching depend on the sharing platform; this does not guarantee a card on every platform.
 
-The optional tour hint appears once per browser storage profile. It neither starts the tour automatically nor changes simulation time. Starting the tour or dismissing the hint returns focus through the persistent tour button. With browser storage disabled, the page remains usable; the hint can reappear on a new visit because persistence is unavailable.
+The optional tour hint appears once per browser storage profile. It neither starts the tour automatically nor changes simulation time. The hint opens the learning centre. Opening or dismissing it uses the persistent Learn button for focus return; the tour starts only when selected inside the centre. With browser storage disabled, the page remains usable; the hint can reappear on a new visit because persistence is unavailable.
 
 Parameter editing and original-versus-proposal comparison are included in this version and specified in [the data contract](docs/data-contract.md).
 
@@ -231,11 +231,11 @@ Comparison bills use the same display currency as the dashboard: USD in English 
 
 ## Learning edition: glossary (local stage 1)
 
-Underlined terms in the dashboard, storage details, voltage explanation, timeline strategy, parameter editor and tariff ledger open bilingual explanations. The full **Energy glossary** is searchable in either language and can also be opened from **About the model**. Related terms link to their own entries. Each concept is annotated only once per card or panel; the equipment explorers keep their existing explanations.
+Underlined terms in the dashboard, storage details, voltage explanation, timeline strategy, parameter editor and tariff ledger open bilingual explanations. The full **Energy glossary** is searchable in either language and can also be opened from **Learn**. Related terms link to their own entries. Each concept is annotated only once per card or panel; the equipment explorers keep their existing explanations.
 
 The 35 definitions and popup layout load on first interaction. Keyboard focus or a click opens an explanation; Escape closes it and restores focus. Only one explanation is open at a time. On narrow screens, the card sits near the bottom of the viewport. This stage does not change simulation physics, introduce dependencies, or require browser storage.
 
-The reviewed implementation plan is in [the learning edition specification](docs/learning-edition-spec.md). The Learn hub, lessons and challenges remain later stages; the existing guided-tour entry is unchanged in this stage.
+The reviewed implementation plan is in [the learning edition specification](docs/learning-edition-spec.md). The Learn hub is available in stage 4; lessons and challenges remain later stages.
 
 To compare learning-layer startup against a previous release, build both checkouts with `npm run build:pages`, then run `node scripts/check-learning-performance.mjs /path/to/baseline/dist`. The script serves both distributions locally, alternates fresh Edge contexts, checks the 15 KB initial-JavaScript gzip budget, and records visibility and warmed scenario-switch timings in `test-results/learning-performance.json`. Run it separately from the browser regression suite; the measurements are machine-specific.
 
@@ -251,8 +251,18 @@ The SVG component and its styles load on demand. This stage changes no dispatch 
 
 ## Learning edition: energy flow summary (local stage 3)
 
-Open the bill explanation and choose **View energy flows**, or use the same entry in **About the model**. A non-blocking prompt also appears when playback finishes the day. The Sankey diagram shows actual solar, wind, grid and storage contributions to served load, charging and exports. Select a band with a click or keyboard to inspect its MWh; expand the table for all transfers and source/destination totals.
+Open the bill explanation and choose **View energy flows**, or use the same entry in **Learn**. A non-blocking prompt also appears when playback finishes the day. The Sankey diagram shows actual solar, wind, grid and storage contributions to served load, charging and exports. Select a band with a click or keyboard to inspect its MWh; expand the table for all transfers and source/destination totals.
 
 Switch between **Full day** and **Up to** the selected time. Every one-minute allocation is reconciled before aggregation. Curtailment, PV clipping and unserved demand are listed separately. The storage ledger subtracts the DC inventory change from AC charging minus discharge to calculate conversion losses, including on fault days. This is an illustrative allocation convention, not electron tracing or a total of unique primary energy.
 
-The chart and calculation load on demand using the existing Recharts dependency. All explanations are bilingual, and the static diagram supports reduced-motion preferences. See [calculation rules](docs/simulation.md), [verification](docs/verification.md), [desktop diagram](docs/screenshots/learning-energy-flows.png) and [mobile Chinese diagram](docs/screenshots/learning-energy-flows-mobile-zh.png). The shared Learn hub entry follows in stage 4.
+The chart and calculation load on demand using the existing Recharts dependency. All explanations are bilingual, and the static diagram supports reduced-motion preferences. See [calculation rules](docs/simulation.md), [verification](docs/verification.md), [desktop diagram](docs/screenshots/learning-energy-flows.png) and [mobile Chinese diagram](docs/screenshots/learning-energy-flows-mobile-zh.png). The shared Learn hub is available in stage 4.
+
+## Learning edition: learning centre and progress (local stage 4)
+
+Choose **Learn** in the top bar for **Guided tour**, **Energy glossary** and **View energy flows**. The first-visit hint opens the same centre. Contextual term links and the bill's energy-flow entry remain available. Lessons and challenges are described as upcoming content, with no inactive navigation masquerading as a working feature.
+
+Finishing all tour steps records **Completed**; opening the glossary or energy chart records **Viewed**, not mastery. These three activities form the current activity summary. Progress persists across reloads and language changes in this browser under `bess-twin-learning-v1`; the record also preserves the specified lesson and challenge fields for later stages. There is no account or server sync. Other tabs update an open centre through browser storage events.
+
+Malformed or obsolete fields are ignored safely. If storage access or saving fails, the centre explains that progress is session-only and keeps it in memory. **Reset learning progress** asks for confirmation and clears only learning data, preserving simulation parameters and language preferences. Closing a reference returns to its centre card; closing the centre or tour returns to Learn. Opening learning pauses playback without changing the selected minute or simulation parameters.
+
+The centre, progress module and walkthrough load on demand. Desktop controls stay on one row at 1024, 1366 and 1600 px, including short windows; the phone retains accessible compact controls. See [desktop centre](docs/screenshots/learning-hub.png), [Chinese mobile centre](docs/screenshots/learning-hub-mobile-zh.png) and [verification notes](docs/verification.md).

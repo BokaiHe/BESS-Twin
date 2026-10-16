@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react'
+import { markActivity } from '../../learning/progress'
+import { useEffect, useMemo, useState } from 'react'
 import { ResponsiveContainer, Sankey, type SankeyLinkProps, type SankeyNodeProps } from 'recharts'
 import type { SimulationDay } from '../../domain/types'
 import { timeLabel } from '../../domain/config'
@@ -40,6 +41,7 @@ export default function EnergyFlowChart({
   error: string
   onClose: () => void
 }) {
+  useEffect(() => markActivity('flows'), [])
   const { lang, t } = useI18n()
   const c = flowCopy[lang]
   const [scope, setScope] = useState(initialScope)
