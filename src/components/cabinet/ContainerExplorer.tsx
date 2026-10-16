@@ -1,3 +1,7 @@
+import type { NodeId, Snapshot } from '../../domain/types'
+import { explorerState } from '../../learning/explorerState'
+import { explorerCopy } from '../../learning/explorerCopy'
+import { ExplorerSnapshot } from '../../ui/learning/ExplorerSnapshot'
 import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowUpRight, Box, Layers3, Moon, Sun, Play, Pause } from 'lucide-react'
 import { useI18n } from '../../i18n'
@@ -33,12 +37,23 @@ const MODULE_PARTS: Part[] = ['battery', 'bms', 'protection', 'cooling']
 const REFERENCE =
   'https://www.sungrowpower.com/ca/en/products/utility-energy-storage-system/powertitan2'
 
-export default function ContainerExplorer() {
-  const { t } = useI18n()
+export default function ContainerExplorer({
+  context,
+}: {
+  context?: { snapshot: Snapshot; nodeId: NodeId }
+}) {
+  const linked = context ? explorerState(context.snapshot, context.nodeId) : null
+  const snapshotMode: CellFlowMode = linked
+    ? linked.mode === 'charge' || linked.mode === 'discharge'
+      ? linked.mode
+      : 'idle'
+    : 'discharge'
+  const [manual, setManual] = useState(false)
+  const { t, lang } = useI18n()
   const c = t.cabinet
   const [view, setView] = useState<View>('enclosure')
-  const [flowMode, setFlowMode] = useState<CellFlowMode>('discharge')
-  const [flowPlaying, setFlowPlaying] = useState(true)
+  const [flowMode, setFlowMode] = useState<CellFlowMode>(snapshotMode)
+  const [flowPlaying, setFlowPlaying] = useState(snapshotMode !== 'idle')
   const [cameraCommand, setCameraCommand] = useState<{ id: number; kind: 'reset' | 'in' | 'out' }>({
     id: 0,
     kind: 'reset',
@@ -160,7 +175,7 @@ export default function ContainerExplorer() {
       ref={root}
       className="container-explorer iso"
       data-theme={theme}
-      lang="en"
+      lang={lang}
       onFocusCapture={(event) => {
         if (!(event.target as Element).closest('.container-tour')) setTour(false)
       }}
@@ -179,6 +194,17 @@ export default function ContainerExplorer() {
           {theme === 'light' ? <Moon size={17} /> : <Sun size={17} />}
         </button>
       </div>
+      {linked && (
+        <ExplorerSnapshot
+          state={linked}
+          manual={manual}
+          onFollow={() => {
+            setManual(false)
+            setFlowMode(snapshotMode)
+            setFlowPlaying(snapshotMode !== 'idle')
+          }}
+        />
+      )}
       <div className="container-toolbar">
         <div className="container-views" role="group" aria-label={c.views}>
           {(['enclosure', 'systems', 'module', 'cells'] as const).map((key, i) => (
@@ -344,7 +370,10 @@ export default function ContainerExplorer() {
                       <button
                         key={mode}
                         aria-pressed={flowMode === mode}
-                        onClick={() => setFlowMode(mode)}
+                        onClick={() => {
+                          setFlowMode(mode)
+                          setManual(true)
+                        }}
                       >
                         {c.flow[mode].label}
                       </button>
@@ -352,7 +381,7 @@ export default function ContainerExplorer() {
                   </div>
                   <button
                     className="cell-flow-play"
-                    disabled={reduced || !cellOpen || cellMoving}
+                    disabled={reduced || !cellOpen || cellMoving || flowMode === 'idle'}
                     onClick={() => setFlowPlaying(!flowPlaying)}
                   >
                     {flowPlaying ? <Pause size={14} /> : <Play size={14} />}
@@ -519,12 +548,19 @@ export default function ContainerExplorer() {
         <div>
           <span>{c.rating}</span>
           <strong>
-            {CONFIG.batteryUnitMW} MW / {CONFIG.batteryUnitMWh} MWh
+            {linked?.ratedMW ?? CONFIG.batteryUnitMW} MW /{' '}
+            {linked?.capacityMWh ?? CONFIG.batteryUnitMWh} MWh
           </strong>
         </div>
         <div>
           <span>{c.duration}</span>
-          <strong>{c.hours}</strong>
+          <strong>
+            {linked
+              ? linked.ratedMW > 0
+                ? `${(linked.capacityMWh / linked.ratedMW).toFixed(1)} ${explorerCopy[lang].hours}`
+                : '—'
+              : c.hours}
+          </strong>
         </div>
         <div>
           <span>{c.format}</span>

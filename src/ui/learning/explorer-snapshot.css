@@ -1,0 +1,24 @@
+.explorer-snapshot {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 20px;
+  padding: 14px 16px;
+  border: 1px solid var(--anatomy-lo, #dce3ec);
+  border-radius: 12px;
+  color: var(--anatomy-hi, #30445d);
+  background: var(--anatomy-paper, #f6f8fc);
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.explorer-snapshot small {
+  font-size: 12px;
+}
+.explorer-snapshot button {
+  margin-left: 12px;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  padding: 4px 9px;
+  color: inherit;
+  cursor: pointer;
+}

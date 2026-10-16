@@ -448,6 +448,12 @@ export const cabinetChinese: CabinetCopy = {
     note: '示意循环动画，不对应实时 SOC，也不按粒子真实速度绘制。箭头表示电子流向，与常规电流方向相反。',
     reduced: '已减少动态效果：显示静止粒子和方向箭头。电子流向与常规电流方向相反。',
     expand: '展开电芯即可看到传输路径。电子流向与常规电流方向相反。',
+    idle: {
+      label: '待机',
+      device: '无净流动',
+      ions: '此静态示意中，正负极之间没有净迁移。',
+      electrons: '外电路没有净电流，粒子位置仅作示意。',
+    },
     discharge: {
       label: '放电',
       device: '负载',

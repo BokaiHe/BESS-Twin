@@ -60,9 +60,12 @@ function Charge({ symbol, kind }: { symbol: string; kind: string }) {
   )
 }
 
-export function useGeneration(kind: Kind, ready: boolean, overview = false) {
+export function useGeneration(kind: Kind, ready: boolean, overview = false, outputRatio = 1) {
   const [playing, setPlaying] = useState(overview),
-    [source, setSource] = useState(true)
+    [sourceEnabled, setSource] = useState(true)
+  const speedRatio =
+    kind === 'wind' ? Math.max(0, Math.min(1, Number.isFinite(outputRatio) ? outputRatio : 0)) : 1
+  const source = sourceEnabled && speedRatio > 0
   const [reduced, setReduced] = useState(
     () => matchMedia('(prefers-reduced-motion: reduce)').matches,
   )
@@ -198,7 +201,7 @@ export function useGeneration(kind: Kind, ready: boolean, overview = false) {
     const tick = (now: number) => {
       frame = 0
       if (!ready || !visible || document.hidden || !playing || !source || reduced) return
-      if (last) clock.current += Math.min(1 / 30, (now - last) / 1000)
+      if (last) clock.current += Math.min(1 / 30, (now - last) / 1000) * speedRatio
       last = now
       paint()
       frame = requestAnimationFrame(tick)
@@ -224,8 +227,20 @@ export function useGeneration(kind: Kind, ready: boolean, overview = false) {
       observer.disconnect()
       document.removeEventListener('visibilitychange', resume)
     }
-  }, [kind, playing, source, reduced, ready, overview])
-  return { kind, ready, overview, playing, setPlaying, source, setSource, reduced, figure, ref }
+  }, [kind, playing, source, reduced, ready, overview, speedRatio])
+  return {
+    kind,
+    ready,
+    overview,
+    speedRatio,
+    playing,
+    setPlaying,
+    source,
+    setSource,
+    reduced,
+    figure,
+    ref,
+  }
 }
 type Controller = ReturnType<typeof useGeneration>
 
@@ -247,16 +262,24 @@ export function GenerationControls({ controller }: { controller: Controller }) {
     <div className="principle-controls" role="group" aria-label={common.controls}>
       <button
         className="principle-play"
-        disabled={reduced || !ready}
+        disabled={reduced || !ready || controller.speedRatio === 0}
         onClick={() => setPlaying((v) => !v)}
-        aria-pressed={playing && !reduced}
+        aria-pressed={playing && !reduced && controller.speedRatio > 0}
       >
-        {playing && !reduced ? <Pause size={15} /> : <Play size={15} />}{' '}
-        {reduced ? common.static : playing ? common.pause : common.play}
+        {playing && !reduced && controller.speedRatio > 0 ? (
+          <Pause size={15} />
+        ) : (
+          <Play size={15} />
+        )}{' '}
+        {reduced
+          ? common.static
+          : playing && controller.speedRatio > 0
+            ? common.pause
+            : common.play}
       </button>
       <button
         role="switch"
-        disabled={!ready}
+        disabled={!ready || controller.speedRatio === 0}
         aria-checked={source}
         aria-label={copy.sourceLabel}
         onClick={() => setSource((v) => !v)}
@@ -287,6 +310,7 @@ export function GenerationOverlay({
     <g
       ref={figure}
       className="generation-overlay"
+      data-speed-ratio={controller.speedRatio}
       data-source={source}
       data-ready={ready}
       data-overview={overview}

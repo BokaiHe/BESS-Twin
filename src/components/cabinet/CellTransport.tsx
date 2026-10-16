@@ -2,7 +2,7 @@ import { useEffect, useRef, type RefObject } from 'react'
 import { useI18n } from '../../i18n'
 import { cellCamera, worldAnchor as anchor, type CellOrbit } from './cellView'
 
-export type CellFlowMode = 'discharge' | 'charge'
+export type CellFlowMode = 'discharge' | 'charge' | 'idle'
 type Point = readonly [number, number, number]
 const positive = anchor('positive-electrode'),
   separator = anchor('separator'),
@@ -73,7 +73,7 @@ export function CellTransport({
   const root = useRef<SVGGElement>(null)
   const phase = useRef(0.23)
   const particles = useRef(new Map<string, SVGGElement>())
-  const direction = mode === 'charge' ? 1 : -1
+  const direction = mode === 'idle' ? 0 : mode === 'charge' ? 1 : -1
   useEffect(() => {
     let raf = 0,
       last = 0,
@@ -137,7 +137,8 @@ export function CellTransport({
     const resume = () => {
       cancelAnimationFrame(raf)
       last = 0
-      const running = playing && !reduced && visible && inView && !document.hidden
+      const running =
+        mode !== 'idle' && playing && !reduced && visible && inView && !document.hidden
       root.current?.setAttribute('data-running', String(running))
       if (running) raf = requestAnimationFrame(tick)
     }
@@ -163,18 +164,20 @@ export function CellTransport({
       {(['ions', 'electrons'] as const).map((kind) => (
         <g key={kind} className={`cell-flow-${kind}`}>
           <path className="cell-flow-route" d={d(routes[kind], orbit.current)} data-route={kind} />
-          {(kind === 'ions' ? [0.12, 0.62] : [0.3, 0.7]).map((fraction, index) => {
-            const p = sample(routes[kind], fraction, orbit.current)
-            return (
-              <path
-                key={fraction}
-                className="cell-flow-arrow"
-                data-arrow={`${kind}:${index}`}
-                d="M-7 -5 L0 0 L-7 5"
-                transform={`translate(${p.x} ${p.y}) rotate(${p.angle + (direction < 0 ? 180 : 0)})`}
-              />
-            )
-          })}
+          {(mode === 'idle' ? [] : kind === 'ions' ? [0.12, 0.62] : [0.3, 0.7]).map(
+            (fraction, index) => {
+              const p = sample(routes[kind], fraction, orbit.current)
+              return (
+                <path
+                  key={fraction}
+                  className="cell-flow-arrow"
+                  data-arrow={`${kind}:${index}`}
+                  d="M-7 -5 L0 0 L-7 5"
+                  transform={`translate(${p.x} ${p.y}) rotate(${p.angle + (direction < 0 ? 180 : 0)})`}
+                />
+              )
+            },
+          )}
           {[0, 1, 2, 3].map((i) => (
             <g
               key={i}
@@ -209,7 +212,7 @@ export function CellTransport({
         </text>
       </g>
       <text x={450} y={20} textAnchor="middle" className="cell-flow-caption">
-        {copy.external}
+        {mode === 'idle' ? copy.idle.device : copy.external}
       </text>
     </g>
   )

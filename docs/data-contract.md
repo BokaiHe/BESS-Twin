@@ -142,3 +142,7 @@
 进度不属于 `Snapshot`、`SimulationDay` 或 `StudyResult`，不进入仿真缓存键、不写回引擎。`src/learning/progress.ts` 按需读取浏览器键 `bess-twin-learning-v1`，保留 lessons/challenges 并扩展 activities。只接受已知 ID、合法状态、非负有限 best 与整数 0–3 星级；损坏 JSON 不阻止打开学习中心。
 
 `markActivity('tour')` 仅在导览最终完成动作调用；`glossary/flows` 在相应视图实际挂载时记 viewed，含上下文入口。`resetProgress()` 只删除学习键，界面提供确认和焦点返回。读写访问被拒绝或配额耗尽时使用会话记录并显示不能可靠持久化；后续刷新存储状态不会用旧磁盘记录覆盖未保存的会话进度。成功保存时，打开的学习中心通过 storage 事件同步其他标签页的变更。
+
+## 探索器快照联动（学习版第 7 步）
+
+`learning/explorerState.ts` 只读入口时捕获的 Snapshot，不持有引擎或 Worker。入口只保存快照引用与 nodeId；关闭后再打开才获取新时刻。风机以单台配置额定值（windMW / 3）归一化出力，动画倍率限制在 0–1，停机/零出力/坏数据时为零。储能按节点 injectionMW 判定充放电，额定值按四单元均分；离线优先于功率方向。未接入转速、风速或电芯传感器遥测，图示倍率、粒子位置和粒子速度均为示意。

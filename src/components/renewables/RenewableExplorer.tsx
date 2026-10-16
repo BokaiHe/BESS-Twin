@@ -1,3 +1,6 @@
+import type { Snapshot, NodeId } from '../../domain/types'
+import { explorerState } from '../../learning/explorerState'
+import { ExplorerSnapshot } from '../../ui/learning/ExplorerSnapshot'
 import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowUpRight, Moon, RotateCcw, Sun } from 'lucide-react'
 import { useI18n } from '../../i18n'
@@ -24,7 +27,9 @@ function Figure({
   stage,
   selected,
   onPick,
+  outputRatio,
 }: {
+  outputRatio?: number
   kind: Kind
   stage: number
   selected: string
@@ -44,6 +49,7 @@ function Figure({
     kind,
     (stage === 2 || overview) && !busy && settledStage === stage,
     kind === 'wind' && (stage === 0 || settledStage === 0),
+    outputRatio,
   )
   const scenes: SceneName[] = kind === 'pv' ? ['pv', 'pvCell'] : ['wind']
 
@@ -258,7 +264,14 @@ function Figure({
   )
 }
 
-export default function RenewableExplorer({ kind }: { kind: Kind }) {
+export default function RenewableExplorer({
+  kind,
+  context,
+}: {
+  kind: Kind
+  context?: { snapshot: Snapshot; nodeId: NodeId }
+}) {
+  const linked = kind === 'wind' && context ? explorerState(context.snapshot, context.nodeId) : null
   const { t } = useI18n()
   const common = t.renewables,
     copy = common[kind]
@@ -307,6 +320,7 @@ export default function RenewableExplorer({ kind }: { kind: Kind }) {
           {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
         </button>
       </header>
+      {linked && <ExplorerSnapshot state={linked} />}
       <div className="renewable-toolbar">
         <div className="renewable-stages" role="group" aria-label={common.levels}>
           {copy.stages.map((label, index) => (
@@ -324,7 +338,13 @@ export default function RenewableExplorer({ kind }: { kind: Kind }) {
       <div className="renewable-structure">
         <div className="renewable-grid">
           <div className="renewable-visual">
-            <Figure kind={kind} stage={stage} selected={selected} onPick={(id) => pick(id, true)} />
+            <Figure
+              outputRatio={linked?.speedRatio}
+              kind={kind}
+              stage={stage}
+              selected={selected}
+              onPick={(id) => pick(id, true)}
+            />
             <p className="renewable-select-hint">{common.selectHint}</p>
             <div className="renewable-parts" role="group" aria-label={common.components}>
               {visibleParts.map((part, index) => (

@@ -509,6 +509,13 @@ const cabinetEnglish = {
       'Reduced motion: static particles and direction arrows. Electron flow is opposite to conventional current.',
     expand:
       'Expand the cell to see the transport paths. Electron flow is opposite to conventional current.',
+    idle: {
+      label: 'Idle',
+      device: 'No net flow',
+      ions: 'No net transfer between electrodes in this static schematic.',
+      electrons:
+        'No net current through the external circuit. Particle positions are illustrative.',
+    },
     discharge: {
       label: 'Discharge',
       device: 'Load',

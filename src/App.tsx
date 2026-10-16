@@ -23,7 +23,7 @@ import {
 import { Home, Minus, Plus, RotateCw, TriangleAlert, ArrowUpRight } from 'lucide-react'
 import { timeLabel } from './domain/config'
 import { BESS_IDS, NODE_BY_ID, connectedEdgeIds } from './domain/topology'
-import type { ScenarioId, Snapshot, TwinDataSource } from './domain/types'
+import type { NodeId, ScenarioId, Snapshot, TwinDataSource } from './domain/types'
 import { useDesignStudy } from './data/useDesignStudy'
 import EnergyScene from './components/EnergyScene'
 import { DesignStudy } from './ui/DesignStudy'
@@ -116,6 +116,10 @@ export default function App({ source }: { source?: TwinDataSource }) {
   const [modal, setModal] = useState<
     'about' | 'savings' | 'alarms' | 'container' | 'pv' | 'wind' | 'study' | 'learn' | null
   >(null)
+  const [explorerContext, setExplorerContext] = useState<{
+    snapshot: Snapshot
+    nodeId: NodeId
+  } | null>(null)
   const [reducedMotion, setReducedMotion] = useState(false)
   // The left column may only use the height above the timeline and its legend, so the
   // explorer hub can never slide underneath them (it scrolls internally instead).
@@ -477,6 +481,21 @@ export default function App({ source }: { source?: TwinDataSource }) {
     setTouring(false)
     setFlowView(scope)
   }
+  const openExplorer = (kind: 'container' | 'pv' | 'wind', useSelection = false) => {
+    const prefix = kind === 'wind' ? 'wind-' : 'bess-'
+    const nodeId: NodeId =
+      kind === 'pv'
+        ? 'pv'
+        : useSelection && selected && selected !== 'bess-cluster' && selected.startsWith(prefix)
+          ? (selected as NodeId)
+          : kind === 'wind'
+            ? 'wind-1'
+            : 'bess-1'
+    setExplorerContext({ snapshot, nodeId })
+    setPlaying(false)
+    setTouring(false)
+    setModal(kind)
+  }
   const alarm = snapshot.alarms[0]
 
   return (
@@ -578,13 +597,7 @@ export default function App({ source }: { source?: TwinDataSource }) {
               />
             </Suspense>
           )}
-          <ExplorerHub
-            onOpen={(kind) => {
-              setPlaying(false)
-              setTouring(false)
-              setModal(kind)
-            }}
-          />
+          <ExplorerHub onOpen={(kind) => openExplorer(kind)} />
         </div>
 
         <div className="right-col">
@@ -632,14 +645,13 @@ export default function App({ source }: { source?: TwinDataSource }) {
                 lessonSession
                   ? undefined
                   : () => {
-                      setPlaying(false)
-                      setTouring(false)
-                      setModal(
+                      openExplorer(
                         selected === 'pv'
                           ? 'pv'
                           : selected.startsWith('wind-')
                             ? 'wind'
                             : 'container',
+                        true,
                       )
                     }
               }
@@ -830,7 +842,7 @@ export default function App({ source }: { source?: TwinDataSource }) {
       {modal === 'container' && (
         <Modal title={t.cabinet.title} className="container-modal" onClose={() => setModal(null)}>
           <Suspense fallback={<p>{t.cabinet.loading}</p>}>
-            <ContainerExplorer />
+            <ContainerExplorer context={explorerContext ?? undefined} />
           </Suspense>
         </Modal>
       )}
@@ -841,7 +853,7 @@ export default function App({ source }: { source?: TwinDataSource }) {
           onClose={() => setModal(null)}
         >
           <Suspense fallback={<p>{t.renewables.loading}</p>}>
-            <RenewableExplorer key={modal} kind={modal} />
+            <RenewableExplorer key={modal} kind={modal} context={explorerContext ?? undefined} />
           </Suspense>
         </Modal>
       )}

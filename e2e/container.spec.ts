@@ -361,6 +361,8 @@ test('container: charge transport reverses both paths, pauses, and hides during 
     .getByRole('button', { name: 'Cell layers', exact: true })
     .click()
   await dialog.getByRole('button', { name: 'Open cell cutaway' }).click()
+  // This test exercises the manual teaching controls; snapshot-driven defaults have separate coverage.
+  await dialog.getByRole('button', { name: 'Discharge', exact: true }).click()
   const flow = dialog.locator('.cell-transport')
   const figure = dialog.locator('.cell-cutaway-svg')
   await figure.scrollIntoViewIfNeeded()
