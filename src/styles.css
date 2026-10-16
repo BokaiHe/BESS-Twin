@@ -2164,6 +2164,7 @@ html[lang|='zh'] .modal:is(.container-modal, .renewable-modal) * {
   gap: 8px;
 }
 .hub-tile {
+  scroll-margin-block: 8px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -2741,4 +2742,23 @@ button.term:focus-visible {
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
+}
+
+.energy-day-hint {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+.energy-day-hint > span {
+  flex: 1 1 160px;
+}
+.energy-day-hint .pill-btn {
+  flex-shrink: 0;
+}
+.energy-flow-entry {
+  margin-bottom: 16px;
 }

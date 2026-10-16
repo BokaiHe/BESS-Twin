@@ -123,3 +123,153 @@ export const tankCopy: Record<Lang, TankCopy> = {
     how: '如何理解这个类比',
   },
 }
+
+interface FlowCopy {
+  title: string
+  entry: string
+  hint: string
+  dismiss: string
+  loading: string
+  intro: string
+  scope: string
+  day: string
+  now: string
+  empty: string
+  sources: string
+  sinks: string
+  table: string
+  from: string
+  to: string
+  energy: string
+  outside: string
+  curtailed: string
+  clipping: string
+  unserved: string
+  storage: string
+  initial: string
+  final: string
+  delta: string
+  loss: string
+  lossFormula: string
+  inventoryNote: string
+  windowNote: string
+  unexpectedExport: string
+  select: string
+  labels: Record<
+    'pv' | 'wind' | 'gridImport' | 'batteryDischarge' | 'load' | 'batteryCharge' | 'gridExport',
+    string
+  >
+  short: Record<
+    'pv' | 'wind' | 'gridImport' | 'batteryDischarge' | 'load' | 'batteryCharge' | 'gridExport',
+    string
+  >
+}
+export const flowCopy: Record<Lang, FlowCopy> = {
+  en: {
+    title: 'Where the energy goes',
+    entry: 'View energy flows',
+    hint: 'The day is complete. See where its energy went.',
+    dismiss: 'Dismiss energy summary',
+    loading: 'Loading energy flows…',
+    intro:
+      'Illustrative accounting of the applied simulation. Band width represents energy (MWh), not instantaneous power. This is a source-allocation convention, not a trace of individual electrons.',
+    scope: 'Energy flow time window',
+    day: 'Full day',
+    now: 'Up to',
+    empty: 'No energy transferred in this interval.',
+    sources: 'Sources',
+    sinks: 'Destinations',
+    table: 'View the energy table',
+    from: 'From',
+    to: 'To',
+    energy: 'Energy (MWh)',
+    outside: 'Outside the flow balance',
+    curtailed: 'Renewable curtailment (network)',
+    clipping: 'PV inverter clipping',
+    unserved: 'Unserved demand',
+    storage: 'Storage inventory and losses',
+    initial: 'Starting stored energy',
+    final: 'Ending stored energy',
+    delta: 'Stored energy change',
+    loss: 'Conversion loss',
+    lossFormula: 'AC charging − AC discharge − DC stored-energy change',
+    inventoryNote:
+      'Inventory includes energy retained in offline units. Charging and discharging are separate AC transfers, so their sum is not unique energy production. Losses are already accounted for by the storage inventory change; they are not an extra Sankey destination.',
+    windowNote:
+      'Includes one-minute intervals from 00:00 up to, but not including, the selected endpoint. Full day includes the last minute and uses the 24:00 inventory.',
+    unexpectedExport:
+      'This result includes battery exports; they are explicitly included in the allocation.',
+    select: 'Select a band to inspect its energy transfer.',
+    labels: {
+      pv: 'Solar PV',
+      wind: 'Wind power',
+      gridImport: 'Grid imports',
+      batteryDischarge: 'Storage discharge',
+      load: 'Served load',
+      batteryCharge: 'Storage charging',
+      gridExport: 'Grid exports',
+    },
+    short: {
+      pv: 'Solar PV',
+      wind: 'Wind',
+      gridImport: 'Grid in',
+      batteryDischarge: 'Discharge',
+      load: 'Load',
+      batteryCharge: 'Charge',
+      gridExport: 'Grid out',
+    },
+  },
+  zh: {
+    title: '能量去了哪里',
+    entry: '查看能量去向',
+    hint: '一天播放完成，看看今天的能量去了哪里。',
+    dismiss: '关闭能量总结提示',
+    loading: '正在加载能量去向…',
+    intro:
+      '基于已应用仿真结果的归因示意。流带宽度表示电量（MWh），不是瞬时功率；这是约定的来源分配，不是追踪真实电子。',
+    scope: '能量统计时段',
+    day: '全天',
+    now: '截至',
+    empty: '该时间段尚无能量传输。',
+    sources: '来源',
+    sinks: '去向',
+    table: '查看能量数据表',
+    from: '来源',
+    to: '去向',
+    energy: '电量（MWh）',
+    outside: '不计入流向平衡的量',
+    curtailed: '网络限制造成的弃风弃光',
+    clipping: '光伏逆变器削顶',
+    unserved: '未供电需求',
+    storage: '储能库存与损耗',
+    initial: '期初储存电量',
+    final: '期末储存电量',
+    delta: '储存电量变化',
+    loss: '转换损耗',
+    lossFormula: '交流充入电量 − 交流放出电量 − 直流库存变化',
+    inventoryNote:
+      '库存包含离线单元保留的电量。充电和放电是两次不同的交流侧传输，不能将两者相加视为一次能源产出；损耗通过库存变化核算，不重复添加为桑基图的去向。',
+    windowNote:
+      '统计 00:00 起、截至所选时刻之前的一分钟区间。全天包含最后一分钟，使用 24:00 的库存。',
+    unexpectedExport: '该结果包含储能上网电量，已明确分配并计入。',
+    select: '点击流带查看对应的能量传输。',
+    labels: {
+      pv: '光伏',
+      wind: '风电',
+      gridImport: '电网购电',
+      batteryDischarge: '储能放电',
+      load: '实际供电负荷',
+      batteryCharge: '储能充电',
+      gridExport: '电网上网',
+    },
+    short: {
+      pv: '光伏',
+      wind: '风电',
+      gridImport: '购电',
+      batteryDischarge: '放电',
+      load: '负荷',
+      batteryCharge: '充电',
+      gridExport: '上网',
+    },
+  },
+}

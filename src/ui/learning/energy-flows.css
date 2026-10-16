@@ -1,0 +1,139 @@
+.energy-flows {
+  min-width: 0;
+}
+.energy-flow-modal .modal-body {
+  overflow-wrap: anywhere;
+}
+.energy-context {
+  margin-top: 12px;
+  font-weight: 600;
+  color: #34577c;
+}
+.energy-scope {
+  display: inline-flex;
+  margin: 16px 0 8px;
+}
+.energy-note {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.65;
+}
+.energy-columns {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 18px;
+  color: #36516f;
+}
+.energy-columns span {
+  font-size: 11px;
+  color: #64748b;
+}
+.energy-sankey {
+  width: 100%;
+  min-width: 0;
+  background: #f8fafc;
+  border-radius: 12px;
+  margin: 12px 0;
+}
+.energy-node-label {
+  font: 11px var(--font);
+  fill: #334155;
+}
+.energy-node-value {
+  font-size: 10px;
+  fill: #64748b;
+}
+.energy-band {
+  opacity: 0.45;
+  cursor: pointer;
+}
+.energy-band:hover,
+.energy-band:focus-visible,
+.energy-band.is-selected {
+  opacity: 0.9;
+}
+.energy-band:focus-visible {
+  outline: 2px solid #0f172a;
+  outline-offset: 3px;
+}
+.energy-selection {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #edf5ff;
+  font-size: 12px;
+  min-height: 40px;
+}
+.energy-empty {
+  padding: 36px 12px;
+  text-align: center;
+  color: #64748b;
+}
+.energy-table {
+  margin-top: 16px;
+}
+.energy-table summary {
+  cursor: pointer;
+  color: #255c95;
+  padding: 8px 0;
+}
+.energy-table table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 12px;
+}
+.energy-table th,
+.energy-table td {
+  padding: 8px 5px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.energy-table td:last-child,
+.energy-table th:last-child {
+  text-align: right;
+}
+.energy-flows h3 {
+  font-size: 13px;
+  margin: 14px 0 8px;
+}
+.energy-flows dl {
+  margin: 0;
+}
+.energy-flows dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 6px 0;
+  border-bottom: 1px solid #e5edf5;
+}
+.energy-flows dd {
+  margin: 0;
+  text-align: right;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+.energy-totals {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.energy-storage,
+.energy-outside {
+  margin-top: 18px;
+}
+.energy-equation {
+  color: #36516f;
+  font-size: 12px;
+  margin: 8px 0;
+}
+@media (max-width: 540px) {
+  .energy-totals {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .energy-flows dl {
+    font-size: 12px;
+  }
+}

@@ -1,5 +1,5 @@
 import { GLOSSARY_EVENT, type GlossaryRequest, openGlossary } from './learning/termLinks'
-import { learningCopy } from './learning/copy'
+import { learningCopy, flowCopy } from './learning/copy'
 import {
   Component,
   Suspense,
@@ -33,6 +33,7 @@ import { GuidedTour } from './ui/GuidedTour'
 import { ExplorerHub } from './ui/ExplorerHub'
 import { TONE, clusterMode, modeText, modeTone, mw } from './ui/format'
 
+const EnergyFlowChart = lazy(() => import('./ui/learning/EnergyFlowChart'))
 const GlossaryDialog = lazy(() => import('./ui/learning/GlossaryDialog'))
 const ContainerExplorer = lazy(() => import('./components/cabinet/ContainerExplorer'))
 const RenewableExplorer = lazy(() => import('./components/renewables/RenewableExplorer'))
@@ -77,6 +78,10 @@ export default function App({ source }: { source?: TwinDataSource }) {
   const day = study.result?.proposal ?? null
   const baseline = study.result?.sunny ?? null
   const error = study.error
+  const [flowView, setFlowView] = useState<'day' | 'now' | null>(null)
+  const [flowHint, setFlowHint] = useState(false)
+  const hintedDay = useRef<typeof day>(null)
+  useEffect(() => setFlowHint(false), [day])
   const [minute, setMinute] = useState(720)
   const clock = useRef(720)
   const [playing, setPlaying] = useState(false)
@@ -167,11 +172,15 @@ export default function App({ source }: { source?: TwinDataSource }) {
       if (clock.current >= 1439) {
         setPlaying(false)
         setTouring(false)
+        if (day && hintedDay.current !== day) {
+          hintedDay.current = day
+          setFlowHint(true)
+        }
       } else raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [playing, speed])
+  }, [playing, speed, day])
   useEffect(() => {
     if (!playing) clock.current = minute
   }, [minute, playing])
@@ -343,7 +352,7 @@ export default function App({ source }: { source?: TwinDataSource }) {
         <Suspense fallback={<div className="scene-fallback">{t.sceneLoading}</div>}>
           {snapshot && (
             <EnergyScene
-              paused={modal !== null || glossary !== null || study.busy}
+              paused={modal !== null || glossary !== null || flowView !== null || study.busy}
               snapshot={snapshot}
               clock={clock}
               scenario={snapshot?.scenarioId ?? scenario}
@@ -383,6 +392,11 @@ export default function App({ source }: { source?: TwinDataSource }) {
       </div>
     )
 
+  const openFlows = (scope: 'day' | 'now' = 'day') => {
+    setPlaying(false)
+    setTouring(false)
+    setFlowView(scope)
+  }
   const alarm = snapshot.alarms[0]
 
   return (
@@ -531,6 +545,24 @@ export default function App({ source }: { source?: TwinDataSource }) {
                 </a>
               </em>
             </footer>
+            {flowHint && !touring && (
+              <div className="card energy-day-hint" role="status">
+                <span>{flowCopy[lang].hint}</span>
+                <button className="pill-btn" onClick={() => openFlows()}>
+                  {flowCopy[lang].entry}
+                </button>
+                <button
+                  className="icon-btn"
+                  aria-label={flowCopy[lang].dismiss}
+                  onClick={() => {
+                    setFlowHint(false)
+                    document.querySelector<HTMLButtonElement>('.timeline .play-btn')?.focus()
+                  }}
+                >
+                  ×
+                </button>
+              </div>
+            )}
             <Timeline
               day={day}
               baseline={baseline}
@@ -561,6 +593,24 @@ export default function App({ source }: { source?: TwinDataSource }) {
         </div>
       </div>
 
+      {flowView && (
+        <Suspense
+          fallback={
+            <div className="card scene-computing" role="status">
+              {flowCopy[lang].loading}
+            </div>
+          }
+        >
+          <EnergyFlowChart
+            day={day}
+            minute={minute}
+            initialScope={flowView}
+            busy={study.busy}
+            error={study.error}
+            onClose={() => setFlowView(null)}
+          />
+        </Suspense>
+      )}
       {glossary && (
         <Suspense fallback={null}>
           <GlossaryDialog initialId={glossary.id} onClose={closeGlossary} />
@@ -609,6 +659,9 @@ export default function App({ source }: { source?: TwinDataSource }) {
           >
             {learningCopy[lang].glossary}
           </button>
+          <button className="pill-btn" onClick={() => openFlows()}>
+            {flowCopy[lang].entry}
+          </button>
           {t.aboutBody.map((p) => (
             <p key={p}>{p}</p>
           ))}
@@ -616,7 +669,7 @@ export default function App({ source }: { source?: TwinDataSource }) {
       )}
       {modal === 'savings' && (
         <Modal title={t.savings.explainTitle} onClose={() => setModal(null)} wide>
-          <SavingsPanel day={day} minute={minute} />
+          <SavingsPanel day={day} minute={minute} onEnergyFlows={openFlows} />
         </Modal>
       )}
       {modal === 'alarms' && (

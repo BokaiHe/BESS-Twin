@@ -84,6 +84,19 @@ export function ExplorerHub({ onOpen }: { onOpen: (kind: ExplorerKind) => void }
             ref={i === 0 ? firstTile : undefined}
             className="hub-tile"
             style={{ animationDelay: `${i * 60}ms` }}
+            onFocus={(event) => {
+              const target = event.currentTarget
+              // Modal focus restoration may leave a tile at the viewport edge.
+              // Wait for scroll anchoring, then include its focus/hover clearance.
+              requestAnimationFrame(() => {
+                if (target.isConnected && document.activeElement === target)
+                  target.scrollIntoView({
+                    block: 'nearest',
+                    inline: 'nearest',
+                    behavior: 'instant',
+                  })
+              })
+            }}
             onClick={() => onOpen(k)}
           >
             <span className="hub-image">

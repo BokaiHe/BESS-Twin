@@ -103,7 +103,7 @@ The fixed simulation date is `2026-06-18`, UTC+08:00; it is independent of the c
 
 The browser tests currently use the installed Microsoft Edge channel and start a test server on port 5178. On a machine without Edge, install that browser or change `channel` in `playwright.config.ts` to a browser available in your environment.
 
-The test suites contain **75 unit tests** and **63 browser flows**. Coverage includes scenario changes, deterministic seeking, the exact fault boundary, bill comparability, language persistence, all 13 walkthrough steps, equipment disassembly, battery transport, solar/wind generation animations and the explorer hub. See [verification notes](docs/verification.md) for results and known limitations.
+The test suites contain **88 unit tests** and **68 browser flows**. Coverage includes scenario changes, deterministic seeking, the exact fault boundary, bill comparability, language persistence, all 13 walkthrough steps, equipment disassembly, battery transport, solar/wind generation animations and the explorer hub. See [verification notes](docs/verification.md) for results and known limitations.
 
 ## Project structure
 
@@ -235,7 +235,7 @@ Underlined terms in the dashboard, storage details, voltage explanation, timelin
 
 The 35 definitions and popup layout load on first interaction. Keyboard focus or a click opens an explanation; Escape closes it and restores focus. Only one explanation is open at a time. On narrow screens, the card sits near the bottom of the viewport. This stage does not change simulation physics, introduce dependencies, or require browser storage.
 
-The reviewed implementation plan is in [the learning edition specification](docs/learning-edition-spec.md). The energy-flow chart, Learn hub, lessons and challenges remain later stages; the existing guided-tour entry is unchanged in this stage.
+The reviewed implementation plan is in [the learning edition specification](docs/learning-edition-spec.md). The Learn hub, lessons and challenges remain later stages; the existing guided-tour entry is unchanged in this stage.
 
 To compare learning-layer startup against a previous release, build both checkouts with `npm run build:pages`, then run `node scripts/check-learning-performance.mjs /path/to/baseline/dist`. The script serves both distributions locally, alternates fresh Edge contexts, checks the 15 KB initial-JavaScript gzip budget, and records visibility and warmed scenario-switch timings in `test-results/learning-performance.json`. Run it separately from the browser regression suite; the measurements are machine-specific.
 
@@ -248,3 +248,11 @@ Click the **BESS plant** label in the site to see a water-tank analogy beneath t
 Open **What if…** to resize the capacity-preview tank immediately with the storage sliders. The dashed outline retains the original proposal on the same fixed scale. The hatched SOC band is not a simulated water level: this draft intentionally does not reuse the previous result's energy while waiting for the worker. Zero power closes the pipe; zero capacity removes the tank. The formula shows nominal full-capacity duration, with actual usable duration subject to SOC, losses and available units.
 
 The SVG component and its styles load on demand. This stage changes no dispatch logic or dependencies. Preview: [snapshot tank](docs/screenshots/learning-tank-detail.png) · [parameter preview](docs/screenshots/learning-tank-preview.png) · [Chinese mobile explanation](docs/screenshots/learning-tank-mobile-zh.png).
+
+## Learning edition: energy flow summary (local stage 3)
+
+Open the bill explanation and choose **View energy flows**, or use the same entry in **About the model**. A non-blocking prompt also appears when playback finishes the day. The Sankey diagram shows actual solar, wind, grid and storage contributions to served load, charging and exports. Select a band with a click or keyboard to inspect its MWh; expand the table for all transfers and source/destination totals.
+
+Switch between **Full day** and **Up to** the selected time. Every one-minute allocation is reconciled before aggregation. Curtailment, PV clipping and unserved demand are listed separately. The storage ledger subtracts the DC inventory change from AC charging minus discharge to calculate conversion losses, including on fault days. This is an illustrative allocation convention, not electron tracing or a total of unique primary energy.
+
+The chart and calculation load on demand using the existing Recharts dependency. All explanations are bilingual, and the static diagram supports reduced-motion preferences. See [calculation rules](docs/simulation.md), [verification](docs/verification.md), [desktop diagram](docs/screenshots/learning-energy-flows.png) and [mobile Chinese diagram](docs/screenshots/learning-energy-flows-mobile-zh.png). The shared Learn hub entry follows in stage 4.

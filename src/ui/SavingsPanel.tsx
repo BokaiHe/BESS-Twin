@@ -1,3 +1,4 @@
+import { flowCopy } from '../learning/copy'
 import { Term } from './learning/Term'
 import type { ReactNode } from 'react'
 import { useMemo, useState } from 'react'
@@ -16,7 +17,15 @@ interface Item {
 }
 
 /** Visual ledger: two bills side by side, then where the difference comes from. */
-export function SavingsPanel({ day, minute }: { day: SimulationDay; minute: number }) {
+export function SavingsPanel({
+  day,
+  minute,
+  onEnergyFlows,
+}: {
+  day: SimulationDay
+  minute: number
+  onEnergyFlows: (scope: 'day' | 'now') => void
+}) {
   const { t, lang } = useI18n()
   const [scope, setScope] = useState<'day' | 'now'>('day')
   const end = scope === 'day' ? day.frames.length : minute
@@ -65,6 +74,9 @@ export function SavingsPanel({ day, minute }: { day: SimulationDay; minute: numb
         </button>
       </div>
 
+      <button className="pill-btn energy-flow-entry" onClick={() => onEnergyFlows(scope)}>
+        {flowCopy[lang].entry}
+      </button>
       <div className="bills">
         {[
           { label: t.savings.baseline, v: b.baseCostCny, cls: 'base' },

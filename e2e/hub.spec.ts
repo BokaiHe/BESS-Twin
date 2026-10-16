@@ -148,6 +148,10 @@ for (const [width, height, lang] of [
       : ['BESS Container Explorer', 'Solar Module Explorer', 'Wind Turbine Explorer']
     for (let i = 0; i < titles.length; i++) {
       const tile = panel.locator('.hub-tile').nth(i)
+      // Exercise restoration with the entry deliberately aligned at the viewport edge.
+      await tile.evaluate((element) =>
+        element.scrollIntoView({ block: 'start', behavior: 'instant' }),
+      )
       await tile.click()
       await expect(page.getByRole('dialog', { name: titles[i] })).toBeVisible()
       await page.keyboard.press('Escape')
