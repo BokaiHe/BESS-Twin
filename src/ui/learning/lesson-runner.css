@@ -156,3 +156,10 @@
 .lesson-active .hub-badge {
   display: none;
 }
+
+.storage-tank[data-lesson-target] {
+  flex-shrink: 0;
+  max-height: var(--lesson-target-height);
+  overflow-y: auto;
+  scroll-margin: 12px;
+}

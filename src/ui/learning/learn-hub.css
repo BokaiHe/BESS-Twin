@@ -122,3 +122,19 @@
     height: 34px;
   }
 }
+
+.learn-availability {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: #edf5ff;
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.learn-availability p {
+  margin: 0;
+}
+.learn-availability button {
+  margin-top: 8px;
+}

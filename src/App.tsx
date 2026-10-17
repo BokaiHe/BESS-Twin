@@ -748,6 +748,16 @@ export default function App({ source }: { source?: TwinDataSource }) {
           }
         >
           <LearnHub
+            availability={
+              !study.enabled
+                ? 'unavailable'
+                : study.error
+                  ? 'error'
+                  : study.busy
+                    ? 'calculating'
+                    : 'ready'
+            }
+            onRetry={study.retry}
             onClose={() => setModal(null)}
             onTour={toggleTour}
             onGlossary={(trigger) => openGlossary({ trigger })}

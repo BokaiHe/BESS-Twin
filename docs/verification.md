@@ -1,5 +1,14 @@
 # 验证记录
 
+## 2026-10-16 — Learning audit fixes (local only)
+
+- Fixed L1 tank visibility after lazy loading, viewport/language changes and step navigation. Account for both the fixed lesson panel and clipping inside the desktop detail card; retain manual scrolling and restore the original page position on exit.
+- Learning hub now distinguishes calculating, calculation failure (with retry), and unsupported data source, in English and Chinese. Both lesson and challenge entry stay disabled until ready.
+- Added 8 browser regressions covering normal/reduced motion, mobile/desktop resizing, unobscured target bounds, scroll restoration, delayed and failed Worker results, and custom-source behavior.
+- Re-ran **123/123 unit tests** and **99/99 browser tests** (18.4 minutes), plus normal and Pages production builds. All passed. Existing upstream THREE.Clock deprecation and large-chunk build notices remain.
+- No changes to dispatch, integration, Worker protocol or model parameters. No GitHub push or deployment.
+- Evidence: [audit and fix report](learning-audit.md), [mobile L1 screenshot](screenshots/learning-l1-mobile-fixed.png).
+
 ## 学习版第 8 步：项目说明与演示媒体（2026-10-16，本地）
 
 - 关于模型保留原假设，新增“关于这个项目”页签：项目目的、周期稳态、缺电与费用比较、不可变快照、后台计算、四段架构示意、带日期的测试基线、适用边界和源码链接；中英文结构一致，README 开头同步英文说明。

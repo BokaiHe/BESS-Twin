@@ -19,7 +19,11 @@ export default function LearnHub({
   onFlows,
   onLesson,
   onChallenge,
+  availability,
+  onRetry,
 }: {
+  availability: 'ready' | 'calculating' | 'unavailable' | 'error'
+  onRetry: () => void
   onClose: () => void
   onTour: () => void
   onGlossary: (trigger: HTMLButtonElement) => void
@@ -101,16 +105,30 @@ export default function LearnHub({
             </button>
           ))}
         </div>
+        {availability !== 'ready' && (
+          <div
+            className="learn-availability"
+            role="status"
+            data-testid="learn-availability"
+            data-state={availability}
+          >
+            <p>{c[availability]}</p>
+            {availability === 'error' && (
+              <button className="pill-btn" onClick={onRetry}>
+                {c.retry}
+              </button>
+            )}
+          </div>
+        )}
         <section className="lesson-cards" aria-label={lessonCopy[lang].lessons}>
           <strong>
             {lessonCopy[lang].lessons} · {Object.keys(progress.lessons).length} / {LESSONS.length}
           </strong>
           <small>{lessonCopy[lang].duration}</small>
-          {!onLesson && <p>{lessonCopy[lang].source}</p>}
           {LESSONS.map((lesson) => (
             <button
               key={lesson.id}
-              disabled={!onLesson}
+              disabled={availability !== 'ready' || !onLesson}
               data-testid={`learn-${lesson.id}`}
               onClick={() => onLesson?.(lesson.id)}
             >
@@ -128,11 +146,10 @@ export default function LearnHub({
             {CHALLENGES.length}
           </strong>
           <small>{challengeCopy[lang].intro}</small>
-          {!onChallenge && <p>{lessonCopy[lang].source}</p>}
           {CHALLENGES.map((challenge) => (
             <button
               key={challenge.id}
-              disabled={!onChallenge}
+              disabled={availability !== 'ready' || !onChallenge}
               data-testid={`learn-${challenge.id}`}
               onClick={() => onChallenge?.(challenge.id)}
             >

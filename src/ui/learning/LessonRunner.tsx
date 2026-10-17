@@ -5,10 +5,15 @@ import { lessonCopy } from '../../learning/lessonCopy'
 import type { LessonRunnerProps } from '../../learning/lessonTypes'
 import { useLessonRunner } from './useLessonRunner'
 import './lesson-runner.css'
+import { useLessonTarget } from './useLessonTarget'
 export default function LessonRunner(props: LessonRunnerProps) {
   const { lang, l } = useI18n(),
     c = lessonCopy[lang]
   const r = useLessonRunner(props)
+  useLessonTarget(
+    r.ready && r.lesson.id === 'l1-basics' && r.phase === 'read' ? '.storage-tank' : undefined,
+    `${lang}:${r.index}`,
+  )
   const heading = useRef<HTMLHeadingElement>(null)
   useEffect(() => {
     heading.current?.focus({ preventScroll: true })

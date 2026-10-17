@@ -1,5 +1,9 @@
 import type { Lang } from '../domain/types'
 interface HubCopy {
+  calculating: string
+  unavailable: string
+  error: string
+  retry: string
   title: string
   intro: string
   progress: string
@@ -24,6 +28,12 @@ interface HubCopy {
 }
 export const hubCopy: Record<Lang, HubCopy> = {
   en: {
+    calculating:
+      'Calculating simulation results. Lessons and challenges will be available when the calculation finishes.',
+    unavailable:
+      'Lessons and challenges are unavailable for this data source. They require the built-in simulation.',
+    error: 'Simulation results could not be loaded. Retry to enable lessons and challenges.',
+    retry: 'Retry calculation',
     title: 'Learning centre',
     intro: 'Understand the site, explore its vocabulary and follow the energy.',
     progress: 'Your learning activity',
@@ -51,6 +61,10 @@ export const hubCopy: Record<Lang, HubCopy> = {
     resetDone: 'Learning progress cleared.',
   },
   zh: {
+    calculating: '正在计算仿真结果，完成后即可开始课程和挑战。',
+    unavailable: '当前数据源不支持课程和挑战；这些功能需要内置仿真数据。',
+    error: '仿真结果加载失败，请重试后开始课程和挑战。',
+    retry: '重新计算',
     title: '学习中心',
     intro: '认识园区、理解术语，再看看一天的能量去了哪里。',
     progress: '我的学习记录',

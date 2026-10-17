@@ -1,0 +1,466 @@
+{
+  "at": "2026-10-16T05:57:52.637Z",
+  "numerical": [
+    {
+      "patch": {},
+      "scenario": "sunny",
+      "solver": "converged",
+      "worstMWh": 3.126388037344441e-13
+    },
+    {
+      "patch": {},
+      "scenario": "cloudy",
+      "solver": "converged",
+      "worstMWh": 1.2789769243681803e-13
+    },
+    {
+      "patch": {},
+      "scenario": "fault",
+      "solver": "converged",
+      "worstMWh": 5.115907697472721e-13
+    },
+    {
+      "patch": {
+        "batteryMW": 0,
+        "batteryMWh": 0
+      },
+      "scenario": "sunny",
+      "solver": "not-applicable",
+      "worstMWh": 6.821210263296962e-13
+    },
+    {
+      "patch": {
+        "batteryMW": 0,
+        "batteryMWh": 0
+      },
+      "scenario": "cloudy",
+      "solver": "not-applicable",
+      "worstMWh": 1.7053025658242404e-13
+    },
+    {
+      "patch": {
+        "batteryMW": 0,
+        "batteryMWh": 0
+      },
+      "scenario": "fault",
+      "solver": "not-applicable",
+      "worstMWh": 6.821210263296962e-13
+    },
+    {
+      "patch": {
+        "batteryMW": 0,
+        "batteryMWh": 80
+      },
+      "scenario": "sunny",
+      "solver": "not-applicable",
+      "worstMWh": 6.821210263296962e-13
+    },
+    {
+      "patch": {
+        "batteryMW": 0,
+        "batteryMWh": 80
+      },
+      "scenario": "cloudy",
+      "solver": "not-applicable",
+      "worstMWh": 1.7053025658242404e-13
+    },
+    {
+      "patch": {
+        "batteryMW": 0,
+        "batteryMWh": 80
+      },
+      "scenario": "fault",
+      "solver": "not-applicable",
+      "worstMWh": 6.821210263296962e-13
+    },
+    {
+      "patch": {
+        "batteryMW": 20,
+        "batteryMWh": 1
+      },
+      "scenario": "sunny",
+      "solver": "converged",
+      "worstMWh": 6.821210263296962e-13
+    },
+    {
+      "patch": {
+        "batteryMW": 20,
+        "batteryMWh": 1
+      },
+      "scenario": "cloudy",
+      "solver": "converged",
+      "worstMWh": 2.2737367544323206e-13
+    },
+    {
+      "patch": {
+        "batteryMW": 20,
+        "batteryMWh": 1
+      },
+      "scenario": "fault",
+      "solver": "converged",
+      "worstMWh": 6.821210263296962e-13
+    },
+    {
+      "patch": {
+        "batteryMW": 20,
+        "batteryMWh": 80
+      },
+      "scenario": "sunny",
+      "solver": "converged",
+      "worstMWh": 5.115907697472721e-13
+    },
+    {
+      "patch": {
+        "batteryMW": 20,
+        "batteryMWh": 80
+      },
+      "scenario": "cloudy",
+      "solver": "converged",
+      "worstMWh": 1.4779288903810084e-12
+    },
+    {
+      "patch": {
+        "batteryMW": 20,
+        "batteryMWh": 80
+      },
+      "scenario": "fault",
+      "solver": "converged",
+      "worstMWh": 1.5205614545266144e-12
+    },
+    {
+      "patch": {
+        "gridImportMW": 0,
+        "gridExportMW": 0,
+        "pvDCMWp": 0,
+        "windMW": 0
+      },
+      "scenario": "sunny",
+      "solver": "converged",
+      "worstMWh": 0
+    },
+    {
+      "patch": {
+        "gridImportMW": 0,
+        "gridExportMW": 0,
+        "pvDCMWp": 0,
+        "windMW": 0
+      },
+      "scenario": "cloudy",
+      "solver": "converged",
+      "worstMWh": 0
+    },
+    {
+      "patch": {
+        "gridImportMW": 0,
+        "gridExportMW": 0,
+        "pvDCMWp": 0,
+        "windMW": 0
+      },
+      "scenario": "fault",
+      "solver": "converged",
+      "worstMWh": 0
+    },
+    {
+      "patch": {
+        "pvDCMWp": 80,
+        "windMW": 60,
+        "gridExportMW": 0
+      },
+      "scenario": "sunny",
+      "solver": "converged",
+      "worstMWh": 8.526512829121202e-13
+    },
+    {
+      "patch": {
+        "pvDCMWp": 80,
+        "windMW": 60,
+        "gridExportMW": 0
+      },
+      "scenario": "cloudy",
+      "solver": "converged",
+      "worstMWh": 5.684341886080801e-13
+    },
+    {
+      "patch": {
+        "pvDCMWp": 80,
+        "windMW": 60,
+        "gridExportMW": 0
+      },
+      "scenario": "fault",
+      "solver": "converged",
+      "worstMWh": 8.526512829121202e-13
+    },
+    {
+      "patch": {
+        "gridImportMW": 2
+      },
+      "scenario": "sunny",
+      "solver": "converged",
+      "worstMWh": 7.673861546209082e-13
+    },
+    {
+      "patch": {
+        "gridImportMW": 2
+      },
+      "scenario": "cloudy",
+      "solver": "converged",
+      "worstMWh": 3.694822225952521e-13
+    },
+    {
+      "patch": {
+        "gridImportMW": 2
+      },
+      "scenario": "fault",
+      "solver": "converged",
+      "worstMWh": 6.536993168992922e-13
+    },
+    {
+      "patch": {
+        "socMinPct": 0,
+        "socMaxPct": 100,
+        "chargeEfficiencyPct": 100,
+        "dischargeEfficiencyPct": 100
+      },
+      "scenario": "sunny",
+      "solver": "converged",
+      "worstMWh": 3.268496584496461e-13
+    },
+    {
+      "patch": {
+        "socMinPct": 0,
+        "socMaxPct": 100,
+        "chargeEfficiencyPct": 100,
+        "dischargeEfficiencyPct": 100
+      },
+      "scenario": "cloudy",
+      "solver": "converged",
+      "worstMWh": 2.9558577807620168e-12
+    },
+    {
+      "patch": {
+        "socMinPct": 0,
+        "socMaxPct": 100,
+        "chargeEfficiencyPct": 100,
+        "dischargeEfficiencyPct": 100
+      },
+      "scenario": "fault",
+      "solver": "converged",
+      "worstMWh": 7.389644451905042e-13
+    },
+    {
+      "patch": {
+        "socMinPct": 40,
+        "socMaxPct": 60,
+        "chargeEfficiencyPct": 80,
+        "dischargeEfficiencyPct": 80
+      },
+      "scenario": "sunny",
+      "solver": "converged",
+      "worstMWh": 6.252776074688882e-13
+    },
+    {
+      "patch": {
+        "socMinPct": 40,
+        "socMaxPct": 60,
+        "chargeEfficiencyPct": 80,
+        "dischargeEfficiencyPct": 80
+      },
+      "scenario": "cloudy",
+      "solver": "converged",
+      "worstMWh": 2.1032064978498966e-12
+    },
+    {
+      "patch": {
+        "socMinPct": 40,
+        "socMaxPct": 60,
+        "chargeEfficiencyPct": 80,
+        "dischargeEfficiencyPct": 80
+      },
+      "scenario": "fault",
+      "solver": "converged",
+      "worstMWh": 7.958078640513122e-13
+    }
+  ],
+  "ui": [
+    {
+      "width": 390,
+      "height": 844,
+      "initial": {
+        "target": {
+          "x": 27.02063751220703,
+          "y": 1077.265625,
+          "width": 336,
+          "height": 390.671875,
+          "top": 1077.265625,
+          "right": 363.02063751220703,
+          "bottom": 1467.9375,
+          "left": 27.02063751220703
+        },
+        "panel": {
+          "x": 12,
+          "y": 550.453125,
+          "width": 366,
+          "height": 285.546875,
+          "top": 550.453125,
+          "right": 378,
+          "bottom": 836,
+          "left": 12
+        },
+        "viewport": [390, 844],
+        "visibleHeight": 0,
+        "overlapArea": 0,
+        "scrollY": 0
+      },
+      "scrolled": {
+        "target": {
+          "x": 27,
+          "y": 226.265625,
+          "width": 336,
+          "height": 390.671875,
+          "top": 226.265625,
+          "right": 363,
+          "bottom": 616.9375,
+          "left": 27
+        },
+        "panel": {
+          "x": 12,
+          "y": 550.453125,
+          "width": 366,
+          "height": 285.546875,
+          "top": 550.453125,
+          "right": 378,
+          "bottom": 836,
+          "left": 12
+        },
+        "viewport": [390, 844],
+        "visibleHeight": 390.671875,
+        "overlapArea": 22338.75,
+        "scrollY": 851
+      },
+      "errors": []
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "initial": {
+        "target": {
+          "x": 713,
+          "y": 445.59375,
+          "width": 280,
+          "height": 356.578125,
+          "top": 445.59375,
+          "right": 993,
+          "bottom": 802.171875,
+          "left": 713
+        },
+        "panel": {
+          "x": 16,
+          "y": 266.21875,
+          "width": 370,
+          "height": 160,
+          "top": 266.21875,
+          "right": 386,
+          "bottom": 426.21875,
+          "left": 16
+        },
+        "viewport": [1024, 768],
+        "visibleHeight": 322.40625,
+        "overlapArea": 0,
+        "scrollY": 0
+      },
+      "scrolled": {
+        "target": {
+          "x": 713,
+          "y": 150.59375,
+          "width": 280,
+          "height": 356.578125,
+          "top": 150.59375,
+          "right": 993,
+          "bottom": 507.171875,
+          "left": 713
+        },
+        "panel": {
+          "x": 16,
+          "y": 266.21875,
+          "width": 370,
+          "height": 160,
+          "top": 266.21875,
+          "right": 386,
+          "bottom": 426.21875,
+          "left": 16
+        },
+        "viewport": [1024, 768],
+        "visibleHeight": 356.578125,
+        "overlapArea": 0,
+        "scrollY": 0
+      },
+      "errors": []
+    },
+    {
+      "width": 1366,
+      "height": 768,
+      "initial": {
+        "target": {
+          "x": 1025,
+          "y": 429.09375,
+          "width": 310,
+          "height": 374.828125,
+          "top": 429.09375,
+          "right": 1335,
+          "bottom": 803.921875,
+          "left": 1025
+        },
+        "panel": {
+          "x": 16,
+          "y": 273.71875,
+          "width": 370,
+          "height": 179.28125,
+          "top": 273.71875,
+          "right": 386,
+          "bottom": 453,
+          "left": 16
+        },
+        "viewport": [1366, 768],
+        "visibleHeight": 338.90625,
+        "overlapArea": 0,
+        "scrollY": 0
+      },
+      "scrolled": {
+        "target": {
+          "x": 1025,
+          "y": 148.09375,
+          "width": 310,
+          "height": 374.828125,
+          "top": 148.09375,
+          "right": 1335,
+          "bottom": 522.921875,
+          "left": 1025
+        },
+        "panel": {
+          "x": 16,
+          "y": 273.71875,
+          "width": 370,
+          "height": 179.28125,
+          "top": 273.71875,
+          "right": 386,
+          "bottom": 453,
+          "left": 16
+        },
+        "viewport": [1366, 768],
+        "visibleHeight": 374.828125,
+        "overlapArea": 0,
+        "scrollY": 0
+      },
+      "errors": []
+    }
+  ],
+  "glossary": {
+    "count": 35,
+    "longShortDefinitions": []
+  },
+  "pendingHub": {
+    "disabled": true,
+    "misleadingSourceMessages": 2,
+    "recovers": true
+  }
+}
