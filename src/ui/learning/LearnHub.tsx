@@ -62,6 +62,10 @@ export default function LearnHub({
       open: () => onFlows(),
     },
   ]
+  const lessonsDone = Object.keys(progress.lessons).length
+  const challengesDone = Object.keys(progress.challenges).length
+  const totalDone = count + lessonsDone + challengesDone
+  const totalAll = cards.length + LESSONS.length + CHALLENGES.length
   return (
     <Modal title={c.title} onClose={onClose} wide className="learn-hub-modal">
       <div className="learn-hub">
@@ -69,11 +73,31 @@ export default function LearnHub({
         <section className="learn-progress" aria-label={c.progress}>
           <div>
             <strong>{c.progress}</strong>
-            <span data-testid="learning-progress">
-              {count} / {cards.length}
+            <span data-testid="learning-total">
+              {c.total} {totalDone} / {totalAll}
             </span>
           </div>
-          <progress value={count} max={cards.length} aria-label={c.progress} />
+          <progress value={totalDone} max={totalAll} aria-label={c.progress} />
+          <ul className="learn-progress-parts">
+            <li>
+              {c.references}{' '}
+              <b data-testid="learning-progress">
+                {count} / {cards.length}
+              </b>
+            </li>
+            <li>
+              {lessonCopy[lang].lessons}{' '}
+              <b>
+                {lessonsDone} / {LESSONS.length}
+              </b>
+            </li>
+            <li>
+              {challengeCopy[lang].title}{' '}
+              <b>
+                {challengesDone} / {CHALLENGES.length}
+              </b>
+            </li>
+          </ul>
           <small>{c.progressNote}</small>
         </section>
         <div className="learn-cards">

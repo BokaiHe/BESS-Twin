@@ -130,6 +130,7 @@ interface FlowCopy {
   hint: string
   dismiss: string
   loading: string
+  unavailable: string
   intro: string
   scope: string
   day: string
@@ -171,6 +172,8 @@ export const flowCopy: Record<Lang, FlowCopy> = {
     hint: 'The day is complete. See where its energy went.',
     dismiss: 'Dismiss energy summary',
     loading: 'Loading energy flows…',
+    unavailable:
+      'An energy-flow chart cannot be built for this parameter set. The simulation and other results are unaffected.',
     intro:
       'Illustrative accounting of the applied simulation. Band width represents energy (MWh), not instantaneous power. This is a source-allocation convention, not a trace of individual electrons.',
     scope: 'Energy flow time window',
@@ -225,6 +228,7 @@ export const flowCopy: Record<Lang, FlowCopy> = {
     hint: '一天播放完成，看看今天的能量去了哪里。',
     dismiss: '关闭能量总结提示',
     loading: '正在加载能量去向…',
+    unavailable: '这组参数下无法生成能量去向图。仿真本身和其他结果不受影响。',
     intro:
       '基于已应用仿真结果的归因示意。流带宽度表示电量（MWh），不是瞬时功率；这是约定的来源分配，不是追踪真实电子。',
     scope: '能量统计时段',

@@ -8,6 +8,8 @@ interface HubCopy {
   intro: string
   progress: string
   progressNote: string
+  total: string
+  references: string
   tourDescription: string
   glossary: string
   glossaryDescription: string
@@ -36,9 +38,11 @@ export const hubCopy: Record<Lang, HubCopy> = {
     retry: 'Retry calculation',
     title: 'Learning centre',
     intro: 'Understand the site, explore its vocabulary and follow the energy.',
-    progress: 'Your learning activity',
+    progress: 'Your learning progress',
     progressNote:
-      'A finished tour or a viewed reference counts once. Viewing is not a knowledge assessment.',
+      'Each finished tour, viewed reference, completed lesson or passed challenge counts once. Viewing is not a knowledge assessment.',
+    total: 'Overall',
+    references: 'Tour & references',
     tourDescription: 'Take the existing step-by-step tour of the scene, timeline and controls.',
     glossary: 'Energy glossary',
     glossaryDescription: 'Search plain-language explanations in English or Chinese.',
@@ -67,8 +71,10 @@ export const hubCopy: Record<Lang, HubCopy> = {
     retry: '重新计算',
     title: '学习中心',
     intro: '认识园区、理解术语，再看看一天的能量去了哪里。',
-    progress: '我的学习记录',
-    progressNote: '完成导览或查看资料各记录一次。已查看不代表已掌握知识。',
+    progress: '我的学习进度',
+    progressNote: '完成导览、查看资料、学完课程或通过挑战，各记一次。已查看不代表已掌握知识。',
+    total: '总进度',
+    references: '导览与资料',
     tourDescription: '逐步认识三维场景、时间轴和各个界面功能。',
     glossary: '能源术语表',
     glossaryDescription: '用中文或英文搜索，查看通俗的概念解释。',

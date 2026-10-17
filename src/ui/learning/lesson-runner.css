@@ -19,10 +19,12 @@
   flex-shrink: 0;
 }
 .lesson-scroll {
-  padding: 14px;
+  padding: 14px 14px 18px;
   overflow-y: auto;
   overscroll-behavior: contain;
   min-height: 0;
+  /* Soft bottom edge signals that the panel scrolls when content is taller. */
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 14px), transparent);
   font-size: 13px;
   line-height: 1.55;
 }
@@ -40,7 +42,12 @@
 }
 .lesson-lock {
   display: block;
-  margin-top: 12px;
+}
+.lesson-foot {
+  flex-shrink: 0;
+  padding: 7px 14px;
+  border-top: 1px solid var(--border, #dce2ed);
+  background: #f3f6fa;
 }
 .lesson-predict {
   border: 0;
@@ -162,4 +169,19 @@
   max-height: var(--lesson-target-height);
   overflow-y: auto;
   scroll-margin: 12px;
+}
+
+/* Lesson actions (play & reveal, next, finish) are the primary call to action. */
+.lesson-runner .pill-btn {
+  height: 36px;
+  margin-top: 10px;
+  padding: 0 16px;
+  border-radius: 10px;
+  background: var(--brand, #2f6bff);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(47, 107, 255, 0.25);
+}
+.lesson-runner .pill-btn:disabled {
+  background: #c7d2e3;
+  box-shadow: none;
 }

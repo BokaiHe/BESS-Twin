@@ -1,5 +1,15 @@
 # 验证记录
 
+## 2026-10-16 — Learning usability update review (local commit)
+
+- Reviewed combined learning progress (3 references + 5 lessons + 4 challenges), clearer lesson actions and fixed footer, live-data-first detail cards, scene splitting/preloading and the energy-chart error boundary. Updated the README and specification to match the new 12-item summary.
+- Fixed an uncovered preload failure path: attach rejection handling immediately, before simulation data is ready to mount the lazy scene. The scene boundary can show its fallback while dashboard controls remain usable.
+- Added 4 browser regressions: total/category progress and reset across languages; scene-fetch failure before the first result without an unhandled rejection; English/Chinese accounting failures confined to the energy dialog, with close/focus-return/reopen recovery. Deliberately injected failures produce expected React error-boundary console messages in these tests.
+- Validation: **123/123 unit tests**, normal and Pages builds, formatting checks, and **37/37 affected browser regressions** passed. Browser scope: energy flows, learning hub, earlier audit fixes, new polish tests, lessons, public-page loading, and storage tank. This review did not rerun the entire explorer suite; the previous full-run results below remain historical.
+- Inspected the [updated mobile L1 screenshot](screenshots/learning-polish-mobile.png). Preserved the six screenshot updates already present when review started.
+- The scene now has a separate chunk but is still fetched immediately; splitting is not a claim that total initial download size was halved. No new startup timing benchmark was performed in this review.
+- Local Git commit only; no push or deployment.
+
 ## 2026-10-16 — Learning audit fixes (local only)
 
 - Fixed L1 tank visibility after lazy loading, viewport/language changes and step navigation. Account for both the fixed lesson panel and clipping inside the desktop detail card; retain manual scrolling and restore the original page position on exit.

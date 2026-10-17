@@ -25,7 +25,6 @@ import { timeLabel } from './domain/config'
 import { BESS_IDS, NODE_BY_ID, connectedEdgeIds } from './domain/topology'
 import type { NodeId, ScenarioId, Snapshot, TwinDataSource } from './domain/types'
 import { useDesignStudy } from './data/useDesignStudy'
-import EnergyScene from './components/EnergyScene'
 import { DesignStudy } from './ui/DesignStudy'
 import { snapshotAt } from './simulation/engine'
 import { useI18n } from './i18n'
@@ -40,6 +39,19 @@ import { SavingsPanel } from './ui/SavingsPanel'
 import { ExplorerHub } from './ui/ExplorerHub'
 import { TONE, clusterMode, modeText, modeTone, mw } from './ui/format'
 
+// The 3D scene (three.js) is the largest chunk. Start fetching it immediately so it
+// downloads in parallel with the first simulation in the worker, but keep it out of the
+// main bundle: the dashboard renders as soon as data arrives, and the scene fades in.
+const loadEnergyScene = () => import('./components/EnergyScene')
+// Handle rejection immediately: simulation data may not be ready to mount lazy yet.
+const scenePreload = loadEnergyScene().then(
+  (scene) => ({ scene }),
+  (error: unknown) => ({ error }),
+)
+const EnergyScene = lazy(async () => {
+  const preload = await scenePreload
+  return 'scene' in preload ? preload.scene : loadEnergyScene()
+})
 const AboutProject = lazy(() => import('./ui/learning/AboutProject'))
 const ChallengeRunner = lazy(() => import('./ui/learning/ChallengeRunner'))
 const LessonRunner = lazy(() => import('./ui/learning/LessonRunner'))

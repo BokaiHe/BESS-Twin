@@ -1,5 +1,5 @@
 import { markActivity } from '../../learning/progress'
-import { useEffect, useMemo, useState } from 'react'
+import { Component, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { ResponsiveContainer, Sankey, type SankeyLinkProps, type SankeyNodeProps } from 'recharts'
 import type { SimulationDay } from '../../domain/types'
 import { timeLabel } from '../../domain/config'
@@ -26,7 +26,50 @@ const colors: Record<FlowKey, string> = {
   batteryCharge: TONE.charge,
   gridExport: TONE.grid,
 }
-export default function EnergyFlowChart({
+type ChartProps = Parameters<typeof FlowChart>[0]
+
+/**
+ * energyFlows() throws on accounting it cannot attribute (by design: no silent wrong
+ * numbers). Contain that here so one unusual parameter set never takes down the page.
+ */
+class FlowBoundary extends Component<
+  { title: string; message: string; onClose: () => void; children: ReactNode },
+  { failed: boolean }
+> {
+  state = { failed: false }
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+  componentDidCatch(error: unknown) {
+    console.warn('Energy flow chart unavailable:', error)
+  }
+  render() {
+    if (!this.state.failed) return this.props.children
+    return (
+      <Modal title={this.props.title} onClose={this.props.onClose}>
+        <p role="alert" data-testid="flows-unavailable">
+          {this.props.message}
+        </p>
+      </Modal>
+    )
+  }
+}
+
+export default function EnergyFlowChart(props: ChartProps) {
+  const { lang } = useI18n()
+  return (
+    <FlowBoundary
+      key={`${props.day.id}-${props.day.parameters ? JSON.stringify(props.day.parameters) : ''}`}
+      title={flowCopy[lang].title}
+      message={flowCopy[lang].unavailable}
+      onClose={props.onClose}
+    >
+      <FlowChart {...props} />
+    </FlowBoundary>
+  )
+}
+
+function FlowChart({
   day,
   minute,
   initialScope = 'day',

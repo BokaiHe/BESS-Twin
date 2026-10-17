@@ -15,6 +15,7 @@ export default function LessonRunner(props: LessonRunnerProps) {
     `${lang}:${r.index}`,
   )
   const heading = useRef<HTMLHeadingElement>(null)
+  const playButton = useRef<HTMLButtonElement>(null)
   useEffect(() => {
     heading.current?.focus({ preventScroll: true })
   }, [r.lesson.id, r.index, r.phase === 'summary'])
@@ -105,13 +106,27 @@ export default function LessonRunner(props: LessonRunnerProps) {
                             name="lesson-prediction"
                             value={o.id}
                             checked={r.choice === o.id}
-                            onChange={() => r.setChoice(o.id)}
+                            onChange={() => {
+                              r.setChoice(o.id)
+                              // Bring the now-enabled action into view in short panels.
+                              requestAnimationFrame(() =>
+                                playButton.current?.scrollIntoView({
+                                  block: 'nearest',
+                                  behavior: 'instant',
+                                }),
+                              )
+                            }}
                           />
                           {l(o.label)}
                         </label>
                       ))}
                       <small>{c.ready}</small>
-                      <button className="pill-btn" disabled={!r.choice} onClick={r.play}>
+                      <button
+                        ref={playButton}
+                        className="pill-btn"
+                        disabled={!r.choice}
+                        onClick={r.play}
+                      >
                         {c.play}
                       </button>
                     </fieldset>
@@ -164,8 +179,10 @@ export default function LessonRunner(props: LessonRunnerProps) {
             {c.retry}
           </button>
         )}
-        <small className="lesson-lock">{c.lock}</small>
       </div>
+      <footer className="lesson-foot">
+        <small className="lesson-lock">{c.lock}</small>
+      </footer>
     </aside>
   )
 }

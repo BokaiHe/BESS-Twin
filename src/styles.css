@@ -80,6 +80,18 @@ svg {
 }
 .stage canvas {
   display: block;
+  /* The scene chunk loads after the dashboard; fade it in instead of popping. */
+  animation: scene-in 0.6s ease-out;
+}
+@keyframes scene-in {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage canvas {
+    animation: none;
+  }
 }
 .scene-fallback {
   position: absolute;

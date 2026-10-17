@@ -425,7 +425,6 @@ export function DetailCard({
         </button>
       </header>
       <div className="detail-body">
-        <VoltageInfo selection={selection} />
         {(selection === 'bess-cluster' ||
           selection.startsWith('bess-') ||
           selection === 'pv' ||
@@ -450,6 +449,8 @@ export function DetailCard({
             </button>
           )}
         {body}
+        {/* Rated voltage is reference information; live state comes first for learners. */}
+        <VoltageInfo selection={selection} />
       </div>
     </aside>
   )
