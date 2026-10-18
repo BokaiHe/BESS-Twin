@@ -1,5 +1,10 @@
 # 验证记录
 
+## 2026-10-18 — README refresh and WebP preview fix
+
+- The README preview showed vertical streaks: FFmpeg's animated-WebP encoder reuses unchanged blocks without keyframes, so lossy errors accumulated. Comparing decoded frames with the source MP4 (first 6 s), minimum PSNR was 26.4 dB with FFmpeg and 34.0 dB with Pillow at 800 px, 20 fps, quality 72. Added `scripts/encode-webp.py`; `npm run demo:record` now uses it. New `docs/demo.webp`: 4.3 MB, 600 source frames, visually checked.
+- README reduced from 312 to 79 lines with six new screenshots (`npm run readme:screenshots`, 1440 × 900 JPEG). Detailed sections moved unchanged to `docs/guide.md`; all relative links checked. Removed the Mermaid diagram and the media links under the preview.
+
 ## 2026-10-18 — High-frame-rate demo and documentation refresh
 
 - Rewrote `scripts/capture-demo.mjs` to capture timestamped frames from the Chrome DevTools screencast (headed GPU rendering by default, `DEMO_HEADLESS=1` optional) instead of Playwright's fixed 25 fps recorder. FFmpeg rebuilds constant-rate output from the frame timestamps.
