@@ -1,40 +1,55 @@
 import { expect, test } from '@playwright/test'
 
-test('first-visit hint is optional, remembered and starts the existing tour with focus return', async ({
-  page,
-}) => {
-  await page.goto('/')
-  const hint = page.locator('.first-visit-hint')
-  const tour = page.getByRole('button', { name: 'Learn', exact: true })
-  await expect(hint).toBeVisible()
-  await expect(page.getByRole('dialog')).toHaveCount(0)
-  await hint.getByRole('button', { name: 'Explore on my own' }).click()
-  await expect(tour).toBeFocused()
-  await page.reload()
-  await expect(tour).toBeVisible()
-  await expect(hint).toHaveCount(0)
-  // A new visitor can explicitly start the tour from the hint.
-  await page.evaluate(() => localStorage.removeItem('bess-twin-tour-hint-seen'))
-  await page.reload()
-  const minute = await page.getByTestId('timeline-time').textContent()
-  await hint.getByRole('button', { name: 'Open learning centre' }).click()
-  await expect(page.getByRole('dialog')).toContainText('Learning centre')
-  await page.getByRole('button', { name: 'Guided tour', exact: true }).click()
-  await expect(page.getByRole('dialog')).toContainText('Meet the energy site')
-  await page.keyboard.press('Escape')
-  await expect(tour).toBeFocused()
-  await expect(hint).toHaveCount(0)
-  await expect(page.getByTestId('timeline-time')).toHaveText(minute!)
-  await page.reload()
-  await expect(tour).toBeVisible()
-  await expect(hint).toHaveCount(0)
+const firstVisit = { storageState: { cookies: [], origins: [] } }
+
+test.describe('first visit', () => {
+  test.use(firstVisit)
+
+  test('opens the guided tour once without advancing time', async ({ page }) => {
+    await page.goto('/')
+    const dialog = page.getByRole('dialog')
+    await expect(dialog).toContainText('Meet the energy site')
+    await expect(dialog.getByTestId('guide-progress')).toHaveText('1 / 13')
+    const minute = await page.getByTestId('timeline-time').textContent()
+    await page.keyboard.press('Escape')
+    await expect(dialog).toHaveCount(0)
+    await expect(page.getByTestId('timeline-time')).toHaveText(minute!)
+    expect(await page.evaluate(() => localStorage.getItem('bess-twin-tour-hint-seen'))).toBe('1')
+    await page.reload()
+    await expect(page.getByTestId('kpi-soc')).toBeVisible()
+    await expect(page.locator('canvas')).toBeVisible()
+    await page.waitForTimeout(500)
+    await expect(dialog).toHaveCount(0)
+    // The tour stays available from the learning centre.
+    await page.getByRole('button', { name: 'Learn', exact: true }).click()
+    await page.getByRole('button', { name: 'Guided tour', exact: true }).click()
+    await expect(dialog).toContainText('Meet the energy site')
+  })
+
+  test('unavailable local storage still opens and closes the tour', async ({ page }) => {
+    const errors: string[] = []
+    page.on('pageerror', (error) => errors.push(error.message))
+    await page.addInitScript(() => {
+      for (const method of ['getItem', 'setItem'])
+        Object.defineProperty(Storage.prototype, method, {
+          value: () => {
+            throw new DOMException('Storage disabled', 'SecurityError')
+          },
+        })
+    })
+    await page.goto('/')
+    await expect(page.getByRole('dialog')).toContainText('Meet the energy site')
+    await page.keyboard.press('Escape')
+    await expect(page.getByRole('dialog')).toHaveCount(0)
+    await expect(page.getByRole('button', { name: 'Learn', exact: true })).toBeVisible()
+    expect(errors).toEqual([])
+  })
 })
 
 test('public context and source link remain reachable in both languages and short/narrow windows', async ({
   page,
 }) => {
   await page.goto('/')
-  await page.getByRole('button', { name: 'Explore on my own' }).click()
   await page.getByRole('button', { name: 'Storage fault', exact: true }).click()
   await page.getByRole('button', { name: 'Show equipment explorers' }).click()
   for (const [width, height] of [
@@ -72,27 +87,6 @@ test('public context and source link remain reachable in both languages and shor
   }
 })
 
-test('unavailable local storage does not prevent using or dismissing the hint', async ({
-  page,
-}) => {
-  const errors: string[] = []
-  page.on('pageerror', (error) => errors.push(error.message))
-  await page.addInitScript(() => {
-    for (const method of ['getItem', 'setItem'])
-      Object.defineProperty(Storage.prototype, method, {
-        value: () => {
-          throw new DOMException('Storage disabled', 'SecurityError')
-        },
-      })
-  })
-  await page.goto('/')
-  await page.getByRole('button', { name: 'Open learning centre', exact: true }).click()
-  await expect(page.getByRole('dialog')).toBeVisible()
-  await page.keyboard.press('Escape')
-  await expect(page.locator('.first-visit-hint')).toHaveCount(0)
-  expect(errors).toEqual([])
-})
-
 test('share metadata is in the initial HTML and the preview image is served locally', async ({
   request,
 }) => {
@@ -110,24 +104,10 @@ test('share metadata is in the initial HTML and the preview image is served loca
   expect(png.readUInt32BE(20)).toBe(839)
 })
 
-test('welcome reserves space for camera controls and short-screen tour stays compact', async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 1366, height: 768 })
+test('short-screen tour entry stays compact', async ({ page }) => {
+  await page.setViewportSize({ width: 1366, height: 600 })
   await page.goto('/')
   await expect(page.locator('canvas')).toBeVisible()
-  const hint = page.locator('.first-visit-hint')
-  await expect(hint).toBeVisible()
-  const camera = page.locator('.cam-tools')
-  await expect
-    .poll(async () => {
-      const a = (await hint.boundingBox())!,
-        b = (await camera.boundingBox())!
-      return a.y + a.height <= b.y || b.x + b.width <= a.x || a.x + a.width <= b.x
-    })
-    .toBe(true)
-  await page.getByRole('button', { name: 'Zoom in', exact: true }).click({ trial: true })
-  await page.setViewportSize({ width: 1366, height: 600 })
   const tour = page.getByRole('button', { name: 'Learn', exact: true })
   await expect(tour).toBeVisible()
   await expect(tour.locator('span')).toBeVisible()

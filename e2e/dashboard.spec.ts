@@ -206,19 +206,19 @@ test('first visit defaults to English and walkthrough explains modules without a
     baseURL,
     locale: 'zh-CN',
     viewport: { width: 1600, height: 1080 },
+    storageState: { cookies: [], origins: [] }, // a genuine first visit
   })
   const page = await context.newPage()
   try {
     // Legacy automatic locale detection must not override the new English default.
     await page.addInitScript(() => localStorage.setItem('bess-twin-lang', 'zh'))
     await page.goto('/')
-    await expect(page.getByRole('button', { name: 'Learn', exact: true })).toBeVisible()
-    await expect(page.locator('html')).toHaveAttribute('lang', 'en')
-    const minute = await page.getByTestId('timeline-time').textContent()
-    await page.getByRole('button', { name: 'Learn', exact: true }).click()
-    await page.getByRole('button', { name: 'Guided tour', exact: true }).click()
+    // The tour opens by itself on a first visit, in English, at the initial minute.
     const dialog = page.getByRole('dialog')
     await expect(dialog).toContainText('Meet the energy site')
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en')
+    const minute = await page.getByTestId('timeline-time').textContent()
+    expect(minute).toBe('12:00')
     await page.screenshot({ path: 'docs/screenshots/guided-tour-desktop.png' })
     await expect(dialog.getByRole('button', { name: 'Back', exact: true })).toBeDisabled()
     await dialog.getByRole('button', { name: 'Next', exact: true }).click()
@@ -255,6 +255,8 @@ test('first visit defaults to English and walkthrough explains modules without a
     await page.getByRole('button', { name: '切换到中文' }).click()
     await page.reload()
     await expect(page.getByRole('button', { name: '学习', exact: true })).toBeVisible()
+    await expect(page.locator('canvas')).toBeVisible()
+    await expect(dialog).toHaveCount(0) // only the first visit starts the tour
     await page.setViewportSize({ width: 390, height: 844 })
     await page.getByRole('button', { name: '学习', exact: true }).click()
     await page.getByRole('button', { name: '功能导览', exact: true }).click()

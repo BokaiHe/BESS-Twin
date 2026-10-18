@@ -11,8 +11,6 @@ import {
 import { timeLabel } from '../domain/config'
 import type { ScenarioId, Snapshot } from '../domain/types'
 import { useI18n } from '../i18n'
-import { FirstVisitHint } from './FirstVisitHint'
-
 const ICONS = { sunny: Sun, cloudy: Cloud, fault: TriangleAlert } as const
 
 export function TopBar({
@@ -20,8 +18,6 @@ export function TopBar({
   lessonActive = false,
   setScenario,
   snapshot,
-  touring,
-  hasExplored,
   onLearn,
   onAlarms,
   onAbout,
@@ -31,8 +27,6 @@ export function TopBar({
   scenario: ScenarioId
   setScenario: (id: ScenarioId) => void
   snapshot: Snapshot
-  touring: boolean
-  hasExplored: boolean
   onLearn: () => void
   onAlarms: () => void
   onStudy?: () => void
@@ -128,11 +122,6 @@ export function TopBar({
           </button>
         </div>
       )}
-      <FirstVisitHint
-        touring={touring || lessonActive}
-        hasExplored={hasExplored}
-        onStart={onLearn}
-      />
     </header>
   )
 }

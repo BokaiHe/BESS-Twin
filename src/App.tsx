@@ -16,6 +16,7 @@ import {
   useEffect,
   useMemo,
   useLayoutEffect,
+  useEffectEvent,
   useRef,
   useState,
   type ReactNode,
@@ -30,6 +31,7 @@ import { snapshotAt } from './simulation/engine'
 import { useI18n } from './i18n'
 import { BESS_CENTER, FAULT_NODE, type SceneLabel, type Selection } from './components/scene/shared'
 import { TopBar } from './ui/TopBar'
+import { claimFirstVisitTour } from './ui/firstVisit'
 import { KpiStrip } from './ui/KpiStrip'
 import { DetailCard } from './ui/DetailCard'
 import { DeviceList } from './ui/DeviceList'
@@ -258,16 +260,16 @@ export default function App({ source }: { source?: TwinDataSource }) {
     flyTo(tourReturn.current.focus)
   }, [flyTo])
 
-  const toggleTour = () => {
-    if (touring) {
-      closeTour()
-      return
-    }
+  const startTour = () => {
     tourReturn.current = { selected, rotate: autoRotate, focus: focus.key }
     setPlaying(false)
     setAutoRotate(false)
     setModal(null)
     setTouring(true)
+  }
+  const toggleTour = () => {
+    if (touring) closeTour()
+    else startTour()
   }
 
   const changeScenario = (id: ScenarioId) => {
@@ -468,6 +470,16 @@ export default function App({ source }: { source?: TwinDataSource }) {
     </div>
   )
 
+  // A first-time visitor gets the guided tour as soon as the day has been computed.
+  const startFirstVisitTour = useEffectEvent(() => {
+    if (!touring && !lessonSession && !challengeSession && modal === null && claimFirstVisitTour())
+      startTour()
+  })
+  const dayReady = !!snapshot
+  useEffect(() => {
+    if (dayReady) startFirstVisitTour()
+  }, [dayReady])
+
   if (error && !day)
     return (
       <div className="splash">
@@ -521,15 +533,6 @@ export default function App({ source }: { source?: TwinDataSource }) {
           scenario={snapshot.scenarioId}
           setScenario={changeScenario}
           snapshot={snapshot}
-          touring={touring}
-          hasExplored={
-            selected !== null ||
-            minute !== 720 ||
-            scenario !== 'sunny' ||
-            modal !== null ||
-            zoomCmd.serial > 0 ||
-            autoRotate
-          }
           onLearn={() => {
             learnWasPlaying.current = playing
             setPlaying(false)

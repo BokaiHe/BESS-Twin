@@ -839,8 +839,6 @@ test('container: overview first, equipment exploration, close and refresh preser
   // The scene label uses the same selection path as clicking a physical BESS object.
   await page.locator('.scene-chip').filter({ hasText: 'BESS plant' }).click()
   await expect(page.getByRole('heading', { name: 'BESS plant', exact: true })).toBeVisible()
-  // A visitor has started exploring: the onboarding row must release its space.
-  await expect(page.locator('.first-visit-hint')).toHaveCount(0)
   const entry = page.getByRole('button', { name: 'Explore inside', exact: true })
   await expect(entry).toBeVisible()
   await expect(page.getByRole('dialog')).toHaveCount(0)

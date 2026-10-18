@@ -12,6 +12,16 @@ export default defineConfig({
     viewport: { width: 1600, height: 1080 },
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
+    // Returning visitor by default; first-visit specs reset this to an empty state.
+    storageState: {
+      cookies: [],
+      origins: [
+        {
+          origin: 'http://127.0.0.1:5178',
+          localStorage: [{ name: 'bess-twin-tour-hint-seen', value: '1' }],
+        },
+      ],
+    },
   },
   webServer: {
     command: 'npm run dev -- --port 5178 --strictPort',

@@ -65,7 +65,7 @@ The fixed simulation date is `2026-06-18`, UTC+08:00; it is independent of the c
 
 ## Learning edition: learning centre and progress
 
-Choose **Learn** in the top bar for **Guided tour**, **Energy glossary** and **View energy flows**. The first-visit hint opens the same centre. Contextual term links and the bill's energy-flow entry remain available. Five guided lessons and four parameter challenges are also available.
+Choose **Learn** in the top bar for **Guided tour**, **Energy glossary** and **View energy flows**. The guided tour also opens by itself on a first visit. Contextual term links and the bill's energy-flow entry remain available. Five guided lessons and four parameter challenges are also available.
 
 Finishing all tour steps records **Completed**; opening the glossary or energy chart records **Viewed**, not mastery. The overall progress combines these three activities, five completed lessons and four passed challenges (12 items), with a separate count for each category. Progress persists across reloads and language changes in this browser under `bess-twin-learning-v1`; the record also stores completed lessons and best challenge scores. There is no account or server sync. Other tabs update an open centre through browser storage events.
 
@@ -198,7 +198,7 @@ Geometry checks: `npm run renewables:build`. Browser regression checks: `npx pla
 
 Share metadata is present in the initial HTML, following the [Open Graph protocol](https://ogp.me/). `public/social-preview.png` is the simplified energy-park screenshot, with English equipment labels and without dashboard panels. Forks should update the canonical, Open Graph and card URLs in `index.html`; copy a new screenshot and update its declared dimensions when refreshing the cover. Preview rendering and caching depend on the sharing platform; this does not guarantee a card on every platform.
 
-The optional tour hint appears once per browser storage profile. It neither starts the tour automatically nor changes simulation time. The hint opens the learning centre. Opening or dismissing it uses the persistent Learn button for focus return; the tour starts only when selected inside the centre. With browser storage disabled, the page remains usable; the hint can reappear on a new visit because persistence is unavailable.
+On a first visit the guided tour opens by itself once the day has been computed; it never changes simulation time and is remembered per browser storage profile, so returning visitors start it from **Learn → Guided tour**. With browser storage disabled, the page remains usable; the tour can open again on a new visit because persistence is unavailable.
 
 Parameter editing and original-versus-proposal comparison are included in this version and specified in [the data contract](data-contract.md).
 

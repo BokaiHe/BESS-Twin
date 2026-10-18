@@ -748,10 +748,6 @@ const zh = {
   publicPage: {
     disclosure: '仿真演示 · 示例参数 · 非真实项目数据',
     source: 'GitHub 源码',
-    welcome: '第一次来？试试功能导览',
-    hint: '了解如何拖动时间轴、切换剧本，以及打开设备探索器。',
-    start: '打开学习中心',
-    dismiss: '自行探索',
   },
   site: '风光储综合园区',
   simBadge: '仿真演示',
@@ -1121,10 +1117,6 @@ const en: Dict = {
   publicPage: {
     disclosure: 'Simulation demo · Example parameters · Not real project data',
     source: 'GitHub source',
-    welcome: 'First visit? Try the guided tour',
-    hint: 'Learn to scrub the timeline, switch scenarios and open equipment explorers.',
-    start: 'Open learning centre',
-    dismiss: 'Explore on my own',
   },
   site: 'Hybrid Energy Park',
   simBadge: 'Simulation',
