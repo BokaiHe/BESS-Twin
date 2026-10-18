@@ -22,7 +22,8 @@
     "cell:build": "node scripts/build-cell.mjs --audit",
     "cell:orbit-audit": "node scripts/audit-cell-orbit.mjs",
     "renewables:build": "node scripts/build-renewables.mjs --audit",
-    "explorers:previews": "node scripts/capture-explorer-previews.mjs"
+    "explorers:previews": "node scripts/capture-explorer-previews.mjs",
+    "demo:record": "node scripts/capture-demo.mjs"
   },
   "dependencies": {
     "@react-three/drei": "10.7.9",

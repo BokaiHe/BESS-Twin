@@ -1,7 +1,19 @@
 {
-  "recordedAt": "2026-10-16T05:34:49.249Z",
-  "url": "http://127.0.0.1:5180/BESS-Twin/",
+  "recordedAt": "2026-10-18T21:17:22.260Z",
+  "url": "http://127.0.0.1:5199/",
   "durationSeconds": 30,
+  "capture": {
+    "method": "Chrome DevTools screencast (timestamped frames)",
+    "headless": false,
+    "frames": 2494,
+    "capturedSeconds": 29.97,
+    "averageCaptureFps": 83.2
+  },
+  "outputs": {
+    "docs/demo.webm": "60 fps VP9, 1440×1080",
+    "docs/demo.mp4": "60 fps H.264, 1440×1080",
+    "docs/demo.webp": "30 fps animated WebP, 960 px wide"
+  },
   "chapters": [
     {
       "title": "Sunny day: read precomputed snapshots",
@@ -9,23 +21,23 @@
     },
     {
       "title": "Storage at the evening peak",
-      "seconds": 5.63
+      "seconds": 5.22
     },
     {
       "title": "Explore the container and its cell transport",
-      "seconds": 8.01
+      "seconds": 8
     },
     {
       "title": "Discharge flow fully visible",
-      "seconds": 16.79
+      "seconds": 16.45
     },
     {
       "title": "Double capacity and wait for the recalculated comparison",
-      "seconds": 20.11
+      "seconds": 20.08
     }
   ],
   "originalCapacityMWh": 20,
   "proposedCapacityMWh": 40,
   "errors": [],
-  "note": "Chapter offsets are measured from the ready page before trimming. Actual comparison values are rendered by the app; no result text is replaced."
+  "note": "Chapter offsets are measured from the start of capture. Actual comparison values are rendered by the app; no result text is replaced."
 }
