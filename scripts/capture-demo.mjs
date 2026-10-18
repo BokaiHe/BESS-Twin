@@ -19,11 +19,17 @@ if (!['127.0.0.1', 'localhost', '[::1]'].includes(url.hostname))
 const ffmpeg = process.env.FFMPEG_PATH ?? 'ffmpeg'
 if (spawnSync(ffmpeg, ['-version'], { stdio: 'ignore' }).status !== 0)
   throw Error('FFmpeg is required to assemble the recording. Install it or set FFMPEG_PATH.')
+if (
+  spawnSync(process.env.PYTHON ?? 'python', ['-c', 'import PIL'], { stdio: 'ignore' }).status !== 0
+)
+  throw Error('Python with Pillow is required for the README WebP preview (pip install pillow).')
 
 const VIEWPORT = { width: 1440, height: 1080 }
 const VIDEO_FPS = 60
-const PREVIEW_FPS = 30 // animated WebP in the README
-const PREVIEW_WIDTH = 960
+const PREVIEW_FPS = 20 // animated WebP in the README
+const PREVIEW_WIDTH = 800
+const PREVIEW_QUALITY = 72
+const python = process.env.PYTHON ?? 'python'
 const DURATION = 30
 
 await mkdir('docs', { recursive: true })
@@ -206,24 +212,21 @@ try {
     '+faststart',
     resolve('docs/demo.mp4'),
   ])
-  // README preview: smaller animated WebP. GIF cannot show frame delays under 20 ms
-  // reliably and is several times larger at the same quality.
-  convert([
-    '-i',
-    resolve('docs/demo.mp4'),
-    '-vf',
-    `fps=${PREVIEW_FPS},scale=${PREVIEW_WIDTH}:-2:flags=lanczos`,
-    '-an',
-    '-c:v',
-    'libwebp_anim',
-    '-quality',
-    '72',
-    '-compression_level',
-    '6',
-    '-loop',
-    '0',
-    resolve('docs/demo.webp'),
-  ])
+  // README preview: animated WebP encoded with Pillow (scripts/encode-webp.py). FFmpeg's
+  // libwebp_anim never inserts keyframes, so lossy errors accumulate into streaks.
+  const preview = spawnSync(
+    python,
+    [
+      'scripts/encode-webp.py',
+      resolve('docs/demo.mp4'),
+      resolve('docs/demo.webp'),
+      String(PREVIEW_WIDTH),
+      String(PREVIEW_FPS),
+      String(PREVIEW_QUALITY),
+    ],
+    { encoding: 'utf8', env: { ...process.env, FFMPEG_PATH: ffmpeg } },
+  )
+  if (preview.status !== 0) throw Error(preview.stderr || 'WebP preview encoding failed')
   await writeFile(
     'docs/demo-recording.json',
     JSON.stringify(

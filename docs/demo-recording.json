@@ -12,7 +12,7 @@
   "outputs": {
     "docs/demo.webm": "60 fps VP9, 1440×1080",
     "docs/demo.mp4": "60 fps H.264, 1440×1080",
-    "docs/demo.webp": "30 fps animated WebP, 960 px wide"
+    "docs/demo.webp": "20 fps animated WebP, 800 px wide (Pillow, keyframed; scripts/encode-webp.py)"
   },
   "chapters": [
     {
