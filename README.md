@@ -4,9 +4,9 @@ An interactive digital twin of a renewable energy park, built with React, Vite, 
 
 **[Live demo](https://bokaihe.github.io/BESS-Twin/)** · **[Source](https://github.com/BokaiHe/BESS-Twin)**
 
-![BESS Twin: playback, storage cutaway and capacity comparison](docs/demo.gif)
+![BESS Twin: playback, storage cutaway and capacity comparison](docs/demo.webp)
 
-[Watch the 30-second WebM](docs/demo.webm) · [Recording storyboard and instructions](docs/demo-storyboard.md)
+30-second walkthrough at 60 fps: [MP4](docs/demo.mp4) · [WebM](docs/demo.webm) · [Re-record with `npm run demo:record`](docs/demo-storyboard.md)
 
 ## Why this project exists
 
@@ -25,7 +25,7 @@ flowchart LR
   C --> E[Lessons + challenges + explorers]
 ```
 
-Open **About the model → About this project** for the bilingual explanation. Before the documentation step, the verified local baseline was **123 unit tests and 89 browser tests passing** (16 October 2026); later runs and limitations are recorded in [the verification log](docs/verification.md). These are recorded checks, not a live badge. The learning edition is currently local and may be ahead of the published demo.
+Open **About the model → About this project** for the bilingual explanation. The deployed learning edition was verified with **123 unit tests and 99 browser tests passing**; runs and limitations are recorded in [the verification log](docs/verification.md). These are recorded checks, not a live badge.
 
 > This is an illustrative simulation, not a connection to operating equipment or a remote-control system.
 
@@ -41,18 +41,19 @@ Open **About the model → About this project** for the bilingual explanation. B
 - **Teaching animations:** battery charge/discharge transport, solar photon absorption and charge separation, and wind-driven rotor and drivetrain motion inside the cutaway views.
 - **Tariff-aware operation:** peak shaving takes priority; renewable surplus is stored before grid charging is considered.
 - **Transparent bill comparison:** full-day and up-to-now breakdowns, with explicit treatment of baseline supply shortages and fault-day energy inventory.
+- **Learning edition:** a Learn centre with five predict-then-reveal lessons, four engine-verified parameter challenges, a searchable bilingual glossary, a water-tank analogy for MW versus MWh, and a Sankey summary of where each day's energy goes. Progress is saved in the browser.
 - **13-step guided walkthrough:** module explanations, highlights, camera focus, Back/Next and early exit. Playback pauses during the tour.
 - **Public sharing:** static Open Graph / large-image card metadata, a screenshot preview, a one-time optional tour hint, and a visible simulation disclosure with a source link.
 - **English by default**, with a Chinese language toggle and persistence of explicit language choices.
 - **Responsive layout** for desktop and mobile.
 
-## Parameter challenges (local learning edition)
+## Parameter challenges
 
 Open **Learn → Parameter challenges** to try four engine-backed tasks: keep a cloudy day supplied, stay under an 8 MW import cap, explore tariff spreads, and absorb excess renewables. Only the relevant controls are editable; the original design stays fixed to each challenge's starting configuration. Goals and stars update only after the latest full-day result arrives. Best passing scores are saved locally, shared across languages, with a session-only fallback when browser storage is unavailable.
 
 Exiting restores both free-mode designs, scenario, time, selection, camera and playback settings. C1/C2 reward improved supply even when the starting design has shortages. C3 uses the proposed tariff's **own no-storage baseline**, never a bill difference across tariffs; valley and mid prices cannot exceed their starting levels. C4 counts network curtailment separately from inverter clipping. These are instructional targets for the existing dispatch policy, not an optimization or investment recommendation.
 
-Reproduce the candidate scan with `node scripts/scan-challenges.mjs`. It verifies a failing start and reachable one-, two- and three-star designs for every challenge; results are in [docs/challenge-scan.json](docs/challenge-scan.json). The finite scan does not claim globally optimal sizing. This learning edition has not been pushed or deployed.
+Reproduce the candidate scan with `node scripts/scan-challenges.mjs`. It verifies a failing start and reachable one-, two- and three-star designs for every challenge; results are in [docs/challenge-scan.json](docs/challenge-scan.json). The finite scan does not claim globally optimal sizing.
 
 ## Run locally
 
@@ -133,7 +134,7 @@ The fixed simulation date is `2026-06-18`, UTC+08:00; it is independent of the c
 
 The browser tests currently use the installed Microsoft Edge channel and start a test server on port 5178. On a machine without Edge, install that browser or change `channel` in `playwright.config.ts` to a browser available in your environment.
 
-The test suites contain **97 unit tests** and **74 browser flows**. Coverage includes scenario changes, deterministic seeking, the exact fault boundary, bill comparability, language persistence, all 13 walkthrough steps, equipment disassembly, battery transport, solar/wind generation animations and the explorer hub. See [verification notes](docs/verification.md) for results and known limitations.
+The test suites contain **123 unit tests** and **99 browser flows** across 16 Playwright spec files. Coverage includes scenario changes, deterministic seeking, the exact fault boundary, bill comparability, parameter studies, language persistence, all 13 walkthrough steps, equipment disassembly, battery transport, solar/wind generation animations, the explorer hub, lessons, challenges, the glossary, the storage tank and energy-flow accounting. See [verification notes](docs/verification.md) for results and known limitations.
 
 ## Project structure
 
@@ -144,6 +145,8 @@ src/
   data/         Snapshot data-source adapter
   components/   Three.js scene, SVG cutaways, geometry and teaching animations
   ui/           Dashboard cards, explorer hub, dialogs and guided walkthrough
+  ui/learning/  Learn centre, lessons, challenges, glossary, tank and Sankey views
+  learning/     Read-only lesson, challenge, glossary and progress data
   i18n.tsx      Dashboard copy and English explorer copy
   explorerCopyZh.ts  Chinese explorer copy
   App.tsx       Application state and coordination
@@ -171,19 +174,15 @@ Local build products, dependencies, test traces, logs, environment files and edi
 
 This is an active-power balance demonstration, not an AC power-flow or protection study. Reactive power, detailed network losses, battery ageing and physical thermal dynamics are not modeled; temperature and SOH are illustrative. Real telemetry and remote equipment control are not implemented.
 
-The 3D and chart bundles are comparatively large. The main scene is loaded with the entry page to avoid a cold-start dependency waterfall; equipment explorers remain lazy-loaded. Rendering quality and speed depend on the browser and GPU.
+The 3D and chart bundles are comparatively large. The 3D scene is a separate chunk, prefetched at startup so it downloads in parallel with the first calculation; the dashboard appears as soon as data arrives and the scene fades in. Equipment explorers and learning features load on demand. Rendering quality and speed depend on the browser and GPU.
 
 Nominal AC voltage is displayed in device lists and detail cards. Storage's 35 kV value describes its collection-bus connection after step-up, not the battery DC or PCS terminal voltage. Operating voltage is not simulated.
-
-### Known interface issues in this snapshot
-
-- Chinese solar explanations currently use the same term for solar cells and battery cells; terminology should be differentiated in a follow-up.
-
-This terminology issue remains in the current version.
 
 ## Equipment explorers
 
 The hub reserves space above the timeline on desktop. Viewports at most 900 px wide or 740 px high use a vertically scrolling page, so previews, close controls and fault alerts remain reachable. Expanding the hub focuses its first card; collapsing restores focus to the badge; closing an explorer returns focus to its originating card.
+
+The app opens on the site overview; legacy `?view=container` links also land there instead of opening a dialog. Closing an explorer returns to the selection or card that opened it.
 
 The **Inside the equipment** badge below the KPI cards expands into preview cards for the three explorers (BESS container, solar module, wind turbine); each card opens its explorer directly. The same explorers remain available from **Explore inside** in the matching detail card. All explorer copy follows the language toggle: English lives in `src/i18n.tsx`, Chinese in `src/explorerCopyZh.ts`, and TypeScript checks that both have the same shape. Explorer type and colours are aligned with the main interface. Preview images in `public/explorers/` are captured from the real explorers with `npm run explorers:previews` (re-run after geometry changes).
 
@@ -196,8 +195,7 @@ component tour, keyboard controls and reduced-motion support. Each opening start
 
 Click a battery rack (or its numbered button) to slide out its top example module. Choose **Reveal cell layers** or click the extracted module to lift the cover, reveal the cells and monitoring board, and separate the cold plate. **Reassemble module** and **Back to systems** reverse the sequence, including when interrupted. Camera movement and depth sorting share one animation coordinate; reduced motion jumps to the requested pose.
 
-The app opens on the site overview. Select a BESS object, label or device row, then choose **Explore inside** at the top of its detail card. Closing the explorer returns to the same selection. Legacy `?view=container` links also open the overview instead of automatically showing a dialog. This is a
-healthy-system educational cutaway inspired by the PowerTitan 2.0 architecture,
+This is a healthy-system educational cutaway inspired by the PowerTitan 2.0 architecture,
 not manufacturer CAD or a maintenance procedure. It does not add equipment
 control or simulated cell-level telemetry. Existing simulation ratings are unchanged.
 
@@ -255,23 +253,23 @@ Open **What if…** from the dashboard to compare designs. Edit storage power an
 
 Prices change the ledger, while dispatch retains the documented fixed tariff-window peak-shaving rules. It is not a price optimizer or investment-return model. Different supplied energy, unconverged steady state and changing terminal inventory prevent a bill difference from being presented as validated savings. All applied parameters and solver diagnostics can be inspected. Parameter URL sharing and CSV import are not yet implemented.
 
-Initial loading and scenario changes start immediately; only slider edits wait 300 ms. The main scene resources load with the entry page. A preparation message remains visible until real results arrive; the scene is then constructed once, avoiding a second pass over placeholder equipment. Waiting for a new calculation uses demand rendering, and the initial camera fits immediately. The last complete day stays selected during recalculation, with a visible status message. Idle prewarming and bounded caches reuse other scenarios without repeating worker transfers; foreground edits take priority over queued speculative work.
+Initial loading and scenario changes start immediately; only slider edits wait 300 ms. The 3D scene chunk is prefetched at startup and arrives in parallel with the first result. A preparation message remains visible until real results arrive; the scene is then constructed once, avoiding a second pass over placeholder equipment. Waiting for a new calculation uses demand rendering, and the initial camera fits immediately. The last complete day stays selected during recalculation, with a visible status message. Idle prewarming and bounded caches reuse other scenarios without repeating worker transfers; foreground edits take priority over queued speculative work.
 
 Comparison bills use the same display currency as the dashboard: USD in English (fixed illustrative rate of CNY 7.2/USD), CNY in Chinese. Tariff inputs and the underlying ledger remain in CNY. Peak import includes its first occurrence and tariff band: additional storage need not lower a mid-tariff maximum under the fixed-window dispatch policy.
 
-## Learning edition: glossary (local stage 1)
+## Learning edition: glossary
 
 Underlined terms in the dashboard, storage details, voltage explanation, timeline strategy, parameter editor and tariff ledger open bilingual explanations. The full **Energy glossary** is searchable in either language and can also be opened from **Learn**. Related terms link to their own entries. Each concept is annotated only once per card or panel; the equipment explorers keep their existing explanations.
 
 The 35 definitions and popup layout load on first interaction. Keyboard focus or a click opens an explanation; Escape closes it and restores focus. Only one explanation is open at a time. On narrow screens, the card sits near the bottom of the viewport. This stage does not change simulation physics, introduce dependencies, or require browser storage.
 
-The reviewed implementation plan is in [the learning edition specification](docs/learning-edition-spec.md). The Learn hub is available in stage 4, guided lessons in stage 5, and parameter challenges in stage 6.
+The reviewed implementation plan is in [the learning edition specification](docs/learning-edition-spec.md).
 
 To compare learning-layer startup against a previous release, build both checkouts with `npm run build:pages`, then run `node scripts/check-learning-performance.mjs /path/to/baseline/dist`. The script serves both distributions locally, alternates fresh Edge contexts, checks the 15 KB initial-JavaScript gzip budget, and records visibility and warmed scenario-switch timings in `test-results/learning-performance.json`. Run it separately from the browser regression suite; the measurements are machine-specific.
 
 Preview this stage: [desktop glossary](docs/screenshots/learning-glossary.png) · [mobile explanation](docs/screenshots/learning-term-mobile.png). See [verification notes](docs/verification.md) and [performance samples](docs/learning-performance.json) for the exact test scope and measurement limits.
 
-## Learning edition: animated storage tank (local stage 2)
+## Learning edition: animated storage tank
 
 Click the **BESS plant** label in the site to see a water-tank analogy beneath the SOC display. Tank width represents installed MWh, pipe thickness represents rated MW, and water level reads the selected minute's stored energy. At 10:00 on the sunny day the flow enters the tank; at 19:00 it leaves. The water surface and moving dashes are illustrative and can be paused; reduced-motion preferences retain a static level and direction arrows.
 
@@ -279,15 +277,15 @@ Open **What if…** to resize the capacity-preview tank immediately with the sto
 
 The SVG component and its styles load on demand. This stage changes no dispatch logic or dependencies. Preview: [snapshot tank](docs/screenshots/learning-tank-detail.png) · [parameter preview](docs/screenshots/learning-tank-preview.png) · [Chinese mobile explanation](docs/screenshots/learning-tank-mobile-zh.png).
 
-## Learning edition: energy flow summary (local stage 3)
+## Learning edition: energy flow summary
 
 Open the bill explanation and choose **View energy flows**, or use the same entry in **Learn**. A non-blocking prompt also appears when playback finishes the day. The Sankey diagram shows actual solar, wind, grid and storage contributions to served load, charging and exports. Select a band with a click or keyboard to inspect its MWh; expand the table for all transfers and source/destination totals.
 
 Switch between **Full day** and **Up to** the selected time. Every one-minute allocation is reconciled before aggregation. Curtailment, PV clipping and unserved demand are listed separately. The storage ledger subtracts the DC inventory change from AC charging minus discharge to calculate conversion losses, including on fault days. This is an illustrative allocation convention, not electron tracing or a total of unique primary energy.
 
-The chart and calculation load on demand using the existing Recharts dependency. All explanations are bilingual, and the static diagram supports reduced-motion preferences. See [calculation rules](docs/simulation.md), [verification](docs/verification.md), [desktop diagram](docs/screenshots/learning-energy-flows.png) and [mobile Chinese diagram](docs/screenshots/learning-energy-flows-mobile-zh.png). The shared Learn hub is available in stage 4.
+The chart and calculation load on demand using the existing Recharts dependency. All explanations are bilingual, and the static diagram supports reduced-motion preferences. See [calculation rules](docs/simulation.md), [verification](docs/verification.md), [desktop diagram](docs/screenshots/learning-energy-flows.png) and [mobile Chinese diagram](docs/screenshots/learning-energy-flows-mobile-zh.png).
 
-## Learning edition: learning centre and progress (local stage 4)
+## Learning edition: learning centre and progress
 
 Choose **Learn** in the top bar for **Guided tour**, **Energy glossary** and **View energy flows**. The first-visit hint opens the same centre. Contextual term links and the bill's energy-flow entry remain available. Five guided lessons and four parameter challenges are also available.
 
@@ -297,7 +295,7 @@ Malformed or obsolete fields are ignored safely. If storage access or saving fai
 
 The centre, progress module and walkthrough load on demand. Desktop controls stay on one row at 1024, 1366 and 1600 px, including short windows; the phone retains accessible compact controls. See [desktop centre](docs/screenshots/learning-hub.png), [Chinese mobile centre](docs/screenshots/learning-hub-mobile-zh.png) and [verification notes](docs/verification.md).
 
-## Learning edition: guided lessons (local stage 5)
+## Learning edition: guided lessons
 
 Choose **Learn → Guided lessons** for five self-paced, bilingual lessons: storage basics, surplus solar, the evening peak, cloudy-day preparation and losing a storage unit. L1 uses the live tank analogy in the storage detail card. L2–L5 ask for a prediction before advancing the existing timeline and revealing the measured outcome. Wrong predictions still receive the full explanation. Predictions can have several observed outcomes; if none matches, the panel reports the actual data without inventing a correct option.
 

@@ -60,7 +60,7 @@ export const projectCopy: Record<'en' | 'zh', ProjectCopy> = {
     ],
     checksTitle: 'Evidence, not a live test counter',
     checks:
-      'Before this documentation step, the local verification baseline was 123 unit tests and 89 browser tests passing (16 October 2026). Coverage includes power balance, SOC and import limits, deterministic seeking, challenge feasibility, state restoration, keyboard use and mobile layouts. The repository verification log records later runs; this page does not run tests.',
+      'The deployed learning edition was verified with 123 unit tests and 99 browser tests passing (October 2026). Coverage includes power balance, SOC and import limits, deterministic seeking, challenge feasibility, state restoration, keyboard use and mobile layouts. The repository verification log records later runs; this page does not run tests.',
     limitsTitle: 'What this project represents',
     limits:
       'Illustrative parameters and simulated data, not an operating site or remote-control system. Voltage labels are nominal, explorer motion is schematic, and flow attribution does not track individual electrons. The model is not an engineering design, bankable forecast or investment recommendation.',
@@ -103,7 +103,7 @@ export const projectCopy: Record<'en' | 'zh', ProjectCopy> = {
     ],
     checksTitle: '验证依据，而非实时测试计数',
     checks:
-      '本次说明页开发前，本地验证基线为 123 项单元测试和 89 项浏览器测试通过（2026 年 10 月 16 日）。覆盖功率守恒、SOC 与购电约束、拖动一致性、挑战可行解、状态恢复、键盘和手机布局。后续运行见仓库验证记录；本页面不执行测试。',
+      '已部署的学习版验证时，123 项单元测试和 99 项浏览器测试全部通过（2026 年 10 月）。覆盖功率守恒、SOC 与购电约束、拖动一致性、挑战可行解、状态恢复、键盘和手机布局。后续运行见仓库验证记录；本页面不执行测试。',
     limitsTitle: '项目的适用边界',
     limits:
       '示例参数与仿真数据，不代表真实项目或远程控制系统。电压标注为额定等级，探索器运动为示意，能量归因不追踪单个电子。本模型不构成工程设计、可融资预测或投资建议。',

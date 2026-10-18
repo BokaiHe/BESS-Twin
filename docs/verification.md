@@ -1,5 +1,21 @@
 # 验证记录
 
+## 2026-10-18 — High-frame-rate demo and documentation refresh
+
+- Rewrote `scripts/capture-demo.mjs` to capture timestamped frames from the Chrome DevTools screencast (headed GPU rendering by default, `DEMO_HEADLESS=1` optional) instead of Playwright's fixed 25 fps recorder. FFmpeg rebuilds constant-rate output from the frame timestamps.
+- Recorded against a local production preview: 2,494 frames in 30.0 s (83.2 fps average capture). Outputs: `docs/demo.mp4` (H.264, 60 fps, 1440 × 1080, 4.5 MB), `docs/demo.webm` (VP9, 60 fps, 5.9 MB) and `docs/demo.webp` (animated WebP, 30 fps, 960 px wide, 4.6 MB, embedded in the README). Removed `docs/demo.gif` (6 fps).
+- Exact-duplicate frame analysis (FFmpeg `mpdecimate` with zero tolerance): the previous WebM showed about 24–25 distinct frames per second during 3D playback and the cell animation; the new MP4 shows 60. Sampled frames visually checked.
+- Chinese solar-explorer copy now uses 电池片 for photovoltaic cells (29 strings), keeping 电芯 for battery cells; resolves the README's known terminology issue.
+- Corrected stale README, storyboard and in-app project text (test counts, deployment status, scene loading, stage labels).
+
+## 2026-10-18 — README demo refresh
+
+- Added `npm run demo:record` as the package command for the existing `scripts/capture-demo.mjs` recorder. Wait for the separately loaded canvas and scene labels before beginning the timed presentation.
+- Ran `npm.cmd run demo:record` against the current local app. Updated `docs/demo.gif`, `docs/demo.webm` and `docs/demo-recording.json`; the README embeds the refreshed GIF near the top and links to the reproducible command.
+- Verified GIF: 800 × 600, 180 frames, 30 seconds, infinite loop, 4,940,313 bytes. WebM: VP9, 1440 × 1080, 25 fps, 30 seconds, 2,537,666 bytes.
+- Visually checked sampled frames and the GIF's cell-cutaway frame. The capture shows playback, BESS discharge transport and a completed 20 → 40 MWh comparison. Recording assertions passed with no page errors; script syntax, formatting and whitespace checks passed. Application logic and dependencies did not change, so simulation/browser regression suites were not rerun for this media-only refresh.
+- Updated media remains local; no commit, push or deployment performed for this refresh.
+
 ## 2026-10-16 — Learning usability update review (local commit)
 
 - Reviewed combined learning progress (3 references + 5 lessons + 4 challenges), clearer lesson actions and fixed footer, live-data-first detail cards, scene splitting/preloading and the energy-chart error boundary. Updated the README and specification to match the new 12-item summary.
