@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     try {
-      localStorage.setItem('bess-twin-tour-hint-seen', '1')
+      localStorage.setItem('bess-twin-tour-seen', '1')
     } catch {
       /* unavailable */
     }

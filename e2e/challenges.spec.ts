@@ -10,7 +10,7 @@ async function number(page: Page, name: string, value: string) {
   await field.blur()
 }
 test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem('bess-twin-tour-hint-seen', '1'))
+  await page.addInitScript(() => localStorage.setItem('bess-twin-tour-seen', '1'))
 })
 test('C1 locks parameters, earns stars, keeps best and resets to a failing start', async ({
   page,

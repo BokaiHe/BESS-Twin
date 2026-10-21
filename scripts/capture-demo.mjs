@@ -60,7 +60,7 @@ try {
     chapters = []
   page.on('pageerror', (e) => errors.push(e.message))
   await page.addInitScript(() => {
-    localStorage.setItem('bess-twin-tour-hint-seen', '1')
+    localStorage.setItem('bess-twin-tour-seen', '1')
     localStorage.setItem('bess-twin-language', 'en')
   })
   await page.goto(url.href)

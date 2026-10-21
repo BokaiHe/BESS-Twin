@@ -7,7 +7,7 @@ const errors = [],
 page.on('pageerror', (e) => errors.push(e.message))
 page.on('request', (r) => requests.push(r.url()))
 page.on('requestfailed', (r) => errors.push(`${r.url()} ${r.failure()?.errorText}`))
-await page.addInitScript(() => localStorage.setItem('bess-twin-tour-hint-seen', '1'))
+await page.addInitScript(() => localStorage.setItem('bess-twin-tour-seen', '1'))
 try {
   await page.goto('http://127.0.0.1:5180/BESS-Twin/')
   await expect(page.getByTestId('kpi-soc')).toBeVisible()

@@ -13,7 +13,7 @@ try {
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 } })
   const page = await context.newPage()
   await page.addInitScript(() => {
-    localStorage.setItem('bess-twin-tour-hint-seen', '1')
+    localStorage.setItem('bess-twin-tour-seen', '1')
     localStorage.setItem('bess-twin-language', 'en')
   })
   const shot = async (name, locator = page) => {

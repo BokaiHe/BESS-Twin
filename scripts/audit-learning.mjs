@@ -93,7 +93,7 @@ try {
     [1366, 768],
   ]) {
     const page = await browser.newPage({ viewport: { width, height }, reducedMotion: 'reduce' })
-    await page.addInitScript(() => localStorage.setItem('bess-twin-tour-hint-seen', '1'))
+    await page.addInitScript(() => localStorage.setItem('bess-twin-tour-seen', '1'))
     const errors = []
     page.on('pageerror', (e) => errors.push(e.message))
     await page.goto('http://127.0.0.1:5180/BESS-Twin/')
@@ -131,7 +131,7 @@ try {
   }
   const page = await browser.newPage({ viewport: { width: 1366, height: 768 } })
   await page.addInitScript(() => {
-    localStorage.setItem('bess-twin-tour-hint-seen', '1')
+    localStorage.setItem('bess-twin-tour-seen', '1')
     let first = true,
       blocked = true
     const pending = []

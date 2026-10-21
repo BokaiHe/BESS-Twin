@@ -14,7 +14,7 @@ test.describe('first visit', () => {
     await page.keyboard.press('Escape')
     await expect(dialog).toHaveCount(0)
     await expect(page.getByTestId('timeline-time')).toHaveText(minute!)
-    expect(await page.evaluate(() => localStorage.getItem('bess-twin-tour-hint-seen'))).toBe('1')
+    expect(await page.evaluate(() => localStorage.getItem('bess-twin-tour-seen'))).toBe('1')
     await page.reload()
     await expect(page.getByTestId('kpi-soc')).toBeVisible()
     await expect(page.locator('canvas')).toBeVisible()
@@ -24,6 +24,12 @@ test.describe('first visit', () => {
     await page.getByRole('button', { name: 'Learn', exact: true }).click()
     await page.getByRole('button', { name: 'Guided tour', exact: true }).click()
     await expect(dialog).toContainText('Meet the energy site')
+  })
+
+  test('visitors who only saw the old hint still get the tour once', async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem('bess-twin-tour-hint-seen', '1'))
+    await page.goto('/')
+    await expect(page.getByRole('dialog')).toContainText('Meet the energy site')
   })
 
   test('unavailable local storage still opens and closes the tour', async ({ page }) => {
@@ -123,7 +129,7 @@ test('loading shows no placeholder data and commits scenario, clock and data tog
   page,
 }) => {
   await page.addInitScript(() => {
-    localStorage.setItem('bess-twin-tour-hint-seen', '1')
+    localStorage.setItem('bess-twin-tour-seen', '1')
     // Hold real worker responses until each assertion explicitly releases them.
     // A fixed delay is unreliable when the GPU takes longer to initialize.
     const control = window as unknown as {

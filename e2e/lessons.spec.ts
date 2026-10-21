@@ -5,7 +5,7 @@ async function start(page: Page, id: string) {
   await page.getByTestId(`learn-${id}`).click()
 }
 test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem('bess-twin-tour-hint-seen', '1'))
+  await page.addInitScript(() => localStorage.setItem('bess-twin-tour-seen', '1'))
 })
 test('L3 wrong prediction reveals measured results, switches language and restores time', async ({
   page,

@@ -3,7 +3,7 @@ import { createSimulationEngine } from '../src/simulation/engine'
 import { DEFAULT_PARAMETERS } from '../src/domain/parameters'
 
 test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem('bess-twin-tour-hint-seen', '1'))
+  await page.addInitScript(() => localStorage.setItem('bess-twin-tour-seen', '1'))
   await page.goto('/')
   await page.getByRole('button', { name: 'What if…', exact: true }).click()
 })

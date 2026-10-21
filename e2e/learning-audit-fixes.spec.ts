@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test'
 
 test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem('bess-twin-tour-hint-seen', '1'))
+  await page.addInitScript(() => localStorage.setItem('bess-twin-tour-seen', '1'))
 })
 
 async function tankIsClear(page: Page) {

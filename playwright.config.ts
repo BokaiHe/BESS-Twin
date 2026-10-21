@@ -18,7 +18,7 @@ export default defineConfig({
       origins: [
         {
           origin: 'http://127.0.0.1:5178',
-          localStorage: [{ name: 'bess-twin-tour-hint-seen', value: '1' }],
+          localStorage: [{ name: 'bess-twin-tour-seen', value: '1' }],
         },
       ],
     },

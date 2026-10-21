@@ -76,7 +76,7 @@ try {
     const errors = []
     page.on('pageerror', (error) => errors.push(error.message))
     await page.addInitScript(() => {
-      localStorage.setItem('bess-twin-tour-hint-seen', '1')
+      localStorage.setItem('bess-twin-tour-seen', '1')
       window.__learningBench = { replies: 0, canvasMs: null, dataMs: null }
       const WorkerBase = window.Worker
       window.Worker = class extends WorkerBase {

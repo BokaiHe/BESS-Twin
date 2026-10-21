@@ -3,7 +3,7 @@ import { simulateDay } from '../src/simulation/engine'
 import { energyFlows } from '../src/simulation/energyFlows'
 
 test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem('bess-twin-tour-hint-seen', '1'))
+  await page.addInitScript(() => localStorage.setItem('bess-twin-tour-seen', '1'))
 })
 async function fromLearning(page: Page) {
   await page.getByRole('button', { name: 'Learn', exact: true }).click()

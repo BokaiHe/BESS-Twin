@@ -16,7 +16,7 @@ async function cell(page: Page) {
   await expect(page.locator('.cell-transport')).toBeVisible()
 }
 test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem('bess-twin-tour-hint-seen', '1'))
+  await page.addInitScript(() => localStorage.setItem('bess-twin-tour-seen', '1'))
 })
 test('wind uses the selected unit output/rating and real animation rate; reopen refreshes the fixed snapshot', async ({
   page,

@@ -3,7 +3,7 @@ const KEY = 'bess-twin-learning-v1'
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     try {
-      localStorage.setItem('bess-twin-tour-hint-seen', '1')
+      localStorage.setItem('bess-twin-tour-seen', '1')
     } catch {
       /* unavailable */
     }
