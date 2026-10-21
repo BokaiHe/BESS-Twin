@@ -124,6 +124,10 @@ test('glossary remains usable without browser storage', async ({ page }) => {
       })
   })
   await page.goto('/')
+  // Without storage every visit counts as a first visit, so close the automatic tour.
+  await expect(page.getByRole('dialog')).toContainText('Meet the energy site')
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('dialog')).toHaveCount(0)
   await page.getByRole('button', { name: 'Learn', exact: true }).click()
   await page.getByRole('button', { name: 'Energy glossary', exact: true }).click()
   const dialog = page.getByRole('dialog', { name: 'Energy glossary' })
